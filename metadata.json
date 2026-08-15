@@ -1,0 +1,6 @@
+{
+  "name": "Takri Heritage & Learning",
+  "description": "An atmospheric cultural and learning platform for the ancient Takri script of Himachal Pradesh, featuring interactive learning, community practice, and trilingual place exploration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
