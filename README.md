@@ -61,10 +61,10 @@ An interactive, trilingual cultural and learning web application designed to pre
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v18.0.0 or higher recommended)
-- npm or yarn
+- Node.js (v18.0.0 or higher)
+- npm (Node Package Manager)
 
-### Installation
+### Installation & Local Setup
 
 1. **Clone the repository:**
    ```bash
@@ -72,12 +72,12 @@ An interactive, trilingual cultural and learning web application designed to pre
    cd takri-heritage
    ```
 
-2. **Install dependencies:**
+2. **Install dependencies using npm:**
    ```bash
    npm install
    ```
 
-3. **Start the development server:**
+3. **Start the development server with npm:**
    ```bash
    npm run dev
    ```
@@ -87,12 +87,17 @@ An interactive, trilingual cultural and learning web application designed to pre
 
 ### Building for Production
 
-To create an optimized production build:
+To create an optimized production build using npm:
 ```bash
 npm run build
 ```
 
-To preview the production build locally:
+To run and test the production build:
+```bash
+npm start
+```
+
+Or preview the static Vite bundle:
 ```bash
 npm run preview
 ```
