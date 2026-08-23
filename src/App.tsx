@@ -68,13 +68,23 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen bg-[#fcfaf7] text-[#2c1d11] selection:bg-[#f5e6d3] selection:text-[#78350f] flex flex-col font-sans relative overflow-x-hidden transition-colors duration-500"
-      style={{ background: 'radial-gradient(circle at top, var(--season-bg-start, #fbf7ef) 0%, #fcfaf7 100%)' }}
+      className="min-h-screen text-[#2c1d11] selection:bg-[#f5e6d3] selection:text-[#78350f] flex flex-col font-sans relative overflow-x-hidden transition-colors duration-500"
+      style={{ background: 'radial-gradient(circle at top, var(--season-bg-start, #fbf7ef) 0%, #f7f2ea 100%)' }}
     >
-      {/* Subtle Himalayan Mountain Pattern Motif */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute bottom-0 left-0 w-full h-[420px] pointer-events-none opacity-5 mountain-natural-texture" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#fcfaf7]/40 to-[#fcfaf7] pointer-events-none" />
+      {/* Majestic Himalayan Mountain Real Landscape Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Real Mountain Panorama Image */}
+        <img
+          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=85"
+          alt="Himalayan Mountain Peaks"
+          className="w-full h-full object-cover object-center opacity-30 saturate-85 brightness-95 scale-105 transition-transform duration-1000"
+          referrerPolicy="no-referrer"
+        />
+        {/* Layered mountain mist & atmospheric lighting */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--season-body-bg,#fcfaf7)]/60 to-[var(--season-body-bg,#fcfaf7)]/90" />
+        <div className="absolute -top-24 left-0 right-0 h-96 bg-gradient-to-b from-[var(--season-bg-start,#fbf7ef)]/70 to-transparent" />
+        {/* Drifting Himalayan Clouds */}
+        <div className="absolute top-1/4 -left-1/3 w-[160%] h-80 bg-gradient-to-r from-transparent via-white/25 to-transparent blur-3xl animate-mist pointer-events-none" />
       </div>
 
       {/* Seasonal Atmospheric Particles & Weather Canvas */}
@@ -96,7 +106,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className={`relative z-10 flex-1 ${activeTab !== 'places' ? 'pt-28 md:pt-20' : ''}`}>
+      <main className={`relative z-10 flex-1 ${activeTab !== 'places' ? 'pt-32 sm:pt-36 xl:pt-24' : ''}`}>
         {/* Hero Banner on Places tab */}
         {activeTab === 'places' && (
           <HeroBanner

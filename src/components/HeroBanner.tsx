@@ -40,18 +40,18 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
         background: `linear-gradient(180deg, var(--season-bg-start, #fdfbf7), var(--season-bg-mid, #f7f2ea), var(--season-bg-end, #fcfaf7))`,
       }}
     >
-      {/* Background Soft Texture with Animated Mist */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-25">
+      {/* Background Mountain Vista with Animated Mist */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
         <img
-          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=85"
+          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2400&q=85"
           alt="Himachal mountain landscape"
-          className="w-full h-full object-cover brightness-105 saturate-75"
+          className="w-full h-full object-cover brightness-100 saturate-90 scale-102"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--season-body-bg)]/80 to-[var(--season-body-bg)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--season-body-bg,#fcfaf7)]/60 to-[var(--season-body-bg,#fcfaf7)]" />
         {/* Animated Himalayan Mist Layers */}
-        <div className="absolute -top-10 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-white/0 via-white/40 to-white/0 blur-2xl animate-mist pointer-events-none" />
-        <div className="absolute bottom-10 -right-1/4 w-[150%] h-72 bg-gradient-to-r from-white/0 via-white/30 to-white/0 blur-3xl animate-mist pointer-events-none" style={{ animationDelay: '-9s' }} />
+        <div className="absolute -top-10 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-white/0 via-white/45 to-white/0 blur-2xl animate-mist pointer-events-none" />
+        <div className="absolute bottom-10 -right-1/4 w-[150%] h-72 bg-gradient-to-r from-white/0 via-white/35 to-white/0 blur-3xl animate-mist pointer-events-none" style={{ animationDelay: '-9s' }} />
       </div>
 
       {/* Hero Outer Container */}
@@ -208,17 +208,17 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           <div className="lg:col-span-5">
             <div
               id="hero-heritage-showcase-card"
-              className="relative rounded-3xl p-6 sm:p-7 bg-white border-2 border-season-badge-border shadow-xl transition-all space-y-5"
+              className="relative rounded-3xl p-5 sm:p-7 bg-white/70 backdrop-blur-xl border border-season-badge-border/90 shadow-xl transition-all space-y-4 sm:space-y-5"
             >
               {/* Card Header */}
-              <div className="flex justify-between items-center pb-4 border-b border-[#e5d8c7]">
+              <div className="flex justify-between items-center pb-3.5 border-b border-[#e5d8c7]/70">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-season-accent"></span>
                   <span className="text-xs font-serif uppercase tracking-wider font-bold text-season-accent">
                     Himachal Heritage Pillars (धरोहर स्तम्भ)
                   </span>
                 </div>
-                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-season-badge-bg text-season-accent font-bold border border-season-badge-border">
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-season-badge-bg/80 text-season-accent font-bold border border-season-badge-border/80">
                   6 Living Traditions
                 </span>
               </div>
@@ -226,7 +226,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               {/* Active Heritage Focus Display */}
               <div
                 onClick={() => handlePillarClick(activePillar.id, activePillarIdx)}
-                className="p-4 rounded-2xl bg-[#faf6f0] hover:bg-season-badge-bg border border-season-badge-border space-y-2 cursor-pointer group transition-all"
+                className="p-4 rounded-2xl bg-white/60 backdrop-blur-md hover:bg-season-badge-bg/90 border border-season-badge-border/70 space-y-2 cursor-pointer group transition-all"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -284,8 +284,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
                         onClick={() => handlePillarClick(pillar.id, idx)}
                         className={`p-2.5 rounded-xl border text-left flex items-center gap-2 transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-season-badge-bg border-season-accent shadow-xs'
-                            : 'bg-white border-[#e5d8c7] hover:bg-[#faf6f0] text-[#5c4a3b]'
+                            ? 'bg-season-badge-bg/90 border-season-accent shadow-xs'
+                            : 'bg-white/50 backdrop-blur-xs border-[#e5d8c7]/80 hover:bg-white/80 text-[#5c4a3b]'
                         }`}
                       >
                         <IconComp className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-season-accent' : 'text-[#7a695a]'}`} />
@@ -299,7 +299,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               </div>
 
               {/* Card Bottom Quick Link */}
-              <div className="pt-4 border-t border-[#e5d8c7] flex items-center justify-between gap-3">
+              <div className="pt-3.5 border-t border-[#e5d8c7]/70 flex items-center justify-between gap-3">
                 <div className="text-left">
                   <span className="text-[10px] uppercase tracking-wider text-[#7a695a] block font-bold">
                     Comprehensive Archive
