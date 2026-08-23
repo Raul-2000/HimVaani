@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { Compass, BookOpen, Feather, Sparkles, MapPin, Landmark, Utensils, Mountain, ScrollText, Music, CheckCircle2, Star, ArrowRight } from 'lucide-react';
-import { HeritagePillarId, ScriptMode } from '../types';
+import { HeritagePillarId, ScriptMode, NavigationTab } from '../types';
 import { HimachalSeason, HIMACHAL_SEASONS } from '../utils/seasons';
 import { HERITAGE_PILLARS_META } from '../data/heritageTraditions';
 
 interface HeroBannerProps {
   scriptMode?: ScriptMode;
-  onLearnClick: () => void;
-  onExplorePlacesClick: () => void;
-  onCommunityClick: () => void;
-  onSelectTradition?: (pillarId: HeritagePillarId) => void;
+  onExploreClick?: () => void;
+  onPillarSelect?: (pillarId: HeritagePillarId) => void;
+  onNavigate?: (tab: NavigationTab) => void;
   currentSeason?: HimachalSeason;
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({
   scriptMode = 'all',
-  onLearnClick,
-  onExplorePlacesClick,
-  onCommunityClick,
-  onSelectTradition,
+  onExploreClick,
+  onPillarSelect,
+  onNavigate,
   currentSeason = 'monsoon',
 }) => {
   const [activePillarIdx, setActivePillarIdx] = useState(0);
@@ -27,31 +25,32 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
   const handlePillarClick = (pillarId: HeritagePillarId, idx: number) => {
     setActivePillarIdx(idx);
-    if (onSelectTradition) {
-      onSelectTradition(pillarId);
+    if (onPillarSelect) {
+      onPillarSelect(pillarId);
     }
   };
 
   return (
     <section
       id="hero-banner-section"
-      className="relative min-h-[80vh] flex items-center justify-center pt-32 sm:pt-36 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden"
-      style={{
-        background: `linear-gradient(180deg, var(--season-bg-start, #fdfbf7), var(--season-bg-mid, #f7f2ea), var(--season-bg-end, #fcfaf7))`,
-      }}
+      className="relative min-h-[85vh] flex items-center justify-center pt-32 sm:pt-36 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
-      {/* Background Mountain Vista with Animated Mist */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+      {/* 3D Rugged Himalayan Mountain Backdrop with Rich Atmosphere */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <img
-          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2400&q=85"
-          alt="Himachal mountain landscape"
-          className="w-full h-full object-cover brightness-100 saturate-90 scale-102"
+          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=90"
+          alt="Himalayan mountain peaks"
+          className="w-full h-full object-cover object-center scale-102 brightness-[0.96] contrast-[1.04]"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--season-body-bg,#fcfaf7)]/60 to-[var(--season-body-bg,#fcfaf7)]" />
+        {/* Atmospheric Color Blend & Depth Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fdfbf7]/75 via-[#f8f3ea]/60 to-[#fdfbf7]/90 backdrop-blur-[1.5px]" />
+        
+        {/* Soft 3D Mountain Sun Lighting Effect */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
         {/* Animated Himalayan Mist Layers */}
-        <div className="absolute -top-10 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-white/0 via-white/45 to-white/0 blur-2xl animate-mist pointer-events-none" />
-        <div className="absolute bottom-10 -right-1/4 w-[150%] h-72 bg-gradient-to-r from-white/0 via-white/35 to-white/0 blur-3xl animate-mist pointer-events-none" style={{ animationDelay: '-9s' }} />
+        <div className="absolute -top-10 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-white/0 via-white/40 to-white/0 blur-2xl animate-mist pointer-events-none" />
+        <div className="absolute bottom-10 -right-1/4 w-[150%] h-72 bg-gradient-to-r from-white/0 via-white/30 to-white/0 blur-3xl animate-mist pointer-events-none" style={{ animationDelay: '-9s' }} />
       </div>
 
       {/* Hero Outer Container */}
@@ -62,9 +61,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             {/* Tag / Badge and Himachal Seasonal Accent */}
             <div className="flex flex-wrap items-center gap-2.5">
               <div
-                className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-xs uppercase tracking-[0.2em] font-semibold"
+                className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-xs uppercase tracking-[0.2em] font-semibold bg-white/80 backdrop-blur-md shadow-xs"
                 style={{
-                  backgroundColor: activeSeasonData.badgeBg,
                   borderColor: activeSeasonData.badgeBorder,
                   color: activeSeasonData.badgeText,
                 }}
@@ -74,13 +72,13 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
                   <span className="font-takri normal-case tracking-normal text-sm font-bold">𑚩𑚮𑚢𑚭𑚏𑚥 𑚜𑚤𑚴𑚩𑚤 • 𑚨𑚫𑚤𑚊𑚋𑚘</span>
                 ) : scriptMode === 'bilingual' ? (
                   <>
-                    <span>हिमाचल धरोहर संरक्षण</span>
+                    <span>हिमाचल सांस्कृतिक धरोहर</span>
                     <span className="opacity-40">•</span>
                     <span className="font-takri text-sm normal-case tracking-normal">𑚜𑚤𑚴𑚩𑚤</span>
                   </>
                 ) : (
                   <>
-                    <span>HIMACHAL PRADESH TRADITIONS</span>
+                    <span>CULTURAL & HERITAGE GUIDE</span>
                     <span className="opacity-40">•</span>
                     <span className="font-takri text-sm normal-case tracking-normal font-bold">𑚜𑚤𑚴𑚩𑚤</span>
                   </>
@@ -89,7 +87,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
               {/* Live Himachal Season Pill */}
               <div
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs bg-white text-[#5c4a3b] shadow-sm"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs bg-white/80 backdrop-blur-md text-[#5c4a3b] shadow-xs"
                 style={{
                   borderColor: activeSeasonData.badgeBorder,
                 }}
@@ -105,16 +103,18 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             <div className="space-y-2">
               {scriptMode === 'takri-only' ? (
                 <div>
-                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] font-takri text-season-accent">
+                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] font-takri text-season-accent drop-shadow-xs">
                     𑚩𑚮𑚢𑚪𑚭𑚘𑚯: 𑚩𑚮𑚢𑚭𑚏𑚥 𑚛𑚤𑚧𑚝 𑚙𑚲 𑚜𑚤𑚴𑚩𑚤
                   </h1>
                 </div>
               ) : scriptMode === 'bilingual' ? (
                 <div>
-                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-season-heading leading-[1.1] font-serif">
-                    हिमवाणी <br />
-                    <span className="italic text-season-accent text-3xl sm:text-5xl">Explore Himachal, Conserve Its Traditions</span>
+                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-[#2c1d11] leading-[1.08] font-serif">
+                    हिमवाणी <span className="text-season-accent text-3xl sm:text-5xl font-sans font-light block pt-1">HimVaani</span>
                   </h1>
+                  <p className="text-xl sm:text-3xl font-serif italic text-[#4a392b] pt-2">
+                    The Cultural & Heritage Guide to Himachal Pradesh
+                  </p>
                   <div className="flex items-center gap-3 pt-2">
                     <span className="font-takri text-2xl sm:text-3xl font-bold text-season-accent">
                       𑚩𑚮𑚢𑚪𑚭𑚘𑚯 • 𑚩𑚮𑚢𑚭𑚏𑚥 𑚛𑚤𑚧𑚝 𑚙𑚲 𑚜𑚤𑚴𑚩𑚤
@@ -123,83 +123,74 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
                 </div>
               ) : (
                 <div>
-                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-season-heading leading-[1.08] font-serif">
-                    HimVaani <br />
-                    <span className="italic font-serif text-season-accent text-2xl sm:text-4xl lg:text-5xl block pt-1">
-                      Explore Himachal, Conserve Its Traditions
-                    </span>
+                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-[#2c1d11] leading-[1.05] font-serif">
+                    HimVaani
                   </h1>
+                  <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif italic text-season-accent pt-2">
+                    The Cultural & Heritage Guide to Himachal Pradesh
+                  </h2>
                 </div>
               )}
             </div>
 
-            {/* Description */}
-            <p className="text-base sm:text-lg text-[#5c4a3b] max-w-2xl leading-relaxed font-normal">
-              Discover the locations, traditions, celebrations, history, architecture, cuisine, folklore, and untold tales that make Himachal Pradesh unique, preserving our legacy for coming generations.
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg text-[#3e2e21] max-w-2xl leading-relaxed font-normal bg-white/40 backdrop-blur-xs p-3 rounded-2xl border border-white/60">
+              Explore the landscapes, languages, traditions, festivals, architecture, cuisine, folklore, history, and hidden stories of Himachal Pradesh—preserving its rich cultural heritage for generations to come.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-3.5 pt-1">
               <button
                 id="hero-explore-places-btn"
-                onClick={onExplorePlacesClick}
+                onClick={() => onNavigate ? onNavigate('explore') : onExploreClick?.()}
                 className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-season-accent hover:opacity-95 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all hover:scale-102 cursor-pointer"
               >
                 <Compass className="w-4 h-4" />
-                {scriptMode === 'takri-only' ? (
-                  <span className="font-takri normal-case text-sm font-bold">𑚩𑚮𑚢𑚭𑚏𑚥 𑚛𑚤𑚧𑚝</span>
-                ) : scriptMode === 'bilingual' ? (
-                  <span>स्थान दर्शन (𑚛𑚤𑚧𑚝)</span>
-                ) : (
-                  <span>Explore 50 Places</span>
-                )}
+                <span>Explore Himachal (स्थल)</span>
               </button>
 
               <button
-                id="hero-start-learning-btn"
-                onClick={onLearnClick}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-white hover:bg-[#f5ece2] text-[#2c1d11] font-semibold text-xs uppercase tracking-wider border border-[#e5d8c7] shadow-sm transition-all cursor-pointer"
+                id="hero-districts-btn"
+                onClick={() => onNavigate ? onNavigate('districts') : null}
+                className="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/85 hover:bg-white text-[#2c1d11] font-semibold text-xs uppercase tracking-wider border border-[#e5d8c7] shadow-xs backdrop-blur-md transition-all cursor-pointer"
               >
-                <BookOpen className="w-4 h-4 text-season-accent" />
-                {scriptMode === 'takri-only' ? (
-                  <span className="font-takri normal-case text-sm font-bold text-season-accent">𑚪𑚤𑚘𑚢𑚭𑚥𑚭 𑚨𑚮𑚋𑚴</span>
-                ) : scriptMode === 'bilingual' ? (
-                  <span>वर्णमाला सीखें (𑚨𑚮𑚋𑚴)</span>
-                ) : (
-                  <span>Learn Section (वर्णमाला)</span>
-                )}
+                <MapPin className="w-4 h-4 text-season-accent" />
+                <span>12 Districts (जिले)</span>
               </button>
 
               <button
-                id="hero-community-btn"
-                onClick={onCommunityClick}
-                className="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white hover:bg-season-badge-bg text-[#5c4a3b] hover:text-[#2c1d11] text-xs font-semibold uppercase tracking-wider border border-[#ebd8c5] transition-all cursor-pointer"
+                id="hero-culture-btn"
+                onClick={() => onNavigate ? onNavigate('culture') : null}
+                className="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/85 hover:bg-white text-[#2c1d11] font-semibold text-xs uppercase tracking-wider border border-[#e5d8c7] shadow-xs backdrop-blur-md transition-all cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-season-accent" />
+                <span>Living Traditions (धरोहर)</span>
+              </button>
+
+              <button
+                id="hero-takri-btn"
+                onClick={() => onNavigate ? onNavigate('takri') : null}
+                className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-white/70 hover:bg-white text-[#5c4a3b] text-xs font-semibold uppercase tracking-wider border border-[#ebd8c5] transition-all cursor-pointer"
               >
                 <Feather className="w-4 h-4 text-season-accent" />
-                {scriptMode === 'takri-only' ? (
-                  <span className="font-takri normal-case text-sm font-bold text-season-accent">𑚨𑚫𑚌𑚢</span>
-                ) : scriptMode === 'bilingual' ? (
-                  <span>कम्युनिटी (𑚨𑚫𑚌𑚢)</span>
-                ) : (
-                  <span>Community (कम्युनिटी)</span>
-                )}
+                <span>Takri Script (टांकरी)</span>
               </button>
             </div>
 
             {/* Micro proof / heritage trust points */}
-            <div className="flex items-center gap-4 pt-4 border-t border-[#e5d8c7]">
+            <div className="flex items-center gap-4 pt-4 border-t border-[#e5d8c7]/80">
               <div className="flex items-center gap-1 text-[#d97706]">
                 <Star className="w-4 h-4 fill-current text-current" />
                 <span className="text-[#2c1d11] font-bold text-sm">4.9</span>
               </div>
-              <span className="text-xs text-[#7a695a]">
-                <span>Preserving Himachal Pradesh&apos;s Living Traditions & Cultural Heritage</span>
+              <span className="text-xs text-[#5c4a3b] font-medium">
+                Comprehensive Cultural Archive of Himachal Pradesh (देवभूमि धरोहर)
               </span>
               <div
-                className="hidden sm:flex items-center gap-1.5 ml-auto text-[11px] px-3 py-1 rounded-full border uppercase tracking-wider font-semibold bg-season-badge-bg text-season-accent border-season-badge-border"
+                className="hidden sm:flex items-center gap-1.5 ml-auto text-[11px] px-3 py-1 rounded-full border uppercase tracking-wider font-semibold bg-season-badge-bg/90 text-season-accent border-season-badge-border shadow-xs"
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Devbhumi Heritage</span>
+                <span>UNESCO & GI Archive</span>
               </div>
             </div>
           </div>
@@ -208,29 +199,32 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           <div className="lg:col-span-5">
             <div
               id="hero-heritage-showcase-card"
-              className="relative rounded-3xl p-5 sm:p-7 bg-white/70 backdrop-blur-xl border border-season-badge-border/90 shadow-xl transition-all space-y-4 sm:space-y-5"
+              className="relative rounded-3xl p-5 sm:p-7 bg-white/80 backdrop-blur-2xl border border-season-badge-border/90 shadow-2xl transition-all space-y-4 sm:space-y-5"
             >
               {/* Card Header */}
-              <div className="flex justify-between items-center pb-3.5 border-b border-[#e5d8c7]/70">
+              <div className="flex justify-between items-center pb-3.5 border-b border-[#e5d8c7]/80">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-season-accent"></span>
                   <span className="text-xs font-serif uppercase tracking-wider font-bold text-season-accent">
                     Himachal Heritage Pillars (धरोहर स्तम्भ)
                   </span>
                 </div>
-                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-season-badge-bg/80 text-season-accent font-bold border border-season-badge-border/80">
-                  6 Living Traditions
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-season-badge-bg text-season-accent font-bold border border-season-badge-border">
+                  6 Living Pillars
                 </span>
               </div>
 
               {/* Active Heritage Focus Display */}
               <div
-                onClick={() => handlePillarClick(activePillar.id, activePillarIdx)}
-                className="p-4 rounded-2xl bg-white/60 backdrop-blur-md hover:bg-season-badge-bg/90 border border-season-badge-border/70 space-y-2 cursor-pointer group transition-all"
+                onClick={() => {
+                  handlePillarClick(activePillar.id, activePillarIdx);
+                  if (onNavigate) onNavigate('culture');
+                }}
+                className="p-4 rounded-2xl bg-white/70 backdrop-blur-md hover:bg-season-badge-bg/90 border border-season-badge-border/80 space-y-2 cursor-pointer group transition-all shadow-xs"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-xl bg-white border border-[#d5be9d] text-season-accent">
+                    <div className="p-2 rounded-xl bg-white border border-[#d5be9d] text-season-accent shadow-xs">
                       {activePillar.id === 'locations' && <MapPin className="w-5 h-5" />}
                       {activePillar.id === 'architecture' && <Landmark className="w-5 h-5" />}
                       {activePillar.id === 'celebrations' && <Music className="w-5 h-5" />}
@@ -260,7 +254,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               {/* Interactive Pillar Selector Grid with Redirection */}
               <div className="space-y-2 pt-1">
                 <span className="text-[10px] uppercase tracking-wider text-[#7a695a] font-bold block">
-                  Select a Tradition to Explore:
+                  Select a Cultural Pillar to Explore:
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   {HERITAGE_PILLARS_META.map((pillar, idx) => {
@@ -284,8 +278,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
                         onClick={() => handlePillarClick(pillar.id, idx)}
                         className={`p-2.5 rounded-xl border text-left flex items-center gap-2 transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-season-badge-bg/90 border-season-accent shadow-xs'
-                            : 'bg-white/50 backdrop-blur-xs border-[#e5d8c7]/80 hover:bg-white/80 text-[#5c4a3b]'
+                            ? 'bg-season-badge-bg border-season-accent shadow-xs'
+                            : 'bg-white/60 backdrop-blur-xs border-[#e5d8c7]/80 hover:bg-white/90 text-[#5c4a3b]'
                         }`}
                       >
                         <IconComp className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-season-accent' : 'text-[#7a695a]'}`} />
@@ -299,24 +293,24 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               </div>
 
               {/* Card Bottom Quick Link */}
-              <div className="pt-3.5 border-t border-[#e5d8c7]/70 flex items-center justify-between gap-3">
+              <div className="pt-3.5 border-t border-[#e5d8c7]/80 flex items-center justify-between gap-3">
                 <div className="text-left">
                   <span className="text-[10px] uppercase tracking-wider text-[#7a695a] block font-bold">
-                    Comprehensive Archive
+                    Comprehensive Cultural Archive
                   </span>
                   <span className="text-xs font-bold font-serif text-[#2c1d11]">
-                    50 Valleys, Kath-Kuni & Lore
+                    50 Valleys, 12 Districts & Lore
                   </span>
                 </div>
 
                 <button
                   onClick={() => {
-                    if (onSelectTradition) onSelectTradition('architecture');
+                    if (onNavigate) onNavigate('culture');
                   }}
                   className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-tight shadow-xs transition-all cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Explore Traditions</span>
+                  <span>Explore Guide</span>
                 </button>
               </div>
             </div>

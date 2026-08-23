@@ -7,15 +7,7 @@
 [![License](https://img.shields.io/badge/License-MIT-gold)](LICENSE)
 [![Created by](https://img.shields.io/badge/Created%20by-Raul--2000-dfbe7b?logo=github)](https://github.com/Raul-2000)
 
-## 🔗 Live Demo
-
-👉 **[HimVaani — Live Website](https://himvaani.pages.dev/)**
-
-> Explore the live version of HimVaani and experience the project in action.
-
-> **Discover the landscapes, traditions, festivals, history, architecture, cuisine, folklore, and hidden stories that make Himachal Pradesh unique—preserving our cultural heritage for generations to come.**
-
-> **Dedicated to the preservation and revitalization of the ancient Takri script of Devbhumi Himachal Pradesh.**
+> **"Discover the locations, traditions, celebrations, history, architecture, cuisine, folklore, and untold tales that make Himachal Pradesh unique, preserving our legacy for coming generations."**
 
 **HimVaani (हिमवाणी)** is an immersive, bilingual cultural heritage and learning platform dedicated to documenting, celebrating, and conserving the rich tangible and intangible heritage of Devbhoomi Himachal Pradesh.
 

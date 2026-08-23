@@ -245,10 +245,10 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                   setActivePillarId(pillar.id);
                 }
               }}
-              className={`p-3 rounded-2xl border text-left flex flex-col justify-between gap-2 transition-all cursor-pointer ${
+              className={`p-3 rounded-2xl border text-left flex flex-col justify-between gap-2 transition-all cursor-pointer backdrop-blur-md ${
                 isActive
                   ? 'bg-season-badge-bg border-season-accent shadow-md scale-102'
-                  : 'bg-white border-[#e5d8c7] hover:bg-[#faf6f0] text-[#5c4a3b]'
+                  : 'bg-white/60 border-[#e5d8c7]/80 hover:bg-white/90 text-[#5c4a3b]'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -256,12 +256,12 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                   className={`p-2 rounded-xl border ${
                     isActive
                       ? 'bg-season-accent text-white border-season-accent'
-                      : 'bg-[#faf6f0] text-season-accent border-[#e5d8c7]'
+                      : 'bg-white/70 text-season-accent border-[#e5d8c7]'
                   }`}
                 >
                   <IconComp className="w-4 h-4" />
                 </div>
-                <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider bg-white/80 border border-[#e5d8c7] text-[#7a695a]">
+                <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider bg-white/70 border border-[#e5d8c7] text-[#7a695a]">
                   {pillar.countBadge.split(' ')[0]}
                 </span>
               </div>
@@ -350,20 +350,20 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setFilterMode('all')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer backdrop-blur-md ${
               filterMode === 'all'
                 ? 'bg-season-accent text-white shadow-xs font-bold'
-                : 'bg-[#faf6f0] text-[#5c4a3b] hover:text-[#2c1d11] border border-[#e5d8c7]'
+                : 'bg-white/60 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white/90 border border-[#e5d8c7]/80'
             }`}
           >
             All Items ({currentPillarItems.length})
           </button>
           <button
             onClick={() => setFilterMode('checked')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md ${
               filterMode === 'checked'
                 ? 'bg-season-accent text-white shadow-xs font-bold'
-                : 'bg-[#faf6f0] text-[#5c4a3b] hover:text-[#2c1d11] border border-[#e5d8c7]'
+                : 'bg-white/60 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white/90 border border-[#e5d8c7]/80'
             }`}
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
@@ -371,10 +371,10 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
           </button>
           <button
             onClick={() => setFilterMode('unchecked')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer backdrop-blur-md ${
               filterMode === 'unchecked'
                 ? 'bg-season-accent text-white shadow-xs font-bold'
-                : 'bg-[#faf6f0] text-[#5c4a3b] hover:text-[#2c1d11] border border-[#e5d8c7]'
+                : 'bg-white/60 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white/90 border border-[#e5d8c7]/80'
             }`}
           >
             Unchecked ({currentPillarItems.length - checkedCountInPillar})
@@ -389,7 +389,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search items, regions, lore..."
-            className="w-full bg-[#faf6f0] border border-[#d5be9d] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#2c1d11] placeholder-[#a89988] focus:outline-none focus:border-season-accent"
+            className="w-full bg-white/60 backdrop-blur-md border border-[#d5be9d]/80 rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#2c1d11] placeholder-[#a89988] focus:outline-none focus:border-season-accent"
           />
         </div>
       </div>
@@ -403,7 +403,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
             <div
               key={item.id}
               id={`tradition-card-${item.id}`}
-              className="group rounded-3xl overflow-hidden bg-white border-2 border-[#e5d8c7] hover:border-season-accent shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+              className="group rounded-3xl overflow-hidden bg-white/70 backdrop-blur-xl border border-[#e5d8c7]/80 hover:border-season-accent shadow-sm hover:shadow-xl hover:bg-white/85 transition-all duration-300 flex flex-col justify-between"
             >
               {/* Image Banner */}
               <div className="relative h-52 overflow-hidden bg-[#f4ebe1]">

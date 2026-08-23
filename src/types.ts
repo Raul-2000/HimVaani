@@ -2,6 +2,19 @@ export type ScriptMode = 'trilingual' | 'bilingual' | 'takri-only' | 'all';
 export type HimachalSeason = 'spring' | 'summer' | 'monsoon' | 'autumn' | 'winter';
 export type HeritagePillarId = 'locations' | 'architecture' | 'celebrations' | 'cuisine' | 'script' | 'folklore';
 
+export type NavigationTab = 
+  | 'home'
+  | 'explore'
+  | 'districts'
+  | 'culture'
+  | 'languages'
+  | 'heritage'
+  | 'history'
+  | 'festivals'
+  | 'gallery'
+  | 'community'
+  | 'takri';
+
 export interface HeritageTraditionItem {
   id: string;
   pillarId: HeritagePillarId;

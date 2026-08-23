@@ -117,10 +117,10 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
         <button
           id="cat-filter-all"
           onClick={() => setActiveCategory('all')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all cursor-pointer ${
+          className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all cursor-pointer backdrop-blur-md ${
             activeCategory === 'all'
               ? 'bg-season-accent text-white shadow-md font-bold'
-              : 'bg-white text-[#5c4a3b] hover:bg-[#f5ece2] border border-[#e5d8c7]'
+              : 'bg-white/60 text-[#5c4a3b] hover:bg-white/90 border border-[#e5d8c7]/80'
           }`}
         >
           All 50 Destinations (समस्त स्थल)
@@ -128,10 +128,10 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
         <button
           id="cat-filter-places"
           onClick={() => setActiveCategory('places')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all cursor-pointer ${
+          className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all cursor-pointer backdrop-blur-md ${
             activeCategory === 'places'
               ? 'bg-season-accent text-white shadow-md font-bold'
-              : 'bg-white text-[#5c4a3b] hover:bg-[#f5ece2] border border-[#e5d8c7]'
+              : 'bg-white/60 text-[#5c4a3b] hover:bg-white/90 border border-[#e5d8c7]/80'
           }`}
         >
           30 Heritage Sites & Temples (धरोहर स्थल)
@@ -139,10 +139,10 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
         <button
           id="cat-filter-peaks"
           onClick={() => setActiveCategory('peaks')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all cursor-pointer flex items-center gap-1.5 ${
+          className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md ${
             activeCategory === 'peaks'
               ? 'bg-season-accent text-white shadow-md font-bold'
-              : 'bg-white text-[#5c4a3b] hover:bg-[#f5ece2] border border-[#e5d8c7]'
+              : 'bg-white/60 text-[#5c4a3b] hover:bg-white/90 border border-[#e5d8c7]/80'
           }`}
         >
           <Mountain className="w-3.5 h-3.5" />
@@ -151,10 +151,10 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
         <button
           id="cat-filter-lakes"
           onClick={() => setActiveCategory('lakes')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all cursor-pointer ${
+          className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all cursor-pointer backdrop-blur-md ${
             activeCategory === 'lakes'
               ? 'bg-season-accent text-white shadow-md font-bold'
-              : 'bg-white text-[#5c4a3b] hover:bg-[#f5ece2] border border-[#e5d8c7]'
+              : 'bg-white/60 text-[#5c4a3b] hover:bg-white/90 border border-[#e5d8c7]/80'
           }`}
         >
           Sacred Lakes & Alpine Passes (झीलें व दर्रे)
@@ -169,10 +169,10 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
               key={v.id}
               id={`filter-place-${v.id}`}
               onClick={() => setActiveFilter(v.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-full text-xs uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer backdrop-blur-md ${
                 activeFilter === v.id
                   ? 'bg-season-accent text-white font-bold shadow-sm'
-                  : 'bg-white text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-[#f5ece2] border border-[#e5d8c7]'
+                  : 'bg-white/60 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white/90 border border-[#e5d8c7]/80'
               }`}
             >
               {v.label}
@@ -182,7 +182,7 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
       </div>
 
       {/* Quick Search and Results Count */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#fbf9f5] border border-[#e5d8c7] rounded-2xl px-5 py-3.5 shadow-sm">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/60 backdrop-blur-xl border border-[#e5d8c7]/80 rounded-2xl px-5 py-3.5 shadow-xs">
         <div className="flex items-center gap-2.5 w-full sm:w-88">
           <Compass className="w-4 h-4 text-season-accent" />
           <input
@@ -216,7 +216,7 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
           <div
             key={place.id}
             id={`place-card-${place.id}`}
-            className="group rounded-2xl overflow-hidden bg-white border border-[#e2d5c3] hover:border-season-accent hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+            className="group rounded-2xl overflow-hidden bg-white/70 backdrop-blur-xl border border-[#e2d5c3]/80 hover:border-season-accent hover:shadow-xl hover:bg-white/85 transition-all duration-300 flex flex-col justify-between"
           >
             {/* Image Banner */}
             <div className="relative h-56 overflow-hidden bg-[#f4ebe1]">

@@ -12,12 +12,17 @@ import {
   Landmark,
   Utensils,
   ScrollText,
+  Calendar,
+  Languages,
+  Image as ImageIcon,
+  Feather,
+  Home as HomeIcon,
 } from 'lucide-react';
-import { ScriptMode, HeritagePillarId } from '../types';
+import { ScriptMode, HeritagePillarId, NavigationTab } from '../types';
 
 interface FooterProps {
-  setActiveTab?: (tab: 'places' | 'traditions' | 'learn' | 'community' | 'history') => void;
-  onNavigate?: (tab: string) => void;
+  setActiveTab?: (tab: NavigationTab) => void;
+  onNavigate?: (tab: NavigationTab) => void;
   scriptMode?: ScriptMode;
   onSelectPillar?: (pillarId: HeritagePillarId) => void;
 }
@@ -27,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({
   onNavigate,
   scriptMode = 'all',
 }) => {
-  const handleNav = (tab: 'places' | 'traditions' | 'learn' | 'community' | 'history') => {
+  const handleNav = (tab: NavigationTab) => {
     if (onNavigate) {
       onNavigate(tab);
     } else if (setActiveTab) {
@@ -67,7 +72,7 @@ export const Footer: React.FC<FooterProps> = ({
                   className="text-xs font-semibold block"
                   style={{ color: 'var(--season-accent-light, #d5be9d)' }}
                 >
-                  हिमवाणी • हिमाचल धरोहर
+                  हिमवाणी • The Cultural & Heritage Guide
                 </span>
               </div>
             </div>
@@ -75,7 +80,7 @@ export const Footer: React.FC<FooterProps> = ({
             <p className="text-xs text-white/75 font-normal leading-relaxed">
               {isBilingual
                 ? 'हिमाचल दर्शन एवं संस्कृति संरक्षण। देवभूमि के 12 जिलों की पारंपरिक वास्तुकला, धाम, लोकगाथाओं, मेलों और ऐतिहासिक पांडुलिपियों का समग्र डिजिटल संग्रह।'
-                : 'Explore Himachal, Conserve Its Traditions. Dedicated to documenting, celebrating, and conserving the living cultural heritage, timber architecture, sacred fairs, cuisines, and historical chronicles of Devbhoomi Himachal Pradesh.'}
+                : 'The Cultural & Heritage Guide to Himachal Pradesh. Explore the landscapes, languages, traditions, festivals, architecture, cuisine, folklore, history, and hidden stories—preserving its rich cultural heritage for generations to come.'}
             </p>
 
             <div
@@ -99,59 +104,92 @@ export const Footer: React.FC<FooterProps> = ({
             >
               {isBilingual ? 'मुख्य अनुभाग (Navigation)' : 'HimVaani Sections'}
             </h4>
-            <ul className="space-y-2.5 text-xs text-white/80">
+            <ul className="grid grid-cols-2 gap-y-2 gap-x-3 text-xs text-white/80">
               <li>
                 <button
-                  onClick={() => handleNav('places')}
-                  className="hover:text-white transition-colors flex items-center gap-2 cursor-pointer text-left group"
+                  onClick={() => handleNav('home')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-left group"
                 >
-                  <MapPin className="w-3.5 h-3.5 transition-transform group-hover:scale-110" style={{ color: 'var(--season-accent)' }} />
+                  <HomeIcon className="w-3.5 h-3.5" style={{ color: 'var(--season-accent)' }} />
                   <span className="group-hover:underline underline-offset-2">
-                    {isBilingual ? 'स्थान व घाटियां (12 Districts)' : '12 Districts & Major Valleys'}
+                    Home
                   </span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleNav('traditions')}
-                  className="hover:text-white transition-colors flex items-center gap-2 cursor-pointer text-left group"
+                  onClick={() => handleNav('explore')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-left group"
                 >
-                  <Landmark className="w-3.5 h-3.5 transition-transform group-hover:scale-110" style={{ color: 'var(--season-accent)' }} />
+                  <Compass className="w-3.5 h-3.5" style={{ color: 'var(--season-accent)' }} />
                   <span className="group-hover:underline underline-offset-2">
-                    {isBilingual ? '६ धरोहर स्तम्भ (Living Traditions)' : '6 Pillars of Living Traditions'}
+                    Explore (50)
                   </span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleNav('community')}
-                  className="hover:text-white transition-colors flex items-center gap-2 cursor-pointer text-left group"
+                  onClick={() => handleNav('districts')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-left group"
                 >
-                  <MessageSquare className="w-3.5 h-3.5 transition-transform group-hover:scale-110" style={{ color: 'var(--season-accent)' }} />
+                  <MapPin className="w-3.5 h-3.5" style={{ color: 'var(--season-accent)' }} />
                   <span className="group-hover:underline underline-offset-2">
-                    {isBilingual ? 'सामुदायिक संवाद (Community Sangam)' : 'Community Sangam & Chaupal'}
+                    12 Districts
                   </span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleNav('learn')}
-                  className="hover:text-white transition-colors flex items-center gap-2 cursor-pointer text-left group"
+                  onClick={() => handleNav('culture')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-left group"
                 >
-                  <BookOpen className="w-3.5 h-3.5 transition-transform group-hover:scale-110" style={{ color: 'var(--season-accent)' }} />
+                  <Sparkles className="w-3.5 h-3.5" style={{ color: 'var(--season-accent)' }} />
                   <span className="group-hover:underline underline-offset-2">
-                    {isBilingual ? 'अक्षर व लिपि स्टूडियो (Script & Cards)' : 'Script Studio & Inscriptions'}
+                    Culture (6)
                   </span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleNav('history')}
-                  className="hover:text-white transition-colors flex items-center gap-2 cursor-pointer text-left group"
+                  onClick={() => handleNav('languages')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-left group"
                 >
-                  <History className="w-3.5 h-3.5 transition-transform group-hover:scale-110" style={{ color: 'var(--season-accent)' }} />
+                  <Languages className="w-3.5 h-3.5" style={{ color: 'var(--season-accent)' }} />
                   <span className="group-hover:underline underline-offset-2">
-                    {isBilingual ? 'इतिहास व वृत्तांत (Heritage Chronicles)' : 'Historical Chronicles & Timeline'}
+                    Languages
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('festivals')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-left group"
+                >
+                  <Calendar className="w-3.5 h-3.5" style={{ color: 'var(--season-accent)' }} />
+                  <span className="group-hover:underline underline-offset-2">
+                    Festivals
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('gallery')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-left group"
+                >
+                  <ImageIcon className="w-3.5 h-3.5" style={{ color: 'var(--season-accent)' }} />
+                  <span className="group-hover:underline underline-offset-2">
+                    Gallery
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('takri')}
+                  className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-left group"
+                >
+                  <Feather className="w-3.5 h-3.5" style={{ color: 'var(--season-accent)' }} />
+                  <span className="group-hover:underline underline-offset-2">
+                    Takri Script
                   </span>
                 </button>
               </li>
@@ -164,37 +202,25 @@ export const Footer: React.FC<FooterProps> = ({
               className="text-[11px] font-bold uppercase tracking-[0.2em]"
               style={{ color: 'var(--season-accent-light, #d5be9d)' }}
             >
-              {isBilingual ? 'प्रमुख घाटियां (Valleys)' : 'Himachal Valleys'}
+              {isBilingual ? 'प्रमुख 12 जिले (12 Districts)' : '12 Districts of Himachal'}
             </h4>
-            <ul className="space-y-2 text-xs text-white/75">
-              <li className="flex items-center justify-between border-b border-white/10 pb-1.5">
-                <span>Chamba (Ravi Valley)</span>
+            <ul className="space-y-1.5 text-xs text-white/75">
+              <li className="flex items-center justify-between border-b border-white/10 pb-1">
+                <span>Kangra, Chamba, Kullu, Mandi</span>
                 <span className="font-semibold text-[11px]" style={{ color: 'var(--season-accent-light)' }}>
-                  चम्बा
+                  कांगड़ा • कुल्लू
                 </span>
               </li>
-              <li className="flex items-center justify-between border-b border-white/10 pb-1.5">
-                <span>Kangra (Trigarta Valley)</span>
+              <li className="flex items-center justify-between border-b border-white/10 pb-1">
+                <span>Shimla, Solan, Sirmaur, Bilaspur</span>
                 <span className="font-semibold text-[11px]" style={{ color: 'var(--season-accent-light)' }}>
-                  कांगड़ा
+                  शिमला • सिरमौर
                 </span>
               </li>
-              <li className="flex items-center justify-between border-b border-white/10 pb-1.5">
-                <span>Kullu & Parvati (Kulanthpitha)</span>
+              <li className="flex items-center justify-between border-b border-white/10 pb-1">
+                <span>Kinnaur, Lahaul & Spiti, Hamirpur, Una</span>
                 <span className="font-semibold text-[11px]" style={{ color: 'var(--season-accent-light)' }}>
-                  कुल्लू
-                </span>
-              </li>
-              <li className="flex items-center justify-between border-b border-white/10 pb-1.5">
-                <span>Mandi & Suket (Beas Basin)</span>
-                <span className="font-semibold text-[11px]" style={{ color: 'var(--season-accent-light)' }}>
-                  मंडी
-                </span>
-              </li>
-              <li className="flex items-center justify-between border-b border-white/10 pb-1.5">
-                <span>Kinnaur & Spiti (Trans-Himalaya)</span>
-                <span className="font-semibold text-[11px]" style={{ color: 'var(--season-accent-light)' }}>
-                  किन्नौर व स्पीति
+                  किन्नौर • लाहौल
                 </span>
               </li>
             </ul>
@@ -223,7 +249,7 @@ export const Footer: React.FC<FooterProps> = ({
                 Documenting Kath-Kuni wooden fortresses, hereditary Boti Dham cuisines, sacred Devta processions, and century-old copper plate charters.
               </p>
               <div className="pt-1 flex flex-wrap gap-1.5">
-                {['#KathKuni', '#HimachaliDham', '#Devbhoomi', '#KulluDussehra'].map((tag) => (
+                {['#KathKuni', '#HimachaliDham', '#Devbhoomi', '#KulluDussehra', '#HimVaani'].map((tag) => (
                   <span
                     key={tag}
                     className="text-[9px] px-2 py-0.5 rounded-md font-mono"
