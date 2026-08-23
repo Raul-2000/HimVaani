@@ -64,6 +64,10 @@
   color: var(--season-accent);
 }
 
+.text-season-heading {
+  color: var(--season-heading-color, #2c1d11);
+}
+
 .text-season-light {
   color: var(--season-accent-light);
 }

@@ -213,18 +213,18 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
             }}
             className={`group relative p-4 rounded-2xl transition-all cursor-pointer border ${
               isSelected
-                ? 'border-[#8a4b17] bg-[#f5ece2] shadow-md scale-[1.02]'
-                : 'border-[#e5d8c7] bg-white hover:border-[#8a4b17] hover:bg-[#faf6f0] shadow-xs'
+                ? 'border-season-accent bg-season-badge-bg shadow-md scale-[1.02]'
+                : 'border-season-badge-border bg-white hover:border-season-accent hover:bg-season-badge-bg/50 shadow-xs'
             }`}
           >
             <div className="text-center space-y-2">
-              <div className="font-takri text-4xl sm:text-5xl text-[#8a4b17] font-bold group-hover:scale-110 transition-transform select-none">
+              <div className="font-takri text-4xl sm:text-5xl text-season-accent font-bold group-hover:scale-110 transition-transform select-none">
                 {item.char}
               </div>
 
               {scriptMode === 'takri-only' ? (
                 item.exampleWord ? (
-                  <div className="font-takri text-sm text-[#8a4b17] font-semibold select-none">
+                  <div className="font-takri text-sm text-season-accent font-semibold select-none">
                     {item.exampleWord.takri}
                   </div>
                 ) : (
@@ -239,7 +239,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                   <div className="flex items-center justify-center gap-1.5 text-xs text-[#2c1d11]">
                     <span className="font-bold text-[#2c1d11] text-sm font-serif">{item.devanagari}</span>
                     <span className="text-[#a89a8c]">•</span>
-                    <span className="font-mono font-semibold text-[#8a4b17]">{item.iast}</span>
+                    <span className="font-mono font-semibold text-season-accent">{item.iast}</span>
                   </div>
                   <div className="text-[10px] text-[#7a695a] line-clamp-1 uppercase tracking-wider font-medium">
                     {item.english}
@@ -255,7 +255,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                 e.stopPropagation();
                 handleSpeakChar(item);
               }}
-              className="absolute top-2 right-2 p-1.5 rounded-lg text-[#8a4b17] hover:text-[#5c300b] bg-[#f5ece2] hover:bg-[#ebdccb] transition-all cursor-pointer"
+              className="absolute top-2 right-2 p-1.5 rounded-lg text-season-accent hover:text-season-accent/80 bg-season-badge-bg/70 hover:bg-season-badge-bg transition-all cursor-pointer border border-season-badge-border"
               title={`Listen pronunciation for ${item.devanagari} (${item.iast})`}
               aria-label={`Pronounce ${item.devanagari}`}
             >
@@ -268,7 +268,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
   );
 
   return (
-    <section id="learn-takri-section" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
+    <section id="learn-takri-section" className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 sm:space-y-10">
       {/* Section Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-season-badge-bg border border-season-badge-border text-season-badge-text text-[11px] font-bold uppercase tracking-[0.2em] shadow-xs">
@@ -302,7 +302,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
       </div>
 
       {/* Category Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2 border-b border-[#e5d8c7] pb-4">
+      <div className="flex flex-wrap items-center justify-center gap-2 border-b border-season-badge-border pb-4">
         {[
           {
             id: 'consonants',
@@ -348,14 +348,14 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all cursor-pointer font-semibold ${
               activeCategory === tab.id
                 ? 'bg-season-accent text-white font-bold shadow-md scale-102'
-                : 'bg-white text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-[#f5ece2] border border-[#e5d8c7]'
+                : 'bg-white text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-season-badge-bg border border-season-badge-border'
             }`}
           >
             <span className="font-takri font-bold text-base">{tab.takri}</span>
             <span className="uppercase tracking-wider text-[11px]">{tab.label}</span>
             {tab.count !== undefined && (
               <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold ${
-                activeCategory === tab.id ? 'bg-black/20 text-white' : 'bg-[#f5ece2] text-[#8a4b17]'
+                activeCategory === tab.id ? 'bg-black/20 text-white' : 'bg-season-badge-bg text-season-accent'
               }`}>
                 {tab.count}
               </span>
@@ -375,15 +375,15 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
 
           {/* Stroke Practice Canvas Mode */}
           {activeCategory === 'practice' && (
-            <div className="bg-white rounded-3xl p-6 border-2 border-[#d5be9d] space-y-4 shadow-lg">
-              <div className="flex flex-wrap items-center justify-between gap-4 pb-3 border-b border-[#e5d8c7]">
+            <div className="bg-white rounded-3xl p-6 border-2 border-season-badge-border space-y-4 shadow-lg">
+              <div className="flex flex-wrap items-center justify-between gap-4 pb-3 border-b border-season-badge-border">
                 <div>
-                  <h3 className="text-lg font-serif text-[#8a4b17] font-bold flex items-center gap-2">
-                    <PenTool className="w-5 h-5 text-[#8a4b17]" />
+                  <h3 className="text-lg font-serif text-season-accent font-bold flex items-center gap-2">
+                    <PenTool className="w-5 h-5 text-season-accent" />
                     <span>Takri Calligraphy & Tracing Canvas</span>
                   </h3>
                   <p className="text-xs text-[#5c4a3b]">
-                    Trace or write <strong className="text-[#8a4b17] font-takri text-base">{selectedChar.char}</strong> ({selectedChar.devanagari} / {selectedChar.iast})
+                    Trace or write <strong className="text-season-accent font-takri text-base">{selectedChar.char}</strong> ({selectedChar.devanagari} / {selectedChar.iast})
                   </p>
                 </div>
 
@@ -392,7 +392,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                   <button
                     onClick={() => setShowGuide(!showGuide)}
                     className={`px-3 py-1.5 rounded-lg text-xs uppercase tracking-wider border transition-all cursor-pointer font-bold ${
-                      showGuide ? 'bg-[#f5ece2] text-[#8a4b17] border-[#d5be9d]' : 'bg-white text-[#5c4a3b] border-[#e5d8c7]'
+                      showGuide ? 'bg-season-badge-bg text-season-accent border-season-badge-border' : 'bg-white text-[#5c4a3b] border-season-badge-border'
                     }`}
                   >
                     {showGuide ? 'Guide On' : 'Guide Off'}
@@ -401,7 +401,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                   <button
                     onClick={() => setIsEraser(!isEraser)}
                     className={`p-2 rounded-lg border text-xs transition-all cursor-pointer ${
-                      isEraser ? 'bg-rose-100 text-rose-800 border-rose-300 font-bold' : 'bg-white text-[#5c4a3b] border-[#e5d8c7] hover:bg-[#f5ece2]'
+                      isEraser ? 'bg-rose-100 text-rose-800 border-rose-300 font-bold' : 'bg-white text-[#5c4a3b] border-season-badge-border hover:bg-season-badge-bg'
                     }`}
                     title="Toggle eraser"
                   >
@@ -410,7 +410,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
 
                   <button
                     onClick={clearCanvas}
-                    className="p-2 rounded-lg bg-white text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-[#f5ece2] border border-[#e5d8c7] text-xs cursor-pointer"
+                    className="p-2 rounded-lg bg-white text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-season-badge-bg border border-season-badge-border text-xs cursor-pointer"
                     title="Clear canvas"
                   >
                     <RotateCcw className="w-4 h-4" />
@@ -418,7 +418,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
 
                   <button
                     onClick={downloadCanvas}
-                    className="flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-[#8a4b17] text-white text-xs font-bold uppercase tracking-tight hover:bg-[#6b350a] transition-all cursor-pointer shadow-sm"
+                    className="flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-season-accent text-white text-xs font-bold uppercase tracking-tight hover:opacity-90 transition-all cursor-pointer shadow-sm"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Save</span>
@@ -427,11 +427,11 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
               </div>
 
               {/* Drawing Area Container */}
-              <div className="relative w-full h-[360px] bg-[#fdfcf9] rounded-2xl border-2 border-[#e5d8c7] overflow-hidden shadow-inner flex items-center justify-center">
+              <div className="relative w-full h-[360px] bg-[#fdfcf9] rounded-2xl border-2 border-season-badge-border overflow-hidden shadow-inner flex items-center justify-center">
                 {/* Background Tracing Guide */}
                 {showGuide && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-                    <span className="font-takri text-[200px] text-[#e5d8c7] font-bold opacity-60">
+                    <span className="font-takri text-[200px] text-season-badge-border font-bold opacity-60">
                       {selectedChar.char}
                     </span>
                   </div>
@@ -454,7 +454,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
               </div>
 
               {/* Color & Stroke Width Pickers */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-[#e5d8c7]">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-season-badge-border">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-[#5c4a3b] uppercase tracking-wider font-semibold">Ink:</span>
                   {['#8a4b17', '#1c1917', '#be123c', '#166534', '#0369a1'].map((color) => (
@@ -480,7 +480,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                     max={16}
                     value={strokeWidth}
                     onChange={(e) => setStrokeWidth(Number(e.target.value))}
-                    className="w-24 accent-[#8a4b17]"
+                    className="w-24 accent-season-accent"
                   />
                   <span className="text-xs text-[#2c1d11] font-bold w-6">{strokeWidth}px</span>
                 </div>
@@ -490,13 +490,13 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
 
           {/* Quiz Mode (Unstoppable Endless Quiz) */}
           {activeCategory === 'quiz' && (
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-[#d5be9d] space-y-6 shadow-lg">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-season-badge-border space-y-6 shadow-lg">
               <div className="space-y-6">
                 {/* Quiz Header & Live Streak Bar */}
-                <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-[#5c4a3b] border-b border-[#e5d8c7] pb-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-[#5c4a3b] border-b border-season-badge-border pb-4">
                   <div className="flex items-center gap-2">
-                    <div className="px-3 py-1 rounded-full bg-[#f5ece2] text-[#8a4b17] border border-[#d5be9d] flex items-center gap-1.5 font-bold uppercase tracking-wider text-[10px]">
-                      <Zap className="w-3 h-3 text-[#8a4b17] fill-[#8a4b17]" />
+                    <div className="px-3 py-1 rounded-full bg-season-badge-bg text-season-accent border border-season-badge-border flex items-center gap-1.5 font-bold uppercase tracking-wider text-[10px]">
+                      <Zap className="w-3 h-3 text-season-accent fill-current" />
                       <span>
                         {scriptMode === 'takri-only' ? '𑚀𑚝𑚫𑚙 𑚀𑚡𑚣𑚭𑚨' : 'Takri Knowledge Quiz'}
                       </span>
@@ -512,7 +512,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                     <div className={`flex items-center gap-1.5 px-3 py-1 rounded-xl border transition-all ${
                       streak > 0
                         ? 'bg-amber-50 text-amber-900 border-amber-300 shadow-xs'
-                        : 'bg-[#faf6f0] text-[#7a695a] border-[#e5d8c7]'
+                        : 'bg-[#faf6f0] text-[#7a695a] border-season-badge-border'
                     }`}>
                       <Flame className={`w-3.5 h-3.5 ${streak > 0 ? 'text-amber-600 fill-amber-600' : 'text-[#7a695a]'}`} />
                       <span className="text-[11px] font-bold">
@@ -521,8 +521,8 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                     </div>
 
                     {/* Best Streak */}
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[#faf6f0] text-[#8a4b17] border border-[#e5d8c7] text-[11px] font-bold">
-                      <Trophy className="w-3.5 h-3.5 text-[#8a4b17]" />
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-season-badge-bg text-season-accent border border-season-badge-border text-[11px] font-bold">
+                      <Trophy className="w-3.5 h-3.5 text-season-accent" />
                       <span>Best: {bestStreak}</span>
                     </div>
 
@@ -536,7 +536,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                     {/* Reset Stats */}
                     <button
                       onClick={resetStreakAndScore}
-                      className="p-1.5 rounded-lg bg-[#faf6f0] hover:bg-[#ebdccb] text-[#5c4a3b] hover:text-[#2c1d11] border border-[#e5d8c7] transition-colors cursor-pointer"
+                      className="p-1.5 rounded-lg bg-white hover:bg-season-badge-bg text-[#5c4a3b] hover:text-[#2c1d11] border border-season-badge-border transition-colors cursor-pointer"
                       title="Reset Streak Counter"
                     >
                       <RotateCcw className="w-3 h-3" />
@@ -546,7 +546,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
 
                 {/* Question Box */}
                 <div className="text-center py-4 space-y-3">
-                  <div className="inline-block px-8 py-4 rounded-2xl bg-[#faf6f0] border-2 border-[#d5be9d] shadow-sm">
+                  <div className="inline-block px-8 py-4 rounded-2xl bg-season-badge-bg border-2 border-season-badge-border shadow-sm">
                     <span className="text-4xl sm:text-5xl font-serif text-[#2c1d11] font-bold">{currentQuiz.promptChar}</span>
                   </div>
                   <h3 className="text-lg sm:text-xl font-serif text-[#2c1d11] max-w-xl mx-auto leading-snug font-bold">
@@ -559,7 +559,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                   {currentQuiz.options.map((opt, oIdx) => {
                     const isChosen = selectedOption === oIdx;
                     const isCorrect = oIdx === currentQuiz.correctIndex;
-                    let btnStyle = 'border-[#e5d8c7] hover:border-[#8a4b17] bg-[#fdfcf9] hover:bg-[#f5ece2] text-[#2c1d11] shadow-xs';
+                    let btnStyle = 'border-season-badge-border hover:border-season-accent bg-[#fdfcf9] hover:bg-season-badge-bg/50 text-[#2c1d11] shadow-xs';
 
                     if (selectedOption !== null) {
                       if (isCorrect) {
@@ -567,7 +567,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                       } else if (isChosen) {
                         btnStyle = 'border-rose-600 bg-rose-50 text-rose-950';
                       } else {
-                        btnStyle = 'border-[#ebd8c5] bg-[#faf6f0] text-[#7a695a] opacity-60';
+                        btnStyle = 'border-season-badge-border bg-[#faf6f0] text-[#7a695a] opacity-60';
                       }
                     }
 
@@ -579,7 +579,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                         className={`p-5 sm:p-6 rounded-2xl border-2 text-center flex items-center justify-between transition-all cursor-pointer ${btnStyle}`}
                       >
                         <div className="w-full flex items-center justify-center gap-3">
-                          <span className="font-takri text-4xl sm:text-5xl font-bold text-[#8a4b17] tracking-wider py-1 select-none">
+                          <span className="font-takri text-4xl sm:text-5xl font-bold text-season-accent tracking-wider py-1 select-none">
                             {opt.takri}
                           </span>
                         </div>
@@ -593,20 +593,20 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
 
                 {/* Explanation and Endless Next Question Button */}
                 {selectedOption !== null && (
-                  <div className="p-4 rounded-2xl bg-[#faf6f0] border border-[#d5be9d] space-y-3 animate-fadeIn">
+                  <div className="p-4 rounded-2xl bg-season-badge-bg border border-season-badge-border space-y-3 animate-fadeIn">
                     <div className="flex items-start gap-2.5">
-                      <Info className="w-4 h-4 text-[#8a4b17] shrink-0 mt-0.5" />
+                      <Info className="w-4 h-4 text-season-accent shrink-0 mt-0.5" />
                       <p className="text-xs text-[#3e2e20] leading-relaxed font-medium">
                         {currentQuiz.explanation}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between pt-2 border-t border-[#e5d8c7]">
+                    <div className="flex items-center justify-between pt-2 border-t border-season-badge-border">
                       <span className="text-[11px] text-[#7a695a] font-bold uppercase tracking-wider">
                         {selectedOption === currentQuiz.correctIndex ? '✨ Correct Answer!' : 'Keep practicing!'}
                       </span>
                       <button
                         onClick={nextQuizQuestion}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#8a4b17] hover:bg-[#6b350a] text-white font-bold text-xs uppercase tracking-tight shadow-md transition-all hover:scale-102 cursor-pointer"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-tight shadow-md transition-all hover:scale-102 cursor-pointer"
                       >
                         <span>{scriptMode === 'takri-only' ? '𑚀𑚌𑚥𑚭 𑚞𑚤𑚧𑚝' : 'Next Question'}</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -623,27 +623,27 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
         <div className="lg:col-span-4">
           <div
             id="char-inspector-card"
-            className="sticky top-24 bg-white rounded-3xl p-6 border-2 border-[#d5be9d] shadow-lg space-y-5"
+            className="sticky top-24 bg-white rounded-3xl p-6 border-2 border-season-badge-border shadow-lg space-y-5"
           >
-            <div className="flex items-center justify-between pb-3 border-b border-[#e5d8c7]">
-              <span className="text-xs font-serif text-[#8a4b17] font-bold uppercase tracking-wider flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-[#8a4b17] rounded-full"></span>
+            <div className="flex items-center justify-between pb-3 border-b border-season-badge-border">
+              <span className="text-xs font-serif text-season-accent font-bold uppercase tracking-wider flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-season-accent rounded-full"></span>
                 {scriptMode === 'takri-only' ? (
-                  <span className="font-takri normal-case text-sm text-[#8a4b17]">𑚀𑚊𑚋𑚤 𑚛𑚤𑚧𑚝</span>
+                  <span className="font-takri normal-case text-sm text-season-accent">𑚀𑚊𑚋𑚤 𑚛𑚤𑚧𑚝</span>
                 ) : scriptMode === 'bilingual' ? (
                   <span>आज का अक्षर (निरीक्षक)</span>
                 ) : (
                   <span>आज का अक्षर (Inspector)</span>
                 )}
               </span>
-              <span className="text-[11px] font-mono font-bold text-[#8a4b17] bg-[#f5ece2] px-2 py-0.5 rounded border border-[#ebd8c5]">
+              <span className="text-[11px] font-mono font-bold text-season-accent bg-season-badge-bg px-2 py-0.5 rounded border border-season-badge-border">
                 {selectedChar.unicode}
               </span>
             </div>
 
             {/* Massive Display Box */}
-            <div className="text-center py-5 space-y-2 bg-[#faf6f0] rounded-2xl border border-[#ebd8c5]">
-              <div className="font-takri text-7xl text-[#8a4b17] font-bold select-all">
+            <div className="text-center py-5 space-y-2 bg-season-badge-bg/50 rounded-2xl border border-season-badge-border">
+              <div className="font-takri text-7xl text-season-accent font-bold select-all">
                 {selectedChar.char}
               </div>
 
@@ -651,7 +651,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                 <div className="flex items-center justify-center gap-2 pt-1">
                   <button
                     onClick={() => handleSpeakChar(selectedChar)}
-                    className="p-1.5 rounded-lg bg-[#ebdccb] text-[#8a4b17] hover:bg-[#d9c7b2] transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg bg-season-badge-bg text-season-accent hover:opacity-80 transition-colors cursor-pointer border border-season-badge-border"
                     title="Pronounce"
                   >
                     <Volume2 className="w-4 h-4" />
@@ -662,7 +662,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                   <span className="text-2xl font-serif text-[#2c1d11] font-bold">{selectedChar.devanagari}</span>
                   <button
                     onClick={() => handleSpeakChar(selectedChar)}
-                    className="p-1.5 rounded-lg bg-[#ebdccb] text-[#8a4b17] hover:bg-[#d9c7b2] transition-colors ml-1 cursor-pointer"
+                    className="p-1.5 rounded-lg bg-season-badge-bg text-season-accent hover:opacity-80 transition-colors ml-1 cursor-pointer border border-season-badge-border"
                     title="Pronounce"
                   >
                     <Volume2 className="w-4 h-4" />
@@ -673,10 +673,10 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                   <div className="flex items-center justify-center gap-2">
                     <span className="text-xl font-serif text-[#2c1d11] font-bold">{selectedChar.devanagari}</span>
                     <span className="text-[#a89a8c]">•</span>
-                    <span className="text-sm text-[#8a4b17] font-mono font-bold">{selectedChar.iast}</span>
+                    <span className="text-sm text-season-accent font-mono font-bold">{selectedChar.iast}</span>
                     <button
                       onClick={() => handleSpeakChar(selectedChar)}
-                      className="p-1.5 rounded-lg bg-[#ebdccb] text-[#8a4b17] hover:bg-[#d9c7b2] transition-colors ml-1 cursor-pointer"
+                      className="p-1.5 rounded-lg bg-season-badge-bg text-season-accent hover:opacity-80 transition-colors ml-1 cursor-pointer border border-season-badge-border"
                       title="Pronounce"
                     >
                       <Volume2 className="w-4 h-4" />
@@ -689,10 +689,10 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
 
             {/* Example Word */}
             {selectedChar.exampleWord && (
-              <div className="space-y-2 p-3.5 rounded-2xl bg-[#faf6f0] border border-[#ebd8c5] text-left">
+              <div className="space-y-2 p-3.5 rounded-2xl bg-season-badge-bg/50 border border-season-badge-border text-left">
                 <span className="text-[10px] uppercase tracking-wider text-[#7a695a] font-bold block">
                   {scriptMode === 'takri-only' ? (
-                    <span className="font-takri normal-case text-xs text-[#8a4b17]">𑚔𑚭𑚊𑚤𑚯 𑚱𑚛𑚭𑚩𑚤𑚘</span>
+                    <span className="font-takri normal-case text-xs text-season-accent">𑚔𑚭𑚊𑚤𑚯 𑚱𑚛𑚭𑚩𑚤𑚘</span>
                   ) : scriptMode === 'bilingual' ? (
                     <span>टाकरी उदाहरण शब्द</span>
                   ) : (
@@ -701,7 +701,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                 </span>
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-takri text-2xl text-[#8a4b17] font-bold">
+                    <div className="font-takri text-2xl text-season-accent font-bold">
                       {selectedChar.exampleWord.takri}
                     </div>
                     {scriptMode === 'takri-only' ? null : scriptMode === 'bilingual' ? (
@@ -716,7 +716,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
                   </div>
                   <button
                     onClick={() => speakPhonetic(selectedChar.exampleWord?.devanagari || '')}
-                    className="p-1.5 rounded-lg bg-[#ebdccb] text-[#8a4b17] hover:bg-[#d9c7b2] cursor-pointer"
+                    className="p-1.5 rounded-lg bg-season-badge-bg text-season-accent hover:opacity-80 cursor-pointer border border-season-badge-border"
                   >
                     <Volume2 className="w-3.5 h-3.5" />
                   </button>
@@ -731,10 +731,10 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
 
             {/* Stroke Order Hint */}
             {selectedChar.strokeHint && (
-              <div className="space-y-1 text-left text-xs text-[#3e2e20] bg-[#f5ece2] p-3.5 rounded-2xl border border-[#d5be9d]">
-                <span className="font-serif text-[#8a4b17] uppercase tracking-wider text-[11px] font-bold block">
+              <div className="space-y-1 text-left text-xs text-[#3e2e20] bg-season-badge-bg p-3.5 rounded-2xl border border-season-badge-border">
+                <span className="font-serif text-season-accent uppercase tracking-wider text-[11px] font-bold block">
                   {scriptMode === 'takri-only' ? (
-                    <span className="font-takri normal-case text-xs text-[#8a4b17]">𑚀𑚊𑚋𑚤 𑚤𑚲𑚋𑚭 𑚢𑚭𑚤𑚌</span>
+                    <span className="font-takri normal-case text-xs text-season-accent">𑚀𑚊𑚋𑚤 𑚤𑚲𑚋𑚭 𑚢𑚭𑚤𑚌</span>
                   ) : scriptMode === 'bilingual' ? (
                     <span>स्ट्रोक क्रम मार्गदर्शक:</span>
                   ) : (
@@ -750,7 +750,7 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
               onClick={() => {
                 setActiveCategory('practice');
               }}
-              className="w-full py-3 rounded-xl bg-[#8a4b17] hover:bg-[#6b350a] text-white font-bold text-xs uppercase tracking-tight shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3 rounded-xl bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-tight shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <PenTool className="w-3.5 h-3.5" />
               <span>
@@ -769,3 +769,4 @@ export const LearnSection: React.FC<LearnSectionProps> = ({ scriptMode = 'all', 
     </section>
   );
 };
+

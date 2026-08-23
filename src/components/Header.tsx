@@ -68,36 +68,36 @@ export const Header: React.FC<HeaderProps> = ({
       id="main-app-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'py-2.5 bg-[#fdfcf9]/95 backdrop-blur-md border-b border-[#e5d8c7] shadow-sm'
-          : 'py-3.5 bg-[#fdfcf9]/85 backdrop-blur-sm border-b border-[#ebd8c5]/50'
+          ? 'py-2 sm:py-2.5 bg-[#fdfcf9]/95 backdrop-blur-md border-b border-[#e5d8c7] shadow-sm'
+          : 'py-2.5 sm:py-3.5 bg-[#fdfcf9]/90 backdrop-blur-md border-b border-[#ebd8c5]/70'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1.5 sm:gap-4">
         {/* Brand Logo */}
         <div
           id="brand-logo-button"
           onClick={() => setActiveTab('places')}
-          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group shrink-0"
+          className="flex items-center gap-1.5 sm:gap-3 cursor-pointer group shrink-0"
         >
           <div
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform border border-[#d5be9d]"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform border border-season-badge-border shrink-0"
             style={{
               background: `linear-gradient(135deg, ${activeSeasonData.accentColor}, ${activeSeasonData.accentDark})`,
             }}
           >
-            <span className="font-takri text-xl sm:text-2xl text-white font-bold tracking-tight">𑚔</span>
+            <span className="font-takri text-lg sm:text-2xl text-white font-bold tracking-tight">𑚔</span>
           </div>
           <div>
             <div className="flex items-baseline">
-              <h1 className="text-lg sm:text-2xl font-serif font-bold tracking-tight text-[#2c1d11] transition-colors">
+              <h1 className="text-base sm:text-2xl font-serif font-bold tracking-tight text-[#2c1d11] transition-colors leading-none">
                 {scriptMode === 'bilingual' ? (
-                  <span>हिमवाणी <span className="text-season-accent font-light text-base sm:text-lg ml-0.5 font-sans">HimVaani</span></span>
+                  <span>हिमवाणी <span className="text-season-accent font-light text-xs sm:text-lg ml-0.5 font-sans">HimVaani</span></span>
                 ) : (
                   <span>HimVaani</span>
                 )}
               </h1>
               <span
-                className="text-[10px] sm:text-[11px] px-2 py-0.5 ml-1.5 sm:ml-2 rounded-full border font-bold"
+                className="text-[9px] sm:text-[11px] px-1.5 sm:px-2 py-0.2 sm:py-0.5 ml-1 sm:ml-2 rounded-full border font-bold shrink-0"
                 style={{
                   backgroundColor: activeSeasonData.badgeBg,
                   borderColor: activeSeasonData.badgeBorder,
@@ -107,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({
                 धरोहर
               </span>
             </div>
-            <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#7a695a] font-sans hidden min-[380px]:block">
+            <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-[0.2em] text-[#7a695a] font-sans hidden md:block pt-0.5">
               {scriptMode === 'bilingual' ? (
                 <span>हिमाचल दर्शन एवं संस्कृति संरक्षण</span>
               ) : (
@@ -182,7 +182,7 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* Seasonal Theme Switcher */}
           <SeasonThemeSelector
             currentSeason={currentSeason}
@@ -191,30 +191,32 @@ export const Header: React.FC<HeaderProps> = ({
           />
 
           {/* Language / View Mode Toggle */}
-          <div id="script-mode-selector" className="flex items-center bg-[#f4ebe1] rounded-xl p-0.5 sm:p-1 border border-[#e5d8c7] text-[11px] sm:text-xs">
+          <div id="script-mode-selector" className="flex items-center bg-[#f4ebe1] rounded-xl p-0.5 border border-[#e5d8c7] text-[10px] sm:text-xs">
             <button
               id="lang-select-english"
               onClick={() => setScriptMode('all')}
-              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs tracking-wider transition-all cursor-pointer font-semibold uppercase ${
+              className={`px-1.5 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs tracking-wider transition-all cursor-pointer font-semibold uppercase ${
                 scriptMode === 'all' || scriptMode === 'trilingual'
                   ? 'bg-season-accent text-white shadow font-bold'
                   : 'text-[#6e5d4e] hover:text-[#2c1d11]'
               }`}
               title="English presentation"
             >
-              English
+              <span className="hidden sm:inline">English</span>
+              <span className="sm:hidden">EN</span>
             </button>
             <button
               id="lang-select-hindi"
               onClick={() => setScriptMode('bilingual')}
-              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs transition-all cursor-pointer flex items-center gap-1 font-medium ${
+              className={`px-1.5 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs transition-all cursor-pointer flex items-center gap-0.5 font-medium ${
                 scriptMode === 'bilingual'
                   ? 'bg-season-accent text-white font-bold shadow'
                   : 'text-[#6e5d4e] hover:text-[#2c1d11]'
               }`}
               title="हिंदी (Hindi) presentation"
             >
-              <span>हिंदी</span>
+              <span className="hidden sm:inline">हिंदी</span>
+              <span className="sm:hidden">हिं</span>
             </button>
           </div>
 
@@ -256,7 +258,7 @@ export const Header: React.FC<HeaderProps> = ({
                 setActiveTab('community');
               }
             }}
-            className="hidden sm:flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-102 cursor-pointer shrink-0"
+            className="hidden lg:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-102 cursor-pointer shrink-0"
           >
             <Feather className="w-3.5 h-3.5" />
             <span>{scriptMode === 'bilingual' ? 'कहानी साझा करें' : 'Share Story'}</span>
@@ -265,54 +267,64 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Mobile Tab Bar */}
-      <div className="flex md:hidden items-center justify-around px-1 pt-2 pb-1 border-t border-season-badge-border mt-2 bg-white/95 backdrop-blur-md">
+      <div className="flex md:hidden items-center justify-around px-1 pt-1.5 pb-0.5 border-t border-season-badge-border mt-1.5 bg-white/95 backdrop-blur-md">
         <button
           onClick={() => setActiveTab('places')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] p-1.5 transition-all cursor-pointer ${
-            activeTab === 'places' ? 'font-bold text-season-accent' : 'text-[#7a695a]'
+          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeTab === 'places'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
+              : 'text-[#7a695a]'
           }`}
         >
-          <MapPin className="w-4 h-4" />
+          <MapPin className="w-3.5 h-3.5" />
           <span>Places</span>
         </button>
 
         <button
           onClick={() => setActiveTab('traditions')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] p-1.5 transition-all cursor-pointer ${
-            activeTab === 'traditions' ? 'font-bold text-season-accent' : 'text-[#7a695a]'
+          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeTab === 'traditions'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
+              : 'text-[#7a695a]'
           }`}
         >
-          <Sparkles className="w-4 h-4" />
+          <Sparkles className="w-3.5 h-3.5" />
           <span>Traditions</span>
         </button>
 
         <button
           onClick={() => setActiveTab('learn')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] p-1.5 transition-all cursor-pointer ${
-            activeTab === 'learn' ? 'font-bold text-season-accent' : 'text-[#7a695a]'
+          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeTab === 'learn'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
+              : 'text-[#7a695a]'
           }`}
         >
-          <BookOpen className="w-4 h-4" />
+          <BookOpen className="w-3.5 h-3.5" />
           <span>Learn</span>
         </button>
 
         <button
           onClick={() => setActiveTab('community')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] p-1.5 transition-all cursor-pointer ${
-            activeTab === 'community' ? 'font-bold text-season-accent' : 'text-[#7a695a]'
+          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeTab === 'community'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
+              : 'text-[#7a695a]'
           }`}
         >
-          <MessageSquare className="w-4 h-4" />
+          <MessageSquare className="w-3.5 h-3.5" />
           <span>Community</span>
         </button>
 
         <button
           onClick={() => setActiveTab('history')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] p-1.5 transition-all cursor-pointer ${
-            activeTab === 'history' ? 'font-bold text-season-accent' : 'text-[#7a695a]'
+          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeTab === 'history'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
+              : 'text-[#7a695a]'
           }`}
         >
-          <History className="w-4 h-4" />
+          <History className="w-3.5 h-3.5" />
           <span>History</span>
         </button>
       </div>

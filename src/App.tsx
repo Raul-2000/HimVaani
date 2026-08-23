@@ -92,7 +92,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="relative z-10 flex-1">
+      <main className={`relative z-10 flex-1 ${activeTab !== 'places' ? 'pt-28 md:pt-20' : ''}`}>
         {/* Hero Banner on Places tab */}
         {activeTab === 'places' && (
           <HeroBanner
