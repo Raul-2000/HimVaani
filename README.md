@@ -1,11 +1,14 @@
 # HimVaani (हिमवाणी) — Explore Himachal, Conserve Its Traditions
 
+[![Live Website](https://img.shields.io/badge/Live_Website-himvaani.pages.dev-059669?style=for-the-badge&logo=cloudflare-pages&logoColor=white)](https://himvaani.pages.dev/)
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Vite](https://img.shields.io/badge/Vite-6-646cff?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![License](https://img.shields.io/badge/License-MIT-gold)](LICENSE)
 [![Created by](https://img.shields.io/badge/Created%20by-Raul--2000-dfbe7b?logo=github)](https://github.com/Raul-2000)
+
+🌐 **Live Website:** [https://himvaani.pages.dev/](https://himvaani.pages.dev/)
 
 > **"Discover the locations, traditions, celebrations, history, architecture, cuisine, folklore, and untold tales that make Himachal Pradesh unique, preserving our legacy for coming generations."**
 
