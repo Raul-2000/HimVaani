@@ -40,8 +40,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
         background: `linear-gradient(180deg, var(--season-bg-start, #fdfbf7), var(--season-bg-mid, #f7f2ea), var(--season-bg-end, #fcfaf7))`,
       }}
     >
-      {/* Background Soft Texture */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
+      {/* Background Soft Texture with Animated Mist */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-25">
         <img
           src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=85"
           alt="Himachal mountain landscape"
@@ -49,6 +49,9 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--season-body-bg)]/80 to-[var(--season-body-bg)]" />
+        {/* Animated Himalayan Mist Layers */}
+        <div className="absolute -top-10 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-white/0 via-white/40 to-white/0 blur-2xl animate-mist pointer-events-none" />
+        <div className="absolute bottom-10 -right-1/4 w-[150%] h-72 bg-gradient-to-r from-white/0 via-white/30 to-white/0 blur-3xl animate-mist pointer-events-none" style={{ animationDelay: '-9s' }} />
       </div>
 
       {/* Hero Outer Container */}

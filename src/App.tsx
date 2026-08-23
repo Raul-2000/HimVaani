@@ -7,6 +7,7 @@ import { LearnSection } from './components/LearnSection';
 import { CommunitySection } from './components/CommunitySection';
 import { HistorySection } from './components/HistorySection';
 import { Footer } from './components/Footer';
+import { SeasonalAtmosphere } from './components/SeasonalAtmosphere';
 import { ScriptMode, HimachalSeason, HeritagePillarId } from './types';
 import { getCurrentHimachalSeason, applySeasonalTheme } from './utils/seasons';
 
@@ -75,6 +76,9 @@ export default function App() {
         <div className="absolute bottom-0 left-0 w-full h-[420px] pointer-events-none opacity-5 mountain-natural-texture" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#fcfaf7]/40 to-[#fcfaf7] pointer-events-none" />
       </div>
+
+      {/* Seasonal Atmospheric Particles & Weather Canvas */}
+      <SeasonalAtmosphere currentSeason={currentSeason} />
 
       {/* Floating Navigation Header */}
       <Header

@@ -117,8 +117,8 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Central Nav Links */}
-        <nav id="desktop-navigation" className="hidden md:flex items-center gap-1 lg:gap-2 bg-white px-3 py-1.5 rounded-full border border-season-badge-border shadow-sm">
+        {/* Central Nav Links (Desktop) */}
+        <nav id="desktop-navigation" className="hidden xl:flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-season-badge-border shadow-sm shrink-0">
           <button
             id="nav-tab-places"
             onClick={() => setActiveTab('places')}
@@ -165,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
             }`}
           >
             <span>{scriptMode === 'bilingual' ? 'सामुदायिक संवाद' : 'Community'}</span>
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-season-accent"></span>
+            <span className="w-1.5 h-1.5 rounded-full animate-ping bg-season-accent"></span>
           </button>
 
           <button
@@ -266,66 +266,66 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Mobile Tab Bar */}
-      <div className="flex md:hidden items-center justify-around px-1 pt-1.5 pb-0.5 border-t border-season-badge-border mt-1.5 bg-white/95 backdrop-blur-md">
+      {/* Mobile & Tablet Tab Bar */}
+      <div className="flex xl:hidden items-center justify-around px-1 pt-1.5 pb-0.5 border-t border-season-badge-border mt-1.5 bg-white/95 backdrop-blur-md">
         <button
           onClick={() => setActiveTab('places')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+          className={`flex flex-col items-center gap-0.5 text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-xl transition-all cursor-pointer ${
             activeTab === 'places'
-              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
-              : 'text-[#7a695a]'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border scale-102'
+              : 'text-[#7a695a] hover:text-[#2c1d11]'
           }`}
         >
-          <MapPin className="w-3.5 h-3.5" />
-          <span>Places</span>
+          <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span>{scriptMode === 'bilingual' ? 'स्थान' : 'Places'}</span>
         </button>
 
         <button
           onClick={() => setActiveTab('traditions')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+          className={`flex flex-col items-center gap-0.5 text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-xl transition-all cursor-pointer ${
             activeTab === 'traditions'
-              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
-              : 'text-[#7a695a]'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border scale-102'
+              : 'text-[#7a695a] hover:text-[#2c1d11]'
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Traditions</span>
+          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span>{scriptMode === 'bilingual' ? 'धरोहर' : 'Traditions'}</span>
         </button>
 
         <button
           onClick={() => setActiveTab('learn')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+          className={`flex flex-col items-center gap-0.5 text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-xl transition-all cursor-pointer ${
             activeTab === 'learn'
-              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
-              : 'text-[#7a695a]'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border scale-102'
+              : 'text-[#7a695a] hover:text-[#2c1d11]'
           }`}
         >
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>Learn</span>
+          <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span>{scriptMode === 'bilingual' ? 'टाकरी लिपि' : 'Script'}</span>
         </button>
 
         <button
           onClick={() => setActiveTab('community')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+          className={`flex flex-col items-center gap-0.5 text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-xl transition-all cursor-pointer ${
             activeTab === 'community'
-              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
-              : 'text-[#7a695a]'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border scale-102'
+              : 'text-[#7a695a] hover:text-[#2c1d11]'
           }`}
         >
-          <MessageSquare className="w-3.5 h-3.5" />
-          <span>Community</span>
+          <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span>{scriptMode === 'bilingual' ? 'संवाद' : 'Community'}</span>
         </button>
 
         <button
           onClick={() => setActiveTab('history')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+          className={`flex flex-col items-center gap-0.5 text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-xl transition-all cursor-pointer ${
             activeTab === 'history'
-              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
-              : 'text-[#7a695a]'
+              ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border scale-102'
+              : 'text-[#7a695a] hover:text-[#2c1d11]'
           }`}
         >
-          <History className="w-3.5 h-3.5" />
-          <span>History</span>
+          <History className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span>{scriptMode === 'bilingual' ? 'इतिहास' : 'History'}</span>
         </button>
       </div>
     </header>
