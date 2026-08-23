@@ -39,7 +39,7 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [copiedNotification, setCopiedNotification] = useState(false);
-  const [modalTab, setModalTab] = useState<'history' | 'folklore' | 'travel'>('history');
+  const [modalTab, setModalTab] = useState<'history' | 'travel'>('history');
   const valleysRef = useRef<HTMLDivElement | null>(null);
 
   const scrollValleys = (direction: 'left' | 'right') => {
@@ -435,17 +435,6 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
                 History & Architecture (इतिहास व स्थापत्य)
               </button>
               <button
-                onClick={() => setModalTab('folklore')}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-all ${
-                  modalTab === 'folklore'
-                    ? 'bg-season-accent text-white shadow-sm font-bold'
-                    : 'bg-[#f5ece2] text-[#5c4a3b] hover:bg-[#ebdccb]'
-                }`}
-              >
-                <Feather className="w-3.5 h-3.5" />
-                Folklore & Deities (लोकगाथा व देव परंपरा)
-              </button>
-              <button
                 onClick={() => setModalTab('travel')}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-all ${
                   modalTab === 'travel'
@@ -529,35 +518,7 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
               </div>
             )}
 
-            {/* TAB CONTENT 2: Folklore & Local Dialects */}
-            {modalTab === 'folklore' && (
-              <div className="space-y-5 text-left">
-                {selectedPlace.folkloreLore && (
-                  <div className="p-5 rounded-2xl bg-[#faf6f0] border border-[#ebd8c5] space-y-2">
-                    <div className="flex items-center gap-2 text-season-accent font-serif font-bold text-sm">
-                      <Feather className="w-4 h-4" />
-                      <span>Legends & Village Deity Traditions</span>
-                    </div>
-                    <p className="text-sm text-[#3e2e20] leading-relaxed italic">
-                      &quot;{selectedPlace.folkloreLore}&quot;
-                    </p>
-                  </div>
-                )}
-
-                {selectedPlace.localDialect && (
-                  <div className="p-5 rounded-2xl bg-white border border-[#e5d8c7] shadow-sm space-y-2">
-                    <div className="text-xs font-bold uppercase tracking-wider text-season-accent">
-                      Linguistic & Dialect Heritage
-                    </div>
-                    <p className="text-sm text-[#423223] leading-relaxed">
-                      {selectedPlace.localDialect}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* TAB CONTENT 3: Traveler Guide */}
+            {/* TAB CONTENT 2: Traveler Guide */}
             {modalTab === 'travel' && (
               <div className="space-y-5 text-left">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
