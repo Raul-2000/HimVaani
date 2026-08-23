@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Feather, MapPin, BookOpen, MessageSquare, History, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Feather, MapPin, BookOpen, MessageSquare, History, Sparkles, Mountain } from 'lucide-react';
 import { ScriptMode } from '../types';
 import { HimachalSeason, HIMACHAL_SEASONS } from '../utils/seasons';
 import { SeasonThemeSelector } from './SeasonThemeSelector';
@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
               background: `linear-gradient(135deg, ${activeSeasonData.accentColor}, ${activeSeasonData.accentDark})`,
             }}
           >
-            <span className="font-takri text-lg sm:text-2xl text-white font-bold tracking-tight">𑚔</span>
+            <Mountain className="w-4 h-4 sm:w-5 sm:h-5 text-white stroke-[2.2]" />
           </div>
           <div>
             <div className="flex items-baseline">
