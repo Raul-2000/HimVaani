@@ -7,6 +7,7 @@ import {
   toggleGlobalMute,
   getIsMuted,
   subscribeAudioState,
+  natureAudio,
 } from '../utils/audioAmbience';
 
 interface HeaderProps {
@@ -55,10 +56,11 @@ export const Header: React.FC<HeaderProps> = ({
     const nextMuted = toggleGlobalMute();
     setIsMutedState(nextMuted);
     if (!nextMuted) {
-      setShowAudioFeedback('Pronunciation Enabled 🔊');
-      setTimeout(() => setShowAudioFeedback(null), 2000);
+      natureAudio.playTempleBell();
+      setShowAudioFeedback('Nature Sound & Audio ON 🏔️ 🔊');
+      setTimeout(() => setShowAudioFeedback(null), 2500);
     } else {
-      setShowAudioFeedback('Pronunciation Muted 🔇');
+      setShowAudioFeedback('Sound Muted 🔇');
       setTimeout(() => setShowAudioFeedback(null), 2000);
     }
   };
@@ -94,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({
           className="flex items-center gap-1.5 sm:gap-2.5 cursor-pointer group shrink-0"
         >
           <div
-            className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-xl flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform border border-season-badge-border shrink-0"
+            className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-2xl flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform border border-season-badge-border shrink-0"
             style={{
               background: `linear-gradient(135deg, ${activeSeasonData.accentColor}, ${activeSeasonData.accentDark})`,
             }}
@@ -158,13 +160,13 @@ export const Header: React.FC<HeaderProps> = ({
           />
 
           {/* Language / View Mode Toggle */}
-          <div id="script-mode-selector" className="flex items-center bg-white/50 backdrop-blur-md rounded-xl p-0.5 border border-[#e5d8c7]/80 text-[10px] sm:text-xs">
+          <div id="script-mode-selector" className="flex items-center bg-white/50 backdrop-blur-md rounded-full p-0.5 border border-[#e5d8c7]/80 text-[10px] sm:text-xs">
             <button
               id="lang-select-english"
               onClick={() => setScriptMode('all')}
-              className={`px-1.5 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-xs tracking-wider transition-all cursor-pointer font-semibold uppercase ${
+              className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs tracking-wider transition-all cursor-pointer font-semibold uppercase ${
                 scriptMode === 'all' || scriptMode === 'trilingual'
-                  ? 'bg-season-accent text-white shadow font-bold'
+                  ? 'bg-season-accent text-white shadow-xs font-bold'
                   : 'text-[#6e5d4e] hover:text-[#2c1d11]'
               }`}
               title="English presentation"
@@ -175,9 +177,9 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="lang-select-hindi"
               onClick={() => setScriptMode('bilingual')}
-              className={`px-1.5 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-xs transition-all cursor-pointer flex items-center gap-0.5 font-medium ${
+              className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs transition-all cursor-pointer flex items-center gap-0.5 font-medium ${
                 scriptMode === 'bilingual'
-                  ? 'bg-season-accent text-white font-bold shadow'
+                  ? 'bg-season-accent text-white font-bold shadow-xs'
                   : 'text-[#6e5d4e] hover:text-[#2c1d11]'
               }`}
               title="हिंदी (Hindi) presentation"
@@ -187,11 +189,11 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Pronunciation Mute Toggle */}
+          {/* Pronunciation & Nature Sound Toggle */}
           <div className="flex items-center relative">
             {showAudioFeedback && (
               <div
-                className="absolute -bottom-8 right-0 bg-[#2c1d11]/90 backdrop-blur-md text-white text-[10px] font-sans px-2.5 py-1 rounded-lg border border-[#e5d8c7] shadow-xl whitespace-nowrap z-50 animate-fadeIn pointer-events-none"
+                className="absolute -bottom-8 right-0 bg-[#2c1d11]/90 backdrop-blur-md text-white text-[10px] font-sans px-2.5 py-1 rounded-full border border-[#e5d8c7] shadow-xl whitespace-nowrap z-50 animate-fadeIn pointer-events-none"
               >
                 {showAudioFeedback}
               </div>
@@ -200,17 +202,17 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="global-sound-mute-toggle-btn"
               onClick={handleToggleMute}
-              className={`p-1.5 sm:p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center backdrop-blur-md ${
+              className={`p-2 rounded-full border transition-all cursor-pointer flex items-center justify-center backdrop-blur-md ${
                 isMuted
                   ? 'bg-rose-50/80 text-rose-700 border-rose-300'
-                  : 'bg-white/60 border-[#e5d8c7]/80 hover:bg-white/90 text-season-accent'
+                  : 'bg-white/70 border-season-badge-border hover:bg-white text-season-accent ring-2 ring-season-accent/20'
               }`}
-              title={isMuted ? 'Pronunciation is MUTED. Click to Unmute' : 'Pronunciation is ON. Click to Mute'}
+              title={isMuted ? 'Sound effects & voice are MUTED. Click to Unmute' : 'Sound effects & voice are ON. Click to Mute'}
             >
               {isMuted ? (
                 <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-600" />
               ) : (
-                <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-season-accent" />
+                <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-season-accent animate-pulse" />
               )}
             </button>
           </div>
@@ -225,7 +227,7 @@ export const Header: React.FC<HeaderProps> = ({
                 setActiveTab('community');
               }
             }}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-xl bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-102 cursor-pointer shrink-0"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-full bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-102 cursor-pointer shrink-0"
           >
             <Feather className="w-3.5 h-3.5" />
             <span className="hidden xl:inline">{scriptMode === 'bilingual' ? 'कहानी साझा करें' : 'Share Story'}</span>
@@ -243,7 +245,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-xl transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+              className={`flex items-center gap-1 text-[11px] px-3 py-1 rounded-full transition-all cursor-pointer shrink-0 whitespace-nowrap ${
                 isSelected
                   ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
                   : 'text-[#7a695a] hover:text-[#2c1d11]'
@@ -258,4 +260,3 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
-

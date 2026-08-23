@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Landmark,
   Utensils,
@@ -6,8 +6,6 @@ import {
   ScrollText,
   Mountain,
   MapPin,
-  CheckCircle2,
-  Circle,
   Plus,
   Search,
   Sparkles,
@@ -16,14 +14,11 @@ import {
   Share2,
   BookOpen,
   Layers,
-  Calendar,
-  Feather,
   ChefHat,
   Filter,
 } from 'lucide-react';
 import { HeritagePillarId, HeritageTraditionItem, ScriptMode } from '../types';
 import { HERITAGE_PILLARS_META, INITIAL_HERITAGE_ITEMS } from '../data/heritageTraditions';
-import { HIMACHAL_PLACES } from '../data/himachalPlaces';
 import { universalConvert } from '../utils/takriTransliterator';
 import { speakPhonetic } from '../utils/audioAmbience';
 
@@ -52,26 +47,13 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
     return INITIAL_HERITAGE_ITEMS;
   });
 
-  // Track checked items ("Choose to Check")
-  const [checkedItemIds, setCheckedItemIds] = useState<string[]>(() => {
-    const saved = localStorage.getItem('himvaani_checked_traditions');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Failed to parse checked traditions', e);
-      }
-    }
-    return ['arch-1', 'dham-1', 'fair-1'];
-  });
-
   const [selectedItem, setSelectedItem] = useState<HeritageTraditionItem | null>(null);
-  const [filterMode, setFilterMode] = useState<'all' | 'checked' | 'unchecked'>('all');
+  const [selectedRegionFilter, setSelectedRegionFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
 
-  // New Content Form State
+  // Form State
   const [newTitleEng, setNewTitleEng] = useState('');
   const [newTitleHindi, setNewTitleHindi] = useState('');
   const [newPillarId, setNewPillarId] = useState<HeritagePillarId>(activePillarId);
@@ -84,19 +66,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
   const [newKeyFeature, setNewKeyFeature] = useState('');
   const [newImageUrl, setNewImageUrl] = useState('');
 
-  // Live transliteration
   const convertedTitle = universalConvert(newTitleHindi || newTitleEng);
-
-  useEffect(() => {
-    localStorage.setItem('himvaani_checked_traditions', JSON.stringify(checkedItemIds));
-  }, [checkedItemIds]);
-
-  const toggleCheck = (itemId: string, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    setCheckedItemIds((prev) =>
-      prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
-    );
-  };
 
   const handleCreateTradition = (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,21 +94,19 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
       fullStoryHindi: newFullStory.trim() || finalHindi,
       fullStoryTakri: takriTitle,
       keyFeatures: newKeyFeature
-        ? [newKeyFeature, 'Indigenous community contribution', 'Living heritage record']
+        ? [newKeyFeature, 'Indigenous community heritage', 'Living traditions record']
         : ['Traditional preservation record', 'Authentic Himachali craftsmanship'],
       culturalSignificance:
-        newCulturalSignificance.trim() || 'Preserving indigenous knowledge for future generations.',
+        newCulturalSignificance.trim() || 'Preserving indigenous cultural memory for future generations.',
       isUserAdded: true,
     };
 
     const updated = [newItem, ...items];
     setItems(updated);
 
-    // Save only user added to localStorage
     const userAddedOnly = updated.filter((it) => it.isUserAdded);
     localStorage.setItem('himvaani_custom_traditions', JSON.stringify(userAddedOnly));
 
-    // Reset Form
     setNewTitleEng('');
     setNewTitleHindi('');
     setNewShortDesc('');
@@ -162,13 +130,15 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
   const currentPillarMeta =
     HERITAGE_PILLARS_META.find((p) => p.id === activePillarId) || HERITAGE_PILLARS_META[0];
 
-  // Filter items
   const currentPillarItems = items.filter((item) => item.pillarId === activePillarId);
 
+  // Available regions for filter
+  const regionsInPillar = Array.from(new Set(currentPillarItems.map((it) => it.region)));
+
   const displayItems = currentPillarItems.filter((item) => {
-    const isChecked = checkedItemIds.includes(item.id);
-    if (filterMode === 'checked' && !isChecked) return false;
-    if (filterMode === 'unchecked' && isChecked) return false;
+    if (selectedRegionFilter !== 'all' && item.region !== selectedRegionFilter) {
+      return false;
+    }
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -176,6 +146,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
         item.nameEnglish.toLowerCase().includes(q) ||
         item.nameHindi.toLowerCase().includes(q) ||
         item.region.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q) ||
         item.shortDescriptionEnglish.toLowerCase().includes(q) ||
         item.shortDescriptionHindi.toLowerCase().includes(q);
       if (!matchName) return false;
@@ -183,22 +154,18 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
     return true;
   });
 
-  const checkedCountInPillar = currentPillarItems.filter((it) =>
-    checkedItemIds.includes(it.id)
-  ).length;
-
   return (
-    <section id="traditions-pillars-explorer" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
+    <section id="traditions-pillars-explorer" className="py-12 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
       {/* Section Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-season-badge-bg border border-season-badge-border text-season-badge-text text-[11px] uppercase tracking-[0.25em] font-semibold">
-          <span className="w-2 h-2 rounded-full bg-season-accent"></span>
-          <span>HIMACHAL HERITAGE PILLARS • 6 LIVING TRADITIONS</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-season-badge-border text-season-accent text-xs font-bold uppercase tracking-widest shadow-xs">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>सजीव परंपराएं • Living Traditions of Devbhoomi</span>
         </div>
 
-        <h2 className="text-3xl sm:text-4xl font-serif text-season-heading font-bold tracking-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#2c1d11] tracking-tight">
           {scriptMode === 'bilingual' ? (
-            <span>६ प्रमुख धरोहर स्तम्भ एवं सजीव परंपराएं</span>
+            <span>६ प्रमुख धरोहर स्तम्भ <span className="block text-xl sm:text-2xl font-sans font-normal text-season-accent mt-1">The 6 Pillars of Himachali Heritage</span></span>
           ) : (
             <span>The 6 Pillars of Himachali Heritage</span>
           )}
@@ -207,18 +174,18 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
         <p className="text-sm sm:text-base text-[#5c4a3b] leading-relaxed">
           {scriptMode === 'bilingual' ? (
             <span>
-              काष्ठ-कुणी व पैगोडा स्थापत्य, पारंपरिक मेले व देव समागम, पहाड़ी धाम व व्यंजन, लिपि व पांडुलिपियां, और लोक गाथाओं का संग्रह।
+              काष्ठ-कुणी व पैगोडा स्थापत्य, पारंपरिक देव मेले व उत्सव, पारंपरिक धाम, टांकरी लिपि व पांडुलिपियां, और सदियों पुरानी लोक गाथाओं का समग्र संकलन।
             </span>
           ) : (
             <span>
-              Explore in-depth documentation of earthquake-resistant temples, sacred devta melas, authentic royal cuisine, ancient manuscripts, and pastoral legends. Mark what you have experienced or choose to explore!
+              Explore in-depth documentation of earthquake-resistant timber temples, sacred devta melas, authentic royal cuisine, ancient manuscripts, and pastoral mountain legends.
             </span>
           )}
         </p>
       </div>
 
       {/* 6 Tradition Subpage Tabs */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {HERITAGE_PILLARS_META.map((pillar) => {
           const isActive = activePillarId === pillar.id;
           const IconComp =
@@ -245,23 +212,23 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                   setActivePillarId(pillar.id);
                 }
               }}
-              className={`p-3 rounded-2xl border text-left flex flex-col justify-between gap-2 transition-all cursor-pointer backdrop-blur-md ${
+              className={`p-3.5 rounded-[22px] border text-left flex flex-col justify-between gap-2.5 transition-all duration-300 cursor-pointer backdrop-blur-md ${
                 isActive
-                  ? 'bg-season-badge-bg border-season-accent shadow-md scale-102'
-                  : 'bg-white/60 border-[#e5d8c7]/80 hover:bg-white/90 text-[#5c4a3b]'
+                  ? 'bg-season-badge-bg border-season-accent shadow-md scale-102 ring-2 ring-season-accent/20'
+                  : 'bg-white/65 border-[#e5d8c7]/80 hover:bg-white/95 text-[#5c4a3b] hover:shadow-xs'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div
-                  className={`p-2 rounded-xl border ${
+                  className={`p-2 rounded-xl border transition-colors ${
                     isActive
-                      ? 'bg-season-accent text-white border-season-accent'
-                      : 'bg-white/70 text-season-accent border-[#e5d8c7]'
+                      ? 'bg-season-accent text-white border-season-accent shadow-xs'
+                      : 'bg-white/80 text-season-accent border-[#e5d8c7]'
                   }`}
                 >
                   <IconComp className="w-4 h-4" />
                 </div>
-                <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider bg-white/70 border border-[#e5d8c7] text-[#7a695a]">
+                <span className="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-white/80 border border-[#e5d8c7] text-[#7a695a]">
                   {pillar.countBadge.split(' ')[0]}
                 </span>
               </div>
@@ -279,17 +246,17 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
         })}
       </div>
 
-      {/* Active Subpage Banner */}
+      {/* Active Pillar Showcase Banner */}
       <div
-        className="rounded-3xl p-6 sm:p-8 border-2 border-season-badge-border shadow-md relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6"
+        className="rounded-[32px] p-6 sm:p-8 border border-season-badge-border shadow-md relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-2xl"
         style={{
           background: `linear-gradient(135deg, var(--season-bg-start, #fffbeb), var(--season-bg-mid, #fef3c7))`,
         }}
       >
-        <div className="space-y-3 max-w-2xl text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-season-badge-border text-season-accent text-xs font-bold uppercase tracking-wider">
+        <div className="space-y-2.5 max-w-2xl text-left">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-season-badge-border text-season-accent text-xs font-bold uppercase tracking-wider shadow-xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Active Tradition Focus</span>
+            <span>Heritage Focus • {currentPillarMeta.title}</span>
           </div>
 
           <div className="space-y-1">
@@ -299,250 +266,191 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                 ({currentPillarMeta.titleHindi})
               </span>
             </h3>
-            <p className="text-xs sm:text-sm text-[#5c4a3b] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#4a392b] leading-relaxed">
               {currentPillarMeta.desc}
             </p>
           </div>
-
-          {/* Checklist Status & Progress */}
-          <div className="flex flex-wrap items-center gap-4 pt-1">
-            <div className="flex items-center gap-2 bg-white/90 px-3.5 py-1.5 rounded-full border border-season-badge-border text-xs text-[#2c1d11] font-semibold">
-              <CheckCircle2 className="w-4 h-4 text-season-accent" />
-              <span>
-                <strong>{checkedCountInPillar}</strong> of <strong>{currentPillarItems.length}</strong> items marked as explored / checked
-              </span>
-            </div>
-
-            <div className="w-32 sm:w-40 bg-white/80 rounded-full h-2.5 overflow-hidden border border-season-badge-border">
-              <div
-                className="h-full bg-season-accent transition-all duration-500 rounded-full"
-                style={{
-                  width: `${
-                    currentPillarItems.length > 0
-                      ? Math.round((checkedCountInPillar / currentPillarItems.length) * 100)
-                      : 0
-                  }%`,
-                }}
-              />
-            </div>
-          </div>
         </div>
 
-        {/* Action Button: Add Content / Tradition */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+        {/* Action Button: Add Entry */}
+        <div className="flex items-center gap-3 shrink-0">
           <button
             id="open-add-tradition-btn"
             onClick={() => {
               setNewPillarId(activePillarId);
               setShowAddModal(true);
             }}
-            className="px-5 py-3 rounded-xl bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all flex items-center gap-2 cursor-pointer hover:scale-102"
+            className="px-5 py-2.5 rounded-full bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all flex items-center gap-2 cursor-pointer hover:scale-102"
           >
             <Plus className="w-4 h-4" />
-            <span>Add Content / New Entry</span>
+            <span>Contribute Entry • प्रविष्टि जोड़ें</span>
           </button>
         </div>
       </div>
 
       {/* Filter and Search Toolbar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-[#e5d8c7] shadow-sm">
-        {/* Checklist Filter Tabs */}
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/75 backdrop-blur-xl p-4 rounded-2xl border border-[#e5d8c7]/90 shadow-xs">
+        {/* Region Filter Buttons */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full scrollbar-none">
           <button
-            onClick={() => setFilterMode('all')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer backdrop-blur-md ${
-              filterMode === 'all'
+            onClick={() => setSelectedRegionFilter('all')}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              selectedRegionFilter === 'all'
                 ? 'bg-season-accent text-white shadow-xs font-bold'
-                : 'bg-white/60 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white/90 border border-[#e5d8c7]/80'
+                : 'bg-white/70 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white border border-[#e5d8c7]'
             }`}
           >
-            All Items ({currentPillarItems.length})
+            All Regions ({currentPillarItems.length})
           </button>
-          <button
-            onClick={() => setFilterMode('checked')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md ${
-              filterMode === 'checked'
-                ? 'bg-season-accent text-white shadow-xs font-bold'
-                : 'bg-white/60 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white/90 border border-[#e5d8c7]/80'
-            }`}
-          >
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>Checked ({checkedCountInPillar})</span>
-          </button>
-          <button
-            onClick={() => setFilterMode('unchecked')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer backdrop-blur-md ${
-              filterMode === 'unchecked'
-                ? 'bg-season-accent text-white shadow-xs font-bold'
-                : 'bg-white/60 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white/90 border border-[#e5d8c7]/80'
-            }`}
-          >
-            Unchecked ({currentPillarItems.length - checkedCountInPillar})
-          </button>
+          {regionsInPillar.map((reg) => (
+            <button
+              key={reg}
+              onClick={() => setSelectedRegionFilter(reg)}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                selectedRegionFilter === reg
+                  ? 'bg-season-accent text-white shadow-xs font-bold'
+                  : 'bg-white/70 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white border border-[#e5d8c7]'
+              }`}
+            >
+              {reg}
+            </button>
+          ))}
         </div>
 
         {/* Search Bar */}
-        <div className="relative w-full sm:w-72">
+        <div className="relative w-full sm:w-64 shrink-0">
           <Search className="w-3.5 h-3.5 text-[#7a695a] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search items, regions, lore..."
-            className="w-full bg-white/60 backdrop-blur-md border border-[#d5be9d]/80 rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#2c1d11] placeholder-[#a89988] focus:outline-none focus:border-season-accent"
+            placeholder="Search traditions, lore..."
+            className="w-full bg-white border border-[#d5be9d] rounded-full pl-9 pr-3 py-1.5 text-xs text-[#2c1d11] placeholder-[#a89988] focus:outline-none focus:border-season-accent"
           />
         </div>
       </div>
 
-      {/* Grid of Heritage Items for Active Pillar */}
+      {/* Grid of Heritage Items */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {displayItems.map((item) => {
-          const isChecked = checkedItemIds.includes(item.id);
+        {displayItems.map((item) => (
+          <div
+            key={item.id}
+            id={`tradition-card-${item.id}`}
+            className="group rounded-[28px] overflow-hidden bg-white/80 backdrop-blur-xl border border-[#e5d8c7]/90 hover:border-season-accent shadow-sm hover:shadow-xl hover:bg-white/95 transition-all duration-300 flex flex-col justify-between"
+          >
+            {/* Image Banner */}
+            <div className="relative h-52 overflow-hidden bg-[#f4ebe1]">
+              <img
+                src={item.imageUrl}
+                alt={item.nameEnglish}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2c1d11]/85 via-transparent to-transparent" />
 
-          return (
-            <div
-              key={item.id}
-              id={`tradition-card-${item.id}`}
-              className="group rounded-3xl overflow-hidden bg-white/70 backdrop-blur-xl border border-[#e5d8c7]/80 hover:border-season-accent shadow-sm hover:shadow-xl hover:bg-white/85 transition-all duration-300 flex flex-col justify-between"
-            >
-              {/* Image Banner */}
-              <div className="relative h-52 overflow-hidden bg-[#f4ebe1]">
-                <img
-                  src={item.imageUrl}
-                  alt={item.nameEnglish}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2c1d11]/85 via-transparent to-transparent" />
-
-                {/* Region & Category Badge */}
-                <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5">
-                  <span className="px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[10px] uppercase tracking-wider font-bold text-season-accent border border-[#e5d8c7] shadow-xs">
-                    {item.region}
-                  </span>
-                  <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] uppercase tracking-wider font-semibold text-[#5c4a3b] border border-[#e5d8c7] shadow-xs">
-                    {item.category}
-                  </span>
-                </div>
-
-                {/* Interactive "Check / Choose to Check" Button */}
-                <button
-                  id={`toggle-check-${item.id}`}
-                  onClick={(e) => toggleCheck(item.id, e)}
-                  className={`absolute top-3 right-3 p-2 rounded-xl backdrop-blur-md border transition-all cursor-pointer flex items-center gap-1.5 shadow-sm ${
-                    isChecked
-                      ? 'bg-emerald-600 text-white border-emerald-500 font-bold'
-                      : 'bg-white/90 hover:bg-white text-[#5c4a3b] hover:text-[#2c1d11] border-[#e5d8c7]'
-                  }`}
-                  title={isChecked ? 'Marked as Explored / Checked. Click to Uncheck' : 'Click to Mark as Explored / Checked'}
-                >
-                  {isChecked ? (
-                    <>
-                      <CheckCircle2 className="w-4 h-4 text-white" />
-                      <span className="text-[10px] uppercase font-bold tracking-wide pr-0.5">Checked</span>
-                    </>
-                  ) : (
-                    <>
-                      <Circle className="w-4 h-4 text-[#7a695a]" />
-                      <span className="text-[10px] uppercase font-semibold tracking-wide pr-0.5">Check</span>
-                    </>
-                  )}
-                </button>
-
-                {/* Title overlay on Image in English & Hindi */}
-                <div className="absolute bottom-3 left-4 right-4">
-                  <div className="text-xl font-serif text-white font-bold tracking-tight drop-shadow-md">
-                    {item.nameEnglish}
-                  </div>
-                  <div className="text-sm font-serif text-[#f4d19b] font-medium drop-shadow-xs">
-                    {item.nameHindi}
-                  </div>
-                </div>
+              {/* Region & Category Badges */}
+              <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5">
+                <span className="px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[10px] uppercase tracking-wider font-bold text-season-accent border border-[#e5d8c7] shadow-xs">
+                  {item.region}
+                </span>
+                <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] uppercase tracking-wider font-semibold text-[#5c4a3b] border border-[#e5d8c7] shadow-xs">
+                  {item.category}
+                </span>
               </div>
 
-              {/* Card Body */}
-              <div className="p-5 space-y-4 flex-1 flex flex-col justify-between bg-white">
-                <div className="space-y-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <h3 className="text-base font-serif font-bold text-[#2c1d11] group-hover:text-season-accent transition-colors leading-snug">
-                        {item.nameEnglish}
-                      </h3>
-                      <div className="text-xs text-season-accent font-serif font-semibold pt-0.5">
-                        {item.nameHindi}
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => speakPhonetic(item.nameHindi)}
-                      className="p-1.5 rounded-lg text-[#8a7b6e] hover:text-season-accent hover:bg-[#faf6f0] transition-colors cursor-pointer shrink-0"
-                      title="Pronounce Hindi Name"
-                    >
-                      <Volume2 className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  <p className="text-xs text-[#5c4a3b] leading-relaxed line-clamp-3">
-                    {item.shortDescriptionEnglish}
-                  </p>
-
-                  {/* Highlights Pill */}
-                  {item.keyFeatures && item.keyFeatures.length > 0 && (
-                    <div className="pt-1 flex flex-wrap gap-1">
-                      {item.keyFeatures.slice(0, 2).map((kf, idx) => (
-                        <span
-                          key={idx}
-                          className="text-[10px] px-2 py-0.5 rounded-md bg-[#faf6f0] border border-[#ebd8c5] text-[#7a695a] font-medium"
-                        >
-                          ✦ {kf}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+              {/* Title Overlay */}
+              <div className="absolute bottom-3 left-4 right-4">
+                <div className="text-xl font-serif text-white font-bold tracking-tight drop-shadow-md">
+                  {item.nameEnglish}
                 </div>
-
-                {/* Card Action Footer */}
-                <div className="pt-3 border-t border-[#f0e6da] flex items-center justify-between gap-2">
-                  <span className="text-[11px] text-[#7a695a] font-medium">
-                    {item.valley}
-                  </span>
-
-                  <button
-                    id={`view-details-${item.id}`}
-                    onClick={() => setSelectedItem(item)}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-season-accent hover:opacity-90 text-white text-xs font-bold uppercase tracking-tight shadow-sm transition-all cursor-pointer"
-                  >
-                    <BookOpen className="w-3.5 h-3.5" />
-                    <span>Know More • विस्तृत विवरण</span>
-                  </button>
+                <div className="text-sm font-serif text-[#f4d19b] font-medium drop-shadow-xs">
+                  {item.nameHindi}
                 </div>
               </div>
             </div>
-          );
-        })}
+
+            {/* Card Body */}
+            <div className="p-5 space-y-4 flex-1 flex flex-col justify-between bg-white/70">
+              <div className="space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h3 className="text-base font-serif font-bold text-[#2c1d11] group-hover:text-season-accent transition-colors leading-snug">
+                      {item.nameEnglish}
+                    </h3>
+                    <div className="text-xs text-season-accent font-serif font-semibold pt-0.5">
+                      {item.nameHindi}
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => speakPhonetic(item.nameHindi)}
+                    className="p-1.5 rounded-full text-[#8a7b6e] hover:text-season-accent hover:bg-[#faf6f0] transition-colors cursor-pointer shrink-0"
+                    title="Pronounce Hindi Name"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <p className="text-xs text-[#5c4a3b] leading-relaxed line-clamp-3">
+                  {item.shortDescriptionEnglish}
+                </p>
+
+                {/* Highlights Pill */}
+                {item.keyFeatures && item.keyFeatures.length > 0 && (
+                  <div className="pt-1 flex flex-wrap gap-1">
+                    {item.keyFeatures.slice(0, 2).map((kf, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[10px] px-2.5 py-0.5 rounded-full bg-white border border-[#ebd8c5] text-[#6b5847] font-medium"
+                      >
+                        ✦ {kf}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Card Action Footer */}
+              <div className="pt-3 border-t border-[#f0e6da] flex items-center justify-between gap-2">
+                <span className="text-[11px] text-[#7a695a] font-medium">
+                  {item.valley}
+                </span>
+
+                <button
+                  id={`view-details-${item.id}`}
+                  onClick={() => setSelectedItem(item)}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-season-accent hover:opacity-90 text-white text-xs font-bold uppercase tracking-tight shadow-xs transition-all cursor-pointer"
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Know More • विस्तृत विवरण</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Empty State */}
       {displayItems.length === 0 && (
-        <div className="p-12 text-center bg-white rounded-3xl border-2 border-dashed border-[#d5be9d] space-y-4 max-w-lg mx-auto">
+        <div className="p-12 text-center bg-white/80 rounded-3xl border-2 border-dashed border-[#d5be9d] space-y-4 max-w-lg mx-auto">
           <Sparkles className="w-8 h-8 text-season-accent mx-auto" />
           <h4 className="font-serif font-bold text-base text-[#2c1d11]">No Traditions Found</h4>
           <p className="text-xs text-[#7a695a]">
-            Try adjusting your search keywords or filter options.
+            Try adjusting your search keywords or region filter.
           </p>
           <button
             onClick={() => {
               setSearchQuery('');
-              setFilterMode('all');
+              setSelectedRegionFilter('all');
             }}
-            className="px-4 py-2 rounded-xl bg-season-accent text-white text-xs font-bold uppercase tracking-wider cursor-pointer"
+            className="px-4 py-2 rounded-full bg-season-accent text-white text-xs font-bold uppercase tracking-wider cursor-pointer"
           >
             Reset Filters
           </button>
         </div>
       )}
 
-      {/* ================= MODAL: ADD NEW CONTENT / TRADITION ================= */}
+      {/* ================= MODAL: ADD NEW ENTRY ================= */}
       {showAddModal && (
         <div
           id="add-tradition-modal"
@@ -550,7 +458,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
           onClick={() => setShowAddModal(false)}
         >
           <div
-            className="relative w-full max-w-2xl rounded-3xl bg-[#fdfcf9] border-2 border-season-accent shadow-2xl p-6 sm:p-8 space-y-6 my-8 max-h-[90vh] overflow-y-auto text-[#2c1d11]"
+            className="relative w-full max-w-2xl rounded-[32px] bg-[#fdfcf9] border-2 border-season-accent shadow-2xl p-6 sm:p-8 space-y-6 my-8 max-h-[90vh] overflow-y-auto text-[#2c1d11]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-[#e5d8c7]">
@@ -562,14 +470,13 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
               </div>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="p-1.5 rounded-xl hover:bg-[#faf6f0] text-[#7a695a] cursor-pointer"
+                className="p-1.5 rounded-full hover:bg-[#faf6f0] text-[#7a695a] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleCreateTradition} className="space-y-4">
-              {/* Select Tradition Pillar */}
               <div className="space-y-1">
                 <label className="block text-[11px] uppercase tracking-wider text-[#5c4a3b] font-bold">
                   Heritage Pillar Category (स्तम्भ चुनें)
@@ -592,7 +499,6 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                 </div>
               </div>
 
-              {/* Title Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[11px] uppercase tracking-wider text-[#5c4a3b] font-bold mb-1">
@@ -622,7 +528,6 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                 </div>
               </div>
 
-              {/* Region & Valley */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[11px] uppercase tracking-wider text-[#5c4a3b] font-bold mb-1">
@@ -641,6 +546,10 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                     <option value="Lahaul-Spiti">Lahaul-Spiti (लाहौल-स्पीति)</option>
                     <option value="Kinnaur">Kinnaur (किन्नौर)</option>
                     <option value="Sirmaur">Sirmaur (सिरमौर)</option>
+                    <option value="Solan">Solan (सोलन)</option>
+                    <option value="Bilaspur">Bilaspur (बिलासपुर)</option>
+                    <option value="Hamirpur">Hamirpur (हमीरपुर)</option>
+                    <option value="Una">Una (ऊना)</option>
                   </select>
                 </div>
 
@@ -652,13 +561,12 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                     type="text"
                     value={newValley}
                     onChange={(e) => setNewValley(e.target.value)}
-                    placeholder="e.g. Parvati Valley, Sangla Valley, Uhl Valley..."
+                    placeholder="e.g. Parvati Valley, Sangla Valley..."
                     className="w-full bg-white border border-[#d5be9d] rounded-xl px-3 py-2 text-xs text-[#2c1d11] focus:outline-none focus:border-season-accent"
                   />
                 </div>
               </div>
 
-              {/* Short Description */}
               <div>
                 <label className="block text-[11px] uppercase tracking-wider text-[#5c4a3b] font-bold mb-1">
                   Short Summary (संक्षिप्त विवरण):
@@ -673,21 +581,19 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                 />
               </div>
 
-              {/* Detailed Narrative */}
               <div>
                 <label className="block text-[11px] uppercase tracking-wider text-[#5c4a3b] font-bold mb-1">
-                  Detailed History / Lore / Cultural Context (विस्तृत इतिहास व संदर्भ):
+                  Detailed History / Lore / Cultural Context:
                 </label>
                 <textarea
                   value={newFullStory}
                   onChange={(e) => setNewFullStory(e.target.value)}
                   rows={3}
-                  placeholder="Share the full story, ancient origins, preparation steps, or community practices..."
+                  placeholder="Share the full story, ancient origins, or community practices..."
                   className="w-full bg-white border border-[#d5be9d] rounded-xl p-3 text-xs text-[#2c1d11] focus:outline-none focus:border-season-accent"
                 />
               </div>
 
-              {/* Key Features & Image URL */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[11px] uppercase tracking-wider text-[#5c4a3b] font-bold mb-1">
@@ -697,7 +603,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                     type="text"
                     value={newKeyFeature}
                     onChange={(e) => setNewKeyFeature(e.target.value)}
-                    placeholder="e.g. Timber deodar tie beams, slow curd reduction..."
+                    placeholder="e.g. Deodar interlocking beams..."
                     className="w-full bg-white border border-[#d5be9d] rounded-xl px-3 py-2 text-xs text-[#2c1d11] focus:outline-none focus:border-season-accent"
                   />
                 </div>
@@ -716,18 +622,17 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                 </div>
               </div>
 
-              {/* Submit Buttons */}
               <div className="pt-4 border-t border-[#e5d8c7] flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-xl text-xs uppercase tracking-wider text-[#7a695a] font-semibold cursor-pointer"
+                  className="px-4 py-2 rounded-full text-xs uppercase tracking-wider text-[#7a695a] font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer"
+                  className="px-6 py-2.5 rounded-full bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer"
                 >
                   Add to Heritage Record
                 </button>
@@ -737,7 +642,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
         </div>
       )}
 
-      {/* ================= MODAL: DETAILED TRADITION DOSSIER ================= */}
+      {/* ================= MODAL: DETAILED DOSSIER ================= */}
       {selectedItem && (
         <div
           id="tradition-details-modal"
@@ -745,10 +650,9 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
           onClick={() => setSelectedItem(null)}
         >
           <div
-            className="relative w-full max-w-3xl rounded-3xl bg-[#fdfcf9] border-2 border-season-accent shadow-2xl p-6 sm:p-8 space-y-6 my-8 max-h-[90vh] overflow-y-auto text-[#2c1d11]"
+            className="relative w-full max-w-3xl rounded-[32px] bg-[#fdfcf9] border-2 border-season-accent shadow-2xl p-6 sm:p-8 space-y-6 my-8 max-h-[90vh] overflow-y-auto text-[#2c1d11]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Top Bar */}
             <div className="flex items-center justify-between pb-3 border-b border-[#e5d8c7]">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 bg-season-accent rounded-full"></span>
@@ -760,14 +664,14 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleShare(selectedItem)}
-                  className="p-2 rounded-xl bg-[#faf6f0] hover:bg-[#f5ece2] text-[#5c4a3b] cursor-pointer"
+                  className="p-2 rounded-full bg-[#faf6f0] hover:bg-[#f5ece2] text-[#5c4a3b] cursor-pointer"
                   title="Share"
                 >
                   <Share2 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setSelectedItem(null)}
-                  className="p-2 rounded-xl bg-[#faf6f0] hover:bg-[#f5ece2] text-[#5c4a3b] cursor-pointer"
+                  className="p-2 rounded-full bg-[#faf6f0] hover:bg-[#f5ece2] text-[#5c4a3b] cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -781,7 +685,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
             )}
 
             {/* Hero Image */}
-            <div className="relative h-64 rounded-2xl overflow-hidden shadow-inner bg-[#f0e6da]">
+            <div className="relative h-64 rounded-[22px] overflow-hidden shadow-inner bg-[#f0e6da]">
               <img
                 src={selectedItem.imageUrl}
                 alt={selectedItem.nameEnglish}
@@ -803,37 +707,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
               </div>
             </div>
 
-            {/* Checklist Toggle inside Modal */}
-            <div className="flex items-center justify-between p-4 rounded-2xl bg-white border border-[#e5d8c7] shadow-xs">
-              <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-season-badge-bg text-season-accent border border-season-badge-border">
-                  <CheckCircle2 className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#2c1d11]">
-                    Experience & Exploration Tracker
-                  </h4>
-                  <p className="text-[11px] text-[#7a695a]">
-                    {checkedItemIds.includes(selectedItem.id)
-                      ? 'You have marked this heritage item as experienced / explored!'
-                      : 'Choose to check this item to track your exploration journey across Himachal.'}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => toggleCheck(selectedItem.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
-                  checkedItemIds.includes(selectedItem.id)
-                    ? 'bg-emerald-600 text-white border-emerald-500'
-                    : 'bg-white text-season-accent border-season-accent hover:bg-season-badge-bg'
-                }`}
-              >
-                {checkedItemIds.includes(selectedItem.id) ? '✓ Checked' : '+ Check Item'}
-              </button>
-            </div>
-
-            {/* History & Story Section */}
+            {/* History & Narrative */}
             <div className="space-y-4 text-left">
               <div className="p-5 rounded-2xl bg-white border border-[#e5d8c7] space-y-2">
                 <div className="flex items-center justify-between">
@@ -842,7 +716,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                   </span>
                   <button
                     onClick={() => speakPhonetic(selectedItem.nameEnglish)}
-                    className="p-1 rounded bg-[#faf6f0] text-season-accent cursor-pointer"
+                    className="p-1.5 rounded-full bg-[#faf6f0] text-season-accent cursor-pointer"
                   >
                     <Volume2 className="w-3.5 h-3.5" />
                   </button>
@@ -858,7 +732,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                   <span>हिंदी ऐतिहासिक वृत्तांत (Hindi Chronicle)</span>
                   <button
                     onClick={() => speakPhonetic(selectedItem.fullStoryHindi)}
-                    className="p-1 rounded bg-white text-season-accent cursor-pointer"
+                    className="p-1.5 rounded-full bg-white text-season-accent cursor-pointer"
                   >
                     <Volume2 className="w-3.5 h-3.5" />
                   </button>
@@ -868,12 +742,12 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                 </p>
               </div>
 
-              {/* Recipe / Culinary Specific Details */}
+              {/* Culinary details */}
               {selectedItem.recipeIngredients && selectedItem.recipeIngredients.length > 0 && (
                 <div className="p-5 rounded-2xl bg-white border border-[#e5d8c7] space-y-3">
                   <div className="flex items-center gap-2 text-season-accent font-serif font-bold text-sm">
                     <ChefHat className="w-4 h-4" />
-                    <span>Traditional Cooking & Ingredients:</span>
+                    <span>Traditional Preparation & Ingredients:</span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#5c4a3b]">
                     {selectedItem.recipeIngredients.map((ing, idx) => (
@@ -886,7 +760,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                 </div>
               )}
 
-              {/* Architectural Construction Details */}
+              {/* Construction Details */}
               {selectedItem.constructionDetails && (
                 <div className="p-5 rounded-2xl bg-white border border-[#e5d8c7] space-y-2">
                   <div className="flex items-center gap-2 text-season-accent font-serif font-bold text-sm">
@@ -899,7 +773,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
                 </div>
               )}
 
-              {/* Key Features List */}
+              {/* Key Features */}
               {selectedItem.keyFeatures && selectedItem.keyFeatures.length > 0 && (
                 <div className="space-y-2 pt-1">
                   <span className="text-xs font-bold uppercase tracking-wider text-season-accent block">
@@ -923,7 +797,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
             <div className="pt-4 border-t border-[#e5d8c7] flex items-center justify-end gap-3">
               <button
                 onClick={() => setSelectedItem(null)}
-                className="px-6 py-2.5 rounded-xl bg-season-accent text-white font-bold text-xs uppercase tracking-wider shadow-md cursor-pointer"
+                className="px-6 py-2.5 rounded-full bg-season-accent text-white font-bold text-xs uppercase tracking-wider shadow-md cursor-pointer"
               >
                 Close Dossier
               </button>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HIMACHAL_LANGUAGES, HimachalLanguage } from '../data/himachalLanguages';
 import { ScriptMode } from '../types';
-import { Volume2, Languages, BookOpen, MessageSquare, Sparkles, CheckCircle } from 'lucide-react';
+import { Volume2, Languages, BookOpen, Sparkles, Feather, MapPin, Quote, Cloud, Music } from 'lucide-react';
 import { speakPhonetic } from '../utils/audioAmbience';
 
 interface LanguagesSectionProps {
@@ -25,22 +25,22 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
     speakPhonetic(text);
     setTimeout(() => {
       setSpeakingText(null);
-    }, 1500);
+    }, 2000);
   };
 
   return (
     <section id="himachal-languages-section" className="py-12 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-md border border-season-badge-border text-season-accent text-xs font-bold uppercase tracking-widest shadow-xs">
-          <Languages className="w-3.5 h-3.5" />
-          <span>हिमाचली बोलियां एवं भाषाएं • Western Pahari & Himalayan Tongues</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-season-badge-border text-season-accent text-xs font-bold uppercase tracking-widest shadow-xs">
+          <Cloud className="w-3.5 h-3.5" />
+          <span>हिमाचली बोलियां एवं भाषाएं • Western Pahari & Himalayan Dialects</span>
         </div>
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#2c1d11] tracking-tight">
           {scriptMode === 'bilingual' ? (
-            <span>हिमाचल की भाषाएं व बोलियां <span className="block text-xl sm:text-2xl font-sans font-normal text-season-accent mt-1">Languages of Himachal Pradesh</span></span>
+            <span>हिमाचल की भाषाएं व बोलियां <span className="block text-xl sm:text-2xl font-sans font-normal text-season-accent mt-1">Languages & Dialects of Himachal Pradesh</span></span>
           ) : (
-            <span>Languages of Himachal Pradesh</span>
+            <span>Languages & Dialects of Himachal Pradesh</span>
           )}
         </h2>
         <p className="text-sm sm:text-base text-[#5c4a3b] leading-relaxed">
@@ -48,74 +48,120 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
         </p>
       </div>
 
-      {/* Language Selector Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none justify-start sm:justify-center">
-        {HIMACHAL_LANGUAGES.map((lang) => {
-          const isSelected = lang.id === selectedLang.id;
-          return (
-            <button
-              key={lang.id}
-              onClick={() => setSelectedLangId(lang.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md ${
-                isSelected
-                  ? 'bg-season-accent text-white font-bold shadow-md scale-102'
-                  : 'bg-white/60 text-[#5c4a3b] hover:bg-white/90 border border-[#e5d8c7]/80'
-              }`}
-            >
-              <span>{lang.name}</span>
-              <span className="opacity-75 text-[10px]">({lang.nameHindi})</span>
-            </button>
-          );
-        })}
+      {/* Cloudy / Organic Curved Shape Language Selector Tabs */}
+      <div className="relative">
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-4 pt-1 px-2 scrollbar-none justify-start lg:justify-center flex-nowrap">
+          {HIMACHAL_LANGUAGES.map((lang) => {
+            const isSelected = lang.id === selectedLang.id;
+            return (
+              <button
+                key={lang.id}
+                id={`lang-pill-${lang.id}`}
+                onClick={() => setSelectedLangId(lang.id)}
+                className={`group relative px-4 py-2.5 rounded-[26px] text-xs font-semibold whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 backdrop-blur-md shadow-xs ${
+                  isSelected
+                    ? 'bg-season-accent text-white font-bold shadow-md scale-105 ring-2 ring-season-accent/30 -translate-y-0.5'
+                    : 'bg-white/65 hover:bg-white/95 text-[#5c4a3b] hover:text-[#2c1d11] border border-[#e5d8c7]/90 hover:shadow-sm'
+                }`}
+                style={{
+                  borderRadius: '26px 26px 22px 22px',
+                }}
+              >
+                {/* Cloud-like top curve highlight */}
+                <div className={`w-2 h-2 rounded-full transition-transform ${isSelected ? 'bg-white scale-110' : 'bg-season-accent/40 group-hover:bg-season-accent'}`} />
+                <span className="tracking-wide">{lang.name}</span>
+                <span className={`text-[10px] font-normal ${isSelected ? 'text-white/85' : 'text-[#8a7665]'}`}>
+                  ({lang.nameHindi})
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Active Language Detailed Card */}
-      <div className="bg-white/75 backdrop-blur-2xl rounded-3xl border border-[#e5d8c7]/90 shadow-xl p-6 sm:p-8 space-y-8">
+      {/* Active Language Detailed Showcase (Cloud-curved container) */}
+      <div
+        className="bg-white/80 backdrop-blur-2xl border border-[#e5d8c7]/90 shadow-xl p-6 sm:p-9 space-y-8 transition-all duration-300"
+        style={{
+          borderRadius: '36px',
+        }}
+      >
         {/* Language Identity Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#e5d8c7]/80">
-          <div>
-            <div className="flex items-center gap-3">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 pb-6 border-b border-[#e5d8c7]/80">
+          <div className="space-y-1.5">
+            <div className="flex flex-wrap items-center gap-3">
               <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#2c1d11]">
-                {selectedLang.name} <span className="text-season-accent text-lg font-sans font-normal">({selectedLang.nameHindi})</span>
+                {selectedLang.name}
               </h3>
-              <span className="text-2xl font-serif text-season-accent">{selectedLang.nameTakri}</span>
+              <span className="text-xl sm:text-2xl text-season-accent font-sans font-medium">
+                ({selectedLang.nameHindi})
+              </span>
+              <span className="text-2xl sm:text-3xl font-serif text-season-accent px-3 py-0.5 rounded-full bg-season-badge-bg/60 border border-season-badge-border/60">
+                {selectedLang.nameTakri}
+              </span>
+              <button
+                onClick={() => handleSpeak(selectedLang.nameHindi, `lang-name-${selectedLang.id}`)}
+                className={`p-2 rounded-full border transition-all cursor-pointer shadow-xs ${
+                  speakingText === `lang-name-${selectedLang.id}`
+                    ? 'bg-season-accent text-white border-season-accent scale-110'
+                    : 'bg-white text-season-accent border-[#e5d8c7] hover:bg-[#faf6f0]'
+                }`}
+                title={`Listen to pronunciation of ${selectedLang.name}`}
+              >
+                <Volume2 className="w-4 h-4" />
+              </button>
             </div>
-            <p className="text-xs text-[#7a695a] pt-1">
-              <span className="font-semibold text-[#2c1d11]">Family:</span> {selectedLang.family} • <span className="font-semibold text-[#2c1d11]">Region:</span> {selectedLang.region}
-            </p>
+
+            <div className="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-[#7a695a]">
+              <span className="flex items-center gap-1 font-semibold text-[#2c1d11]">
+                <MapPin className="w-3.5 h-3.5 text-season-accent" />
+                {selectedLang.region}
+              </span>
+              <span>•</span>
+              <span><strong className="text-[#2c1d11]">Family:</strong> {selectedLang.family}</span>
+              <span>•</span>
+              <span><strong className="text-[#2c1d11]">Districts:</strong> {selectedLang.district}</span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs px-3 py-1.5 rounded-full bg-season-badge-bg/90 text-season-accent font-bold border border-season-badge-border/80">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <span className="text-xs px-3.5 py-1.5 rounded-full bg-season-badge-bg text-season-accent font-bold border border-season-badge-border">
               👥 {selectedLang.speakersCount}
             </span>
-            {onNavigateToTakri && (
+            {(onOpenTakriScript || onNavigateToTakri) && (
               <button
-                onClick={onNavigateToTakri}
-                className="text-xs px-3 py-1.5 rounded-full bg-season-accent text-white font-bold hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+                onClick={onOpenTakriScript || onNavigateToTakri}
+                className="text-xs px-4 py-2 rounded-full bg-season-accent text-white font-bold hover:opacity-90 transition-all cursor-pointer shadow-xs flex items-center gap-1.5"
               >
-                Learn Takri Script →
+                <Feather className="w-3.5 h-3.5" />
+                <span>Explore Takri Script →</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Narrative & Script History Grid */}
+        {/* Narrative & Historical Script Inscription Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2 bg-white/50 p-4 rounded-2xl border border-[#e5d8c7]/70">
+          <div
+            className="space-y-2.5 bg-white/60 p-5 border border-[#e5d8c7]/80"
+            style={{ borderRadius: '24px' }}
+          >
             <div className="flex items-center gap-2 text-season-accent text-xs font-bold uppercase tracking-wider">
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>Linguistic Profile & Heritage</span>
+              <BookOpen className="w-4 h-4" />
+              <span>Linguistic Profile & Cultural Heritage</span>
             </div>
             <p className="text-xs sm:text-sm text-[#3e2e21] leading-relaxed">
               {selectedLang.description}
             </p>
           </div>
 
-          <div className="space-y-2 bg-white/50 p-4 rounded-2xl border border-[#e5d8c7]/70">
+          <div
+            className="space-y-2.5 bg-white/60 p-5 border border-[#e5d8c7]/80"
+            style={{ borderRadius: '24px' }}
+          >
             <div className="flex items-center gap-2 text-season-accent text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Historic Script Usage (Takri & Manuscripts)</span>
+              <Sparkles className="w-4 h-4" />
+              <span>Historic Takri Script & Epigraphic Inscriptions</span>
             </div>
             <p className="text-xs sm:text-sm text-[#3e2e21] leading-relaxed">
               {selectedLang.scriptHistory}
@@ -123,75 +169,122 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
           </div>
         </div>
 
-        {/* Sample Native Phrases with Audio Pronunciation */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 text-[#2c1d11] font-serif text-lg font-bold">
-            <MessageSquare className="w-4 h-4 text-season-accent" />
-            <span>Interactive Spoken Phrases & Sayings</span>
+        {/* Traditional Proverbs & Oral Folk Wisdom (Without generic phrasebook) */}
+        {selectedLang.proverbs && selectedLang.proverbs.length > 0 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 text-[#2c1d11] font-serif text-lg font-bold">
+              <Quote className="w-4 h-4 text-season-accent" />
+              <span>Traditional Proverbs & Folk Sayings (लोक कहावतें)</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {selectedLang.proverbs.map((prv, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white/65 backdrop-blur-md p-5 border border-[#e5d8c7]/80 space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow"
+                  style={{ borderRadius: '22px' }}
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] uppercase font-bold text-season-accent tracking-wider px-2 py-0.5 rounded-full bg-season-badge-bg border border-season-badge-border">
+                        Pahari Proverb {idx + 1}
+                      </span>
+                      <button
+                        onClick={() => handleSpeak(prv.native, `prv-${idx}`)}
+                        className={`p-1.5 rounded-full border transition-all cursor-pointer ${
+                          speakingText === `prv-${idx}`
+                            ? 'bg-season-accent text-white border-season-accent scale-110'
+                            : 'bg-white text-season-accent border-[#e5d8c7] hover:bg-[#faf6f0]'
+                        }`}
+                        title="Pronounce proverb"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <h4 className="text-base sm:text-lg font-bold text-[#2c1d11] font-serif leading-snug">
+                      "{prv.native}"
+                    </h4>
+
+                    {prv.takri && (
+                      <p className="text-sm font-serif text-season-accent tracking-wide">
+                        {prv.takri}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="pt-2.5 border-t border-[#e5d8c7]/70 space-y-1">
+                    <p className="text-xs font-semibold text-[#2c1d11]">
+                      <strong>Meaning:</strong> {prv.meaning}
+                    </p>
+                    <p className="text-[11px] text-[#7a695a] leading-relaxed">
+                      {prv.culturalContext}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Sub-Dialects & Oral Folk Genres */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* Sub-Dialect Variations */}
+          <div
+            className="bg-white/55 p-4 sm:p-5 border border-[#e5d8c7]/70 space-y-3"
+            style={{ borderRadius: '22px' }}
+          >
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-season-accent">
+              <MapPin className="w-3.5 h-3.5" />
+              <span>Regional Sub-Dialects & Valley Variants</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {selectedLang.subDialects.map((dialect, idx) => (
+                <span
+                  key={idx}
+                  className="text-xs px-3 py-1.5 rounded-full bg-white/80 border border-[#e5d8c7] font-medium text-[#3e2e21]"
+                >
+                  {dialect}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {selectedLang.samplePhrases.map((phrase, idx) => (
-              <div
-                key={idx}
-                className="bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-[#e5d8c7]/80 space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow"
-              >
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-bold text-season-accent tracking-wider">
-                      Phrase {idx + 1}
-                    </span>
-                    <button
-                      onClick={() => handleSpeak(phrase.phraseNative, `phrase-${idx}`)}
-                      className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
-                        speakingText === `phrase-${idx}`
-                          ? 'bg-season-accent text-white border-season-accent scale-110'
-                          : 'bg-white text-season-accent border-[#e5d8c7] hover:bg-[#faf6f0]'
-                      }`}
-                      title="Listen to pronunciation"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                  
-                  {/* Native Script */}
-                  <h4 className="text-base sm:text-lg font-bold text-[#2c1d11]">
-                    {phrase.phraseNative}
-                  </h4>
-                  
-                  {/* Takri rendering */}
-                  <p className="text-sm font-serif text-season-accent">
-                    {phrase.phraseTakri}
-                  </p>
-
-                  {/* Phonetics */}
-                  <p className="text-xs text-[#7a695a] italic">
-                    "{phrase.phonetics}"
-                  </p>
-                </div>
-
-                <div className="pt-2 border-t border-[#e5d8c7]/60">
-                  <p className="text-xs font-medium text-[#3e2e21]">
-                    <strong>Meaning:</strong> {phrase.phraseEnglish}
-                  </p>
-                  <p className="text-[10px] text-[#8c7b6d] pt-0.5">
-                    {phrase.meaning}
-                  </p>
-                </div>
-              </div>
-            ))}
+          {/* Oral Singing & Ballad Genres */}
+          <div
+            className="bg-white/55 p-4 sm:p-5 border border-[#e5d8c7]/70 space-y-3"
+            style={{ borderRadius: '22px' }}
+          >
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-season-accent">
+              <Music className="w-3.5 h-3.5" />
+              <span>Folk Singing & Oral Ballad Traditions</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {selectedLang.folkGenres.map((genre, idx) => (
+                <span
+                  key={idx}
+                  className="text-xs px-3 py-1.5 rounded-full bg-season-badge-bg/70 border border-season-badge-border text-season-accent font-medium"
+                >
+                  {genre}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Unique Grammatical & Cultural Features */}
-        <div className="space-y-2 pt-2 border-t border-[#e5d8c7]/70">
+        {/* Distinctive Linguistic Hallmarks (Clean mention without checkboxes) */}
+        <div className="space-y-3 pt-2 border-t border-[#e5d8c7]/80">
           <span className="text-xs font-bold text-[#7a695a] uppercase tracking-wider block">
-            Distinctive Features of {selectedLang.name}
+            Distinctive Linguistic Characteristics of {selectedLang.name}
           </span>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {selectedLang.uniqueFeatures.map((feat, idx) => (
-              <div key={idx} className="flex items-start gap-2 text-xs text-[#4a392b] bg-white/40 p-2.5 rounded-xl border border-[#e5d8c7]/50">
-                <CheckCircle className="w-3.5 h-3.5 text-season-accent shrink-0 mt-0.5" />
+              <div
+                key={idx}
+                className="flex items-start gap-2.5 text-xs text-[#3e2e21] bg-white/60 p-3 border border-[#e5d8c7]/70 leading-relaxed"
+                style={{ borderRadius: '18px' }}
+              >
+                <div className="w-2 h-2 rounded-full bg-season-accent mt-1.5 shrink-0" />
                 <span>{feat}</span>
               </div>
             ))}
