@@ -1,5 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Feather, MapPin, BookOpen, MessageSquare, History, Sparkles, Mountain, Calendar, Languages, Image as ImageIcon, Compass, Home as HomeIcon } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Volume2,
+  VolumeX,
+  Feather,
+  MapPin,
+  BookOpen,
+  MessageSquare,
+  History,
+  Sparkles,
+  Mountain,
+  Calendar,
+  Languages,
+  Image as ImageIcon,
+  Compass,
+  Home as HomeIcon,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
 import { ScriptMode, NavigationTab } from '../types';
 import { HimachalSeason, HIMACHAL_SEASONS } from '../utils/seasons';
 import { SeasonThemeSelector } from './SeasonThemeSelector';
@@ -35,6 +52,9 @@ export const Header: React.FC<HeaderProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [showAudioFeedback, setShowAudioFeedback] = useState<string | null>(null);
 
+  const desktopNavRef = useRef<HTMLDivElement | null>(null);
+  const mobileNavRef = useRef<HTMLDivElement | null>(null);
+
   const activeSeasonData = HIMACHAL_SEASONS[currentSeason] || HIMACHAL_SEASONS.monsoon;
 
   useEffect(() => {
@@ -65,6 +85,24 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const scrollDesktopNav = (direction: 'left' | 'right') => {
+    if (desktopNavRef.current) {
+      desktopNavRef.current.scrollBy({
+        left: direction === 'left' ? -180 : 180,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const scrollMobileNav = (direction: 'left' | 'right') => {
+    if (mobileNavRef.current) {
+      mobileNavRef.current.scrollBy({
+        left: direction === 'left' ? -150 : 150,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const navItems: { id: NavigationTab; labelEn: string; labelHi: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: 'home', labelEn: 'Home', labelHi: 'मुख्य', icon: HomeIcon },
     { id: 'explore', labelEn: 'Explore', labelHi: 'स्थल', icon: Compass },
@@ -75,7 +113,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'history', labelEn: 'History', labelHi: 'इतिहास', icon: History },
     { id: 'festivals', labelEn: 'Festivals', labelHi: 'मेले', icon: Calendar },
     { id: 'gallery', labelEn: 'Gallery', labelHi: 'दीर्घा', icon: ImageIcon },
-    { id: 'community', labelEn: 'Community', labelHi: 'संवाद', icon: MessageSquare },
+    { id: 'community', labelEn: 'Chaupal', labelHi: 'चौपाल', icon: MessageSquare },
     { id: 'takri', labelEn: 'Takri', labelHi: 'टांकरी', icon: Feather },
   ];
 
@@ -129,26 +167,48 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Central Nav Links (Desktop) */}
-        <nav id="desktop-navigation" className="hidden lg:flex items-center gap-1 bg-white/50 backdrop-blur-md px-2 py-1 rounded-full border border-season-badge-border/80 shadow-xs overflow-x-auto max-w-2xl scrollbar-none">
-          {navItems.map((item) => {
-            const isSelected = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                id={`nav-tab-${item.id}`}
-                onClick={() => setActiveTab(item.id)}
-                className={`text-[11px] xl:text-xs transition-all px-2.5 xl:px-3 py-1 rounded-full cursor-pointer whitespace-nowrap font-medium ${
-                  isSelected
-                    ? 'bg-season-badge-bg font-bold text-season-accent shadow-xs border border-season-badge-border/80'
-                    : 'text-[#6e5d4e] hover:text-[#2c1d11] hover:bg-white/50'
-                }`}
-              >
-                {scriptMode === 'bilingual' ? item.labelHi : item.labelEn}
-              </button>
-            );
-          })}
-        </nav>
+        {/* Central Nav Links (Desktop) with Scroll Left / Scroll Right Arrow buttons */}
+        <div className="hidden lg:flex items-center gap-1 max-w-2xl">
+          <button
+            onClick={() => scrollDesktopNav('left')}
+            className="p-1 rounded-full text-[#7a695a] hover:text-[#2c1d11] hover:bg-white/80 transition-all cursor-pointer shrink-0"
+            title="Scroll navigation left"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+
+          <nav
+            ref={desktopNavRef}
+            id="desktop-navigation"
+            className="flex items-center gap-1 bg-white/50 backdrop-blur-md px-2 py-1 rounded-full border border-season-badge-border/80 shadow-xs overflow-x-auto scrollbar-none scroll-smooth"
+          >
+            {navItems.map((item) => {
+              const isSelected = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  id={`nav-tab-${item.id}`}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`text-[11px] xl:text-xs transition-all px-2.5 xl:px-3 py-1 rounded-full cursor-pointer whitespace-nowrap font-medium shrink-0 ${
+                    isSelected
+                      ? 'bg-season-badge-bg font-bold text-season-accent shadow-xs border border-season-badge-border/80'
+                      : 'text-[#6e5d4e] hover:text-[#2c1d11] hover:bg-white/50'
+                  }`}
+                >
+                  {scriptMode === 'bilingual' ? item.labelHi : item.labelEn}
+                </button>
+              );
+            })}
+          </nav>
+
+          <button
+            onClick={() => scrollDesktopNav('right')}
+            className="p-1 rounded-full text-[#7a695a] hover:text-[#2c1d11] hover:bg-white/80 transition-all cursor-pointer shrink-0"
+            title="Scroll navigation right"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
 
         {/* Right Controls */}
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
@@ -236,26 +296,47 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Sub-Header Horizontal Tab Scrollbar for Mobile & Tablet */}
-      <div className="flex lg:hidden items-center gap-1 px-2 pt-1.5 pb-0.5 border-t border-season-badge-border/50 mt-1.5 bg-[#fdfbf7]/80 backdrop-blur-xl overflow-x-auto scrollbar-none">
-        {navItems.map((item) => {
-          const isSelected = activeTab === item.id;
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`flex items-center gap-1 text-[11px] px-3 py-1 rounded-full transition-all cursor-pointer shrink-0 whitespace-nowrap ${
-                isSelected
-                  ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
-                  : 'text-[#7a695a] hover:text-[#2c1d11]'
-              }`}
-            >
-              <Icon className="w-3 h-3" />
-              <span>{scriptMode === 'bilingual' ? item.labelHi : item.labelEn}</span>
-            </button>
-          );
-        })}
+      {/* Sub-Header Horizontal Tab Scrollbar for Mobile & Tablet with Left & Right scroll buttons */}
+      <div className="flex lg:hidden items-center gap-1 px-2 pt-1.5 pb-0.5 border-t border-season-badge-border/50 mt-1.5 bg-[#fdfbf7]/80 backdrop-blur-xl">
+        <button
+          onClick={() => scrollMobileNav('left')}
+          className="p-1 rounded-full text-[#7a695a] hover:text-[#2c1d11] hover:bg-white/80 transition-all shrink-0 cursor-pointer"
+          title="Scroll tabs left"
+        >
+          <ChevronLeft className="w-3.5 h-3.5" />
+        </button>
+
+        <div
+          ref={mobileNavRef}
+          className="flex-1 flex items-center gap-1 overflow-x-auto scrollbar-none scroll-smooth"
+        >
+          {navItems.map((item) => {
+            const isSelected = activeTab === item.id;
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex items-center gap-1 text-[11px] px-3 py-1 rounded-full transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+                  isSelected
+                    ? 'font-bold text-season-accent bg-season-badge-bg shadow-xs border border-season-badge-border'
+                    : 'text-[#7a695a] hover:text-[#2c1d11]'
+                }`}
+              >
+                <Icon className="w-3 h-3" />
+                <span>{scriptMode === 'bilingual' ? item.labelHi : item.labelEn}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          onClick={() => scrollMobileNav('right')}
+          className="p-1 rounded-full text-[#7a695a] hover:text-[#2c1d11] hover:bg-white/80 transition-all shrink-0 cursor-pointer"
+          title="Scroll tabs right"
+        >
+          <ChevronRight className="w-3.5 h-3.5" />
+        </button>
       </div>
     </header>
   );

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { HIMACHAL_LANGUAGES, HimachalLanguage } from '../data/himachalLanguages';
+import React, { useState, useRef } from 'react';
+import { HIMACHAL_LANGUAGES } from '../data/himachalLanguages';
 import { ScriptMode } from '../types';
-import { Volume2, Languages, BookOpen, Sparkles, Feather, MapPin, Quote, Cloud, Music } from 'lucide-react';
+import { Volume2, BookOpen, Sparkles, Feather, MapPin, Cloud, Music, ChevronLeft, ChevronRight } from 'lucide-react';
 import { speakPhonetic } from '../utils/audioAmbience';
 
 interface LanguagesSectionProps {
@@ -17,6 +17,7 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
 }) => {
   const [selectedLangId, setSelectedLangId] = useState<string>(HIMACHAL_LANGUAGES[0].id);
   const [speakingText, setSpeakingText] = useState<string | null>(null);
+  const langTabsContainerRef = useRef<HTMLDivElement | null>(null);
 
   const selectedLang = HIMACHAL_LANGUAGES.find(l => l.id === selectedLangId) || HIMACHAL_LANGUAGES[0];
 
@@ -26,6 +27,13 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
     setTimeout(() => {
       setSpeakingText(null);
     }, 2000);
+  };
+
+  const scrollTabs = (direction: 'left' | 'right') => {
+    if (langTabsContainerRef.current) {
+      const scrollAmount = direction === 'left' ? -260 : 260;
+      langTabsContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -48,9 +56,23 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
         </p>
       </div>
 
-      {/* Cloudy / Organic Curved Shape Language Selector Tabs */}
-      <div className="relative">
-        <div className="flex items-center gap-2.5 overflow-x-auto pb-4 pt-1 px-2 scrollbar-none justify-start lg:justify-center flex-nowrap">
+      {/* Cloud-Curved Shape Language Selector Tabs with Scroll Left & Scroll Right buttons */}
+      <div className="relative flex items-center gap-2">
+        {/* Scroll Left Button */}
+        <button
+          id="scroll-left-lang-tabs"
+          onClick={() => scrollTabs('left')}
+          className="p-2 rounded-full bg-white/90 hover:bg-white text-season-accent border border-season-badge-border shadow-md transition-all cursor-pointer shrink-0 hover:scale-105"
+          title="Scroll Left"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+
+        {/* Scrollable Container */}
+        <div
+          ref={langTabsContainerRef}
+          className="flex-1 flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 px-1 scrollbar-none flex-nowrap scroll-smooth"
+        >
           {HIMACHAL_LANGUAGES.map((lang) => {
             const isSelected = lang.id === selectedLang.id;
             return (
@@ -58,7 +80,7 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
                 key={lang.id}
                 id={`lang-pill-${lang.id}`}
                 onClick={() => setSelectedLangId(lang.id)}
-                className={`group relative px-4 py-2.5 rounded-[26px] text-xs font-semibold whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 backdrop-blur-md shadow-xs ${
+                className={`group relative px-4 py-2.5 rounded-[26px] text-xs font-semibold whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 backdrop-blur-md shadow-xs shrink-0 ${
                   isSelected
                     ? 'bg-season-accent text-white font-bold shadow-md scale-105 ring-2 ring-season-accent/30 -translate-y-0.5'
                     : 'bg-white/65 hover:bg-white/95 text-[#5c4a3b] hover:text-[#2c1d11] border border-[#e5d8c7]/90 hover:shadow-sm'
@@ -77,6 +99,16 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
             );
           })}
         </div>
+
+        {/* Scroll Right Button */}
+        <button
+          id="scroll-right-lang-tabs"
+          onClick={() => scrollTabs('right')}
+          className="p-2 rounded-full bg-white/90 hover:bg-white text-season-accent border border-season-badge-border shadow-md transition-all cursor-pointer shrink-0 hover:scale-105"
+          title="Scroll Right"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Active Language Detailed Showcase (Cloud-curved container) */}
@@ -93,12 +125,17 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
               <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#2c1d11]">
                 {selectedLang.name}
               </h3>
-              <span className="text-xl sm:text-2xl text-season-accent font-sans font-medium">
+              <span className="text-lg sm:text-2xl text-season-accent font-serif font-medium">
                 ({selectedLang.nameHindi})
               </span>
-              <span className="text-2xl sm:text-3xl font-serif text-season-accent px-3 py-0.5 rounded-full bg-season-badge-bg/60 border border-season-badge-border/60">
-                {selectedLang.nameTakri}
-              </span>
+              
+              {/* Takri Script Representation badge (Only rendered if non-empty) */}
+              {selectedLang.nameTakri && selectedLang.nameTakri.trim().length > 0 && (
+                <span className="text-xl sm:text-2xl font-serif text-season-accent px-3.5 py-1 rounded-full bg-season-badge-bg/80 border border-season-badge-border shadow-xs">
+                  {selectedLang.nameTakri}
+                </span>
+              )}
+
               <button
                 onClick={() => handleSpeak(selectedLang.nameHindi, `lang-name-${selectedLang.id}`)}
                 className={`p-2 rounded-full border transition-all cursor-pointer shadow-xs ${
@@ -168,64 +205,6 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
             </p>
           </div>
         </div>
-
-        {/* Traditional Proverbs & Oral Folk Wisdom (Without generic phrasebook) */}
-        {selectedLang.proverbs && selectedLang.proverbs.length > 0 && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-[#2c1d11] font-serif text-lg font-bold">
-              <Quote className="w-4 h-4 text-season-accent" />
-              <span>Traditional Proverbs & Folk Sayings (लोक कहावतें)</span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {selectedLang.proverbs.map((prv, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/65 backdrop-blur-md p-5 border border-[#e5d8c7]/80 space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow"
-                  style={{ borderRadius: '22px' }}
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] uppercase font-bold text-season-accent tracking-wider px-2 py-0.5 rounded-full bg-season-badge-bg border border-season-badge-border">
-                        Pahari Proverb {idx + 1}
-                      </span>
-                      <button
-                        onClick={() => handleSpeak(prv.native, `prv-${idx}`)}
-                        className={`p-1.5 rounded-full border transition-all cursor-pointer ${
-                          speakingText === `prv-${idx}`
-                            ? 'bg-season-accent text-white border-season-accent scale-110'
-                            : 'bg-white text-season-accent border-[#e5d8c7] hover:bg-[#faf6f0]'
-                        }`}
-                        title="Pronounce proverb"
-                      >
-                        <Volume2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
-                    <h4 className="text-base sm:text-lg font-bold text-[#2c1d11] font-serif leading-snug">
-                      "{prv.native}"
-                    </h4>
-
-                    {prv.takri && (
-                      <p className="text-sm font-serif text-season-accent tracking-wide">
-                        {prv.takri}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="pt-2.5 border-t border-[#e5d8c7]/70 space-y-1">
-                    <p className="text-xs font-semibold text-[#2c1d11]">
-                      <strong>Meaning:</strong> {prv.meaning}
-                    </p>
-                    <p className="text-[11px] text-[#7a695a] leading-relaxed">
-                      {prv.culturalContext}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Sub-Dialects & Oral Folk Genres */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

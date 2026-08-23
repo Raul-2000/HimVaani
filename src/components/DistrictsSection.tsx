@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { HIMACHAL_DISTRICTS, HimachalDistrict } from '../data/himachalDistricts';
 import { ScriptMode } from '../types';
-import { MapPin, Mountain, Compass, Award, Utensils, Calendar, BookOpen, Layers, ArrowRight } from 'lucide-react';
+import { MapPin, Mountain, Compass, Award, Utensils, Calendar, BookOpen, Layers, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface DistrictsSectionProps {
   scriptMode: ScriptMode;
@@ -14,6 +14,16 @@ export const DistrictsSection: React.FC<DistrictsSectionProps> = ({
 }) => {
   const [selectedDistrictId, setSelectedDistrictId] = useState<string>(HIMACHAL_DISTRICTS[0].id);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const districtListRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollDistricts = (direction: 'left' | 'right') => {
+    if (districtListRef.current) {
+      districtListRef.current.scrollBy({
+        left: direction === 'left' ? -220 : 220,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   const filteredDistricts = HIMACHAL_DISTRICTS.filter(d => 
     d.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -61,25 +71,46 @@ export const DistrictsSection: React.FC<DistrictsSectionProps> = ({
         </span>
       </div>
 
-      {/* District Badges Quick Bar */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-        {HIMACHAL_DISTRICTS.map((district) => {
-          const isSelected = district.id === selectedDistrict.id;
-          return (
-            <button
-              key={district.id}
-              onClick={() => setSelectedDistrictId(district.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md ${
-                isSelected
-                  ? 'bg-season-accent text-white font-bold shadow-md scale-102'
-                  : 'bg-white/60 text-[#5c4a3b] hover:bg-white/90 border border-[#e5d8c7]/80'
-              }`}
-            >
-              <span>{district.name}</span>
-              <span className="opacity-75 text-[10px]">({district.nameHindi})</span>
-            </button>
-          );
-        })}
+      {/* District Badges Quick Bar with Scroll Left and Scroll Right Buttons */}
+      <div className="relative flex items-center gap-1.5">
+        <button
+          onClick={() => scrollDistricts('left')}
+          className="p-2 rounded-full bg-white/90 hover:bg-white text-season-accent border border-season-badge-border shadow-xs transition-all cursor-pointer shrink-0 hover:scale-105"
+          title="Scroll Left"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+
+        <div
+          ref={districtListRef}
+          className="flex-1 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none scroll-smooth"
+        >
+          {HIMACHAL_DISTRICTS.map((district) => {
+            const isSelected = district.id === selectedDistrict.id;
+            return (
+              <button
+                key={district.id}
+                onClick={() => setSelectedDistrictId(district.id)}
+                className={`px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md shrink-0 ${
+                  isSelected
+                    ? 'bg-season-accent text-white font-bold shadow-md scale-102'
+                    : 'bg-white/60 text-[#5c4a3b] hover:bg-white/90 border border-[#e5d8c7]/80'
+                }`}
+              >
+                <span>{district.name}</span>
+                <span className="opacity-75 text-[10px]">({district.nameHindi})</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          onClick={() => scrollDistricts('right')}
+          className="p-2 rounded-full bg-white/90 hover:bg-white text-season-accent border border-season-badge-border shadow-xs transition-all cursor-pointer shrink-0 hover:scale-105"
+          title="Scroll Right"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Main Selected District Showcase Card */}

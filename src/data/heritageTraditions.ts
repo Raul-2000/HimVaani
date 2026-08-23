@@ -106,7 +106,7 @@ export const INITIAL_HERITAGE_ITEMS: HeritageTraditionItem[] = [
     nameTakri: '𑚝𑚌𑚌𑚤 𑚊𑚳𑚨𑚥',
     region: 'Kullu Valley',
     valley: 'Beas Valley',
-    imageUrl: 'https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=80',
     category: 'Kath-Kuni Royal Fortress',
     shortDescriptionEnglish: 'A 500-year-old royal fortress built by Raja Sidh Singh of Kullu overlooking the Beas River, incorporating massive cedar beams and cantilevered viewing verandas.',
     shortDescriptionHindi: '१४६० ईस्वी में निर्मित कुल्लू राजाओं का ऐतिहासिक काष्ठ-कुणी किला, जो अपनी भव्य नक्काशी के लिए प्रसिद्ध है।',

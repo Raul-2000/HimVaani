@@ -73,7 +73,7 @@ export const SeasonalAtmosphere: React.FC<SeasonalAtmosphereProps> = ({ currentS
 
     // Particle density count
     let count = 45;
-    if (currentSeason === 'monsoon') count = density === 'heavy' ? 140 : 80;
+    if (currentSeason === 'monsoon') count = density === 'heavy' ? 160 : 100;
     else if (currentSeason === 'winter') count = density === 'heavy' ? 90 : 50;
     else if (currentSeason === 'autumn') count = density === 'heavy' ? 55 : 35;
     else if (currentSeason === 'spring') count = density === 'heavy' ? 60 : 35;
@@ -93,22 +93,23 @@ export const SeasonalAtmosphere: React.FC<SeasonalAtmosphereProps> = ({ currentS
       else if (currentSeason === 'winter') char = winterItems[Math.floor(Math.random() * winterItems.length)];
 
       const isDeepLayer = Math.random() > 0.6;
+      const dropLen = currentSeason === 'monsoon' ? Math.random() * 24 + 18 : 0;
 
       particles.push({
-        x: Math.random() * (width + 200) - 100,
-        y: Math.random() * height,
+        x: Math.random() * (width + 300) - 100,
+        y: Math.random() * (height + 100) - 50,
         radius: isDeepLayer ? Math.random() * 1.5 + 0.8 : Math.random() * 3 + 1.5,
-        length: currentSeason === 'monsoon' ? Math.random() * 22 + 16 : 0,
+        length: dropLen,
         speedY: currentSeason === 'monsoon' 
-          ? (isDeepLayer ? Math.random() * 6 + 9 : Math.random() * 10 + 14)
+          ? (isDeepLayer ? Math.random() * 7 + 10 : Math.random() * 11 + 16)
           : currentSeason === 'winter'
           ? Math.random() * 1.4 + 0.6
           : Math.random() * 1.0 + 0.4,
         speedX: currentSeason === 'monsoon' 
-          ? (isDeepLayer ? -1.8 : -3.2) + (Math.random() * 0.6 - 0.3)
+          ? (isDeepLayer ? -2.0 : -3.5) + (Math.random() * 0.6 - 0.3)
           : (Math.random() - 0.5) * 1.2,
         opacity: currentSeason === 'monsoon'
-          ? (isDeepLayer ? Math.random() * 0.35 + 0.2 : Math.random() * 0.55 + 0.35)
+          ? (isDeepLayer ? Math.random() * 0.4 + 0.25 : Math.random() * 0.6 + 0.4)
           : Math.random() * 0.55 + 0.25,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.03,
@@ -164,23 +165,23 @@ export const SeasonalAtmosphere: React.FC<SeasonalAtmosphereProps> = ({ currentS
         p.rotation += p.rotationSpeed;
 
         // Reset if reached bottom
-        if (p.y > height) {
+        if (p.y > height + 20) {
           // Trigger rain splash when monsoon drops hit ground
-          if (currentSeason === 'monsoon' && splashesRef.current.length < 30 && Math.random() > 0.4) {
+          if (currentSeason === 'monsoon' && splashesRef.current.length < 35 && Math.random() > 0.35) {
             splashesRef.current.push({
               x: p.x,
-              y: height - Math.random() * 20,
+              y: height - Math.random() * 25,
               radius: 1,
-              opacity: 0.6,
-              maxRadius: Math.random() * 8 + 4,
+              opacity: 0.7,
+              maxRadius: Math.random() * 9 + 4,
             });
           }
 
-          p.y = -30;
-          p.x = Math.random() * (width + 200) - 50;
+          p.y = - (p.length || 30) - Math.random() * 50;
+          p.x = Math.random() * (width + 300) - 100;
         }
-        if (p.x > width + 100) p.x = -50;
-        if (p.x < -100) p.x = width + 50;
+        if (p.x > width + 150) p.x = -80;
+        if (p.x < -150) p.x = width + 100;
 
         ctx.save();
         ctx.translate(p.x, p.y);
@@ -255,7 +256,7 @@ export const SeasonalAtmosphere: React.FC<SeasonalAtmosphereProps> = ({ currentS
       {animationsEnabled && (
         <canvas
           ref={canvasRef}
-          className="fixed inset-0 pointer-events-none z-10"
+          className="fixed inset-0 pointer-events-none z-30"
           style={{ mixBlendMode: 'normal' }}
         />
       )}

@@ -218,7 +218,7 @@ export const HIMACHAL_LANGUAGES: HimachalLanguage[] = [
   {
     id: 'mahasui',
     name: 'Mahasui (Kiunthali & Kochi)',
-    nameHindi: 'महासुई (क्युंथली / कोची)',
+    nameHindi: 'महासुई • क्युंथली व कोची',
     nameTakri: '𑚢𑚩𑚭𑚨𑚰𑚃',
     family: 'Indo-Aryan (Western Pahari - Southern)',
     region: 'Shimla Hills, Jubbal, Kotgarh, Rohru, Bushahr & Rampur',
@@ -244,7 +244,7 @@ export const HIMACHAL_LANGUAGES: HimachalLanguage[] = [
   {
     id: 'sirmauri',
     name: 'Sirmauri / Giripari',
-    nameHindi: 'सिरमौरी (गिरिपारी / गिरिआर)',
+    nameHindi: 'सिरमौरी • गिरिपारी',
     nameTakri: '𑚨𑚮𑚤𑚢𑚵𑚤𑚯',
     family: 'Indo-Aryan (Western Pahari)',
     region: 'Giri-Par (Trans-Giri), Giri-Aar, Haripurdhar, Sangrah & Nahan',
@@ -269,7 +269,7 @@ export const HIMACHAL_LANGUAGES: HimachalLanguage[] = [
   {
     id: 'kinnauri',
     name: 'Kinnauri / Homskad',
-    nameHindi: 'किन्नौरी (होमस्कद)',
+    nameHindi: 'किन्नौरी • होमस्कद',
     nameTakri: '𑚊𑚮𑚝𑚝𑚵𑚤𑚯',
     family: 'Sino-Tibetan / Tibeto-Burman (Himalayish)',
     region: 'Kinnaur (Sutlej & Baspa / Sangla Valleys, Kalpa, Nichar, Pooh)',
@@ -295,7 +295,7 @@ export const HIMACHAL_LANGUAGES: HimachalLanguage[] = [
   {
     id: 'bhoti',
     name: 'Bhoti / Spitian',
-    nameHindi: 'भोटी / स्पीतियन',
+    nameHindi: 'भोटी • स्पीतियन',
     nameTakri: '𑚡𑚴𑚔𑚯 𑚨𑚞𑚮𑚙𑚮𑚣𑚝',
     family: 'Tibeto-Burman (Bodish Branch)',
     region: 'Spiti Valley, Pin Valley, Tabo, Kaza, Ki, Mudh & Upper Lahaul',
@@ -320,7 +320,7 @@ export const HIMACHAL_LANGUAGES: HimachalLanguage[] = [
   {
     id: 'lahauli',
     name: 'Lahauli / Pattani / Tod',
-    nameHindi: 'लाहौली (पट्टनी / स्तौद)',
+    nameHindi: 'लाहौली • पट्टनी व स्तौद',
     nameTakri: '𑚥𑚭𑚩𑚵𑚥𑚯 𑚞𑚔𑚔𑚝𑚯',
     family: 'Sino-Tibetan (West Himalayish & Bodish)',
     region: 'Lahaul Valley (Pattan Valley, Keylong, Chandra-Bhaga confluence, Tod, Tinan)',
@@ -345,7 +345,7 @@ export const HIMACHAL_LANGUAGES: HimachalLanguage[] = [
   {
     id: 'bilaspuri',
     name: 'Bilaspuri / Kahluri',
-    nameHindi: 'बिलासपुरी (कहलूरी)',
+    nameHindi: 'बिलासपुरी • कहलूरी',
     nameTakri: '𑚠𑚮𑚥𑚭𑚨𑚞𑚰𑚤𑚯 𑚊𑚩𑚥𑚱𑚤𑚯',
     family: 'Indo-Aryan (Western Pahari)',
     region: 'Bilaspur, Gobind Sagar basin, Ghumarwin, Jhandutta & Naina Devi',

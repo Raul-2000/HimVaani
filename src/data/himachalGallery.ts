@@ -8,6 +8,9 @@ export interface GalleryItem {
   description: string;
   aspectRatio?: string;
   tags: string[];
+  isUserAdded?: boolean;
+  uploadedAt?: string;
+  contributorName?: string;
 }
 
 export const HIMACHAL_GALLERY: GalleryItem[] = [
