@@ -1,4 +1,35 @@
 export type ScriptMode = 'trilingual' | 'bilingual' | 'takri-only' | 'all';
+export type HimachalSeason = 'spring' | 'summer' | 'monsoon' | 'autumn' | 'winter';
+export type HeritagePillarId = 'locations' | 'architecture' | 'celebrations' | 'cuisine' | 'script' | 'folklore';
+
+export interface HeritageTraditionItem {
+  id: string;
+  pillarId: HeritagePillarId;
+  nameEnglish: string;
+  nameHindi: string;
+  nameTakri: string;
+  region: string;
+  valley: string;
+  imageUrl: string;
+  category: string;
+  shortDescriptionEnglish: string;
+  shortDescriptionHindi: string;
+  shortDescriptionTakri: string;
+  fullStoryEnglish: string;
+  fullStoryHindi: string;
+  fullStoryTakri: string;
+  keyFeatures: string[];
+  culturalSignificance: string;
+  practicalTips?: string;
+  recipeIngredients?: string[];
+  recipeSteps?: string[];
+  architectureStyle?: string;
+  constructionDetails?: string;
+  lunarTiming?: string;
+  period?: string;
+  audioPrompt?: string;
+  isUserAdded?: boolean;
+}
 
 export interface TakriChar {
   unicode: string;
@@ -15,6 +46,15 @@ export interface TakriChar {
     meaning: string;
   };
   strokeHint?: string;
+}
+
+export interface InscriptionRecord {
+  title: string;
+  originalTakri: string;
+  devanagari: string;
+  english: string;
+  period: string;
+  type: string; // 'Copper Plate (Tamra-Patra)' | 'Rock Inscription (Shilalekh)' | 'Temple Lintel' | 'Royal Sanad'
 }
 
 export interface HimachalPlace {
@@ -36,6 +76,13 @@ export interface HimachalPlace {
   takriHistoricalContext: string;
   highlights: string[];
   famousInscriptions?: string;
+  inscriptionsRecord?: InscriptionRecord[];
+  architectureStyle?: string;
+  architectureDetails?: string;
+  localDialect?: string;
+  folkloreLore?: string;
+  historicalSources?: string[];
+  nearestAccess?: string;
   bestSeason: string;
   valley: string;
   category?: 'place' | 'peak' | 'pass' | 'lake';

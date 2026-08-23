@@ -1,6 +1,6 @@
 {
-  "name": "Takri Heritage & Learning",
-  "description": "An atmospheric cultural and learning platform for the ancient Takri script of Himachal Pradesh, featuring interactive learning, community practice, and trilingual place exploration.",
+  "name": "HimVaani: Explore Himachal, Conserve Its Traditions",
+  "description": "Discover the locations, traditions, celebrations, history, architecture, cuisine, folklore, and untold tales that make Himachal Pradesh unique, preserving our legacy for coming generations.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

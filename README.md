@@ -1,4 +1,4 @@
-# Takri Heritage & Learning Platform (𑚔𑚭𑚊𑚤𑚯)
+# HimVaani (हिमवाणी) — Explore Himachal, Conserve Its Traditions
 
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -13,99 +13,116 @@
 
 > Explore the live version of HimVaani and experience the project in action.
 
+> **Discover the landscapes, traditions, festivals, history, architecture, cuisine, folklore, and hidden stories that make Himachal Pradesh unique—preserving our cultural heritage for generations to come.**
+
 > **Dedicated to the preservation and revitalization of the ancient Takri script of Devbhumi Himachal Pradesh.**
 
-An interactive, trilingual cultural and learning web application designed to preserve, teach, and celebrate the historical **Takri (𑚔𑚭𑚊𑚤𑚯)** script of the Western Himalayas.
+**HimVaani (हिमवाणी)** is an immersive, bilingual cultural heritage and learning platform dedicated to documenting, celebrating, and conserving the rich tangible and intangible heritage of Devbhoomi Himachal Pradesh.
 
 ---
 
-## 🌟 Key Features
+## 🏔️ Core Highlights & Features
 
-### 1. 🔤 Interactive Varnamala (वर्णमाला / 𑚪𑚤𑚘𑚢𑚭𑚥𑚭)
-- Complete catalog of **Vowels (𑚨𑚯𑚤)**, **Consonants (𑚠𑚫𑚑𑚝)**, **Diacritical Matras (𑚢𑚭𑚙𑚤𑚭)**, and **Numerals (𑚀𑚫𑚊)**.
-- **Stroke-by-Stroke Animated Tracing Canvas**: Practice writing Takri characters with real-time stroke guidance.
-- **On-Demand Pronunciation**: Crystal-clear speech pronunciation for each glyph and phonetic sound upon tapping the speaker icon.
-- **Transliteration Matrix**: Instant cross-mapping across Latin / English, Devanagari (Hindi), and Takri Unicode glyphs.
+### 1. 🏞️ Places & Valleys of Himachal (स्थान व घाटियां)
+- Comprehensive explorer covering all **12 districts and major valleys** across Himachal Pradesh (*Chamba, Kangra, Kullu, Mandi, Shimla, Lahaul-Spiti, Kinnaur, Sirmaur, Solan, Bilaspur, Hamirpur, and Una*).
+- Detailed regional chronicles: Historical significance, seismic Kath-Kuni & Pagoda architecture, sacred Devta temples, alpine geography, local dialects, and cultural tips.
+- Real-time search, valley filtering, and crystal-clear phonetic pronunciation of local place names.
 
-### 2. ✒️ Script Studio & Calligraphy Card Generator (अनुवाद / 𑚀𑚝𑚰𑚪𑚭𑚛)
-- Real-time bidirectional converter: **English (Latin) ⇋ Hindi (Devanagari) ⇋ Takri (𑚔𑚭𑚊𑚤𑚯)**.
-- **Parchment Calligraphy Card Exporter**: Generate and download handcrafted royal Himachal parchment PNG cards with traditional border artwork, wax seals, and Takri calligraphy.
-- Integrated virtual Takri keyboard with phonetic insertion.
+### 2. 🏛️ The 6 Heritage Pillars & Living Traditions (६ धरोहर स्तम्भ)
+Deep dive into Himachal's hallmark cultural pillars:
+- **Kath-Kuni & Pagoda Architecture**: Earthquake-resilient timber-stone interlacing techniques (e.g., Bhimakali Temple, Kamru Fort, Hidimba Devi, Naggar Castle).
+- **Sacred Melas & Devta Congregations**: International Kullu Dussehra, Mandi Shivratri, Minjar Mela, Lavi Fair, and local village deity assemblies.
+- **Authentic Royal Pahari Dham & Cuisine**: Traditional Vedic preparation in brass *Charotis* by hereditary *Botis* (Mandi Sepu Badi, Chamba Madra, Kangri Khatta, Kullu Siddu).
+- **Ancient Inscriptions & Manuscripts**: 1,400-year-old royal copper plate charters (*Tamrapatra*), birch-bark scrolls, and paleographic evolution.
+- **Pastoral Folklore & Gaddi Lore**: Shepherding songs, Nuala celebrations, Chola-Dora attire, and high-altitude transhumance traditions.
+- **High-Altitude Sacred Lakes & Pilgrimages**: Manimahesh, Kinner Kailash, Shrikhand Mahadev, Prashar Lake, and Chandratal.
+- **Interactive Experience Tracker**: Mark traditions as "Experienced" or "Want to Explore", share cultural cards, and contribute new heritage entries.
 
-### 3. 🏔️ Himachal Cultural Atlas (दर्शन / 𑚛𑚤𑚧𑚝)
-- Trilingual district and heritage exploration across Himachal Pradesh (Chamba, Kangra, Kullu, Mandi, Shimla, Kinnaur, Spiti, Sirmaur, and more).
-- Detailed regional history, architectural significance, script connections, and local dialects.
+### 3. 💬 Himachal Cultural Community Sangam (सामुदायिक संवाद)
+- Open community forum for travelers, locals, and researchers to share village folklore, forgotten recipes, sacred festival memories, and historical insights.
+- Categorized discussions: *Folklore & Lore, Cuisine & Dham, Temples & History, Folk Poetry & Songs, and Community Discussions*.
+- Interactive reactions, community replies, and local storage persistence.
 
-### 4. 📜 Heritage & Historical Manuscripts (इतिहास / 𑚂𑚙𑚮𑚩𑚭𑚨)
-- Historical timeline tracing Takri's evolution from the Sharada script (10th–20th Century).
-- Regional variant analysis: **Chamba (Chambyali)**, **Kangra**, **Kullu**, **Mandi**, **Jaunsari**, and **Dogri** variations.
-- High-resolution digital manuscript archive with paleographic breakdowns.
+### 4. 🔤 Script Studio & Historical Epigraphy (अक्षर, लिपि व पांडुलिपियां)
+- **Interactive Varnamala**: Complete catalog of historical Himalayan script characters with stroke-by-stroke animated writing canvas and phonetic audio.
+- **Real-time Script Transliteration**: Bidirectional converter bridging English (Latin), Hindi (Devanagari), and ancient Himalayan script glyphs.
+- **Parchment Calligraphy Card Exporter**: Generate and download handcrafted royal Himachal parchment PNG cards with traditional borders and wax seals.
 
-### 5. 💬 Sangam Community Chaupal (चौपाल / 𑚏𑚵𑚞𑚭𑚥)
-- Community practice board for sharing Takri poetry, epigraphs, and calligraphy.
-- Filter by categories: Learning, Inscriptions, Poetry, Manuscripts, and Calligraphy.
-- Built-in Takri virtual keyboard for direct typing into posts and comments.
+### 5. 📜 Historical Chronicles & Paleographic Archive (इतिहास व वृत्तांत)
+- Comprehensive timeline detailing the political, cultural, and spiritual history of Western Himalayan kingdoms (from 6th-century Chamba copper charters to modern preservation efforts).
+- Regional paleographic variants (*Chambyali, Kangri, Mandiyali, Kulluvi, Dogri, Jaunsari*).
 
-### 6. 🌐 Dynamic Multi-Script System
-- **Trilingual Mode**: English + Devanagari (Hindi) + Takri (𑚔𑚭𑚊𑚤𑚯).
-- **Bilingual Mode (हिंदी + 𑚔𑚭𑚊𑚤𑚯)**: Traditional dual Indian script immersion.
-- **Pure Takri Mode (𑚔𑚭𑚊𑚤𑚯)**: Complete immersion in historical Takri glyphs.
+### 6. 🍂 Dynamic Himachali Seasonal Theme Engine (ऋतु चक्र)
+Seamlessly switch between 5 authentic Himalayan seasons to adapt the entire application's color palette, borders, radial gradients, badges, and accents:
+- **Basant (बसंत)**: Spring blossom palette with mountain floral tones.
+- **Grishma (ग्रीष्म)**: Warm deodar and sunlit alpine gold.
+- **Varsha (वर्षा)**: Lush monsoon pine and mist forest greens.
+- **Sharad (शरद)**: Golden autumn apple harvest amber.
+- **Hemant (हेमंत)**: Serene winter frost slate and snowy summit hues.
+- **Auto-Sync Mode**: Automatically determines the active Himalayan season based on the real-world calendar.
+
+### 7. 🌐 Seamless English & Bilingual Hindi Mode
+- Toggle between **English** and **Bilingual (हिंदी / English)** interface modes for effortless reading and accessibility.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 19, TypeScript, Vite
-- **Styling**: Tailwind CSS v4, custom vintage Himalayan color palette
-- **Animations & Interactivity**: Motion (`motion/react`), HTML5 Canvas
-- **Typography**: Google Noto Sans Takri font integration
-- **Icons**: Lucide React
-- **Audio Engine**: Web Speech Synthesis API for clean on-demand phonetic pronunciation
+- **Framework**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite 6](https://vitejs.dev/)
+- **Backend & SSR Middleware**: [Express 4](https://expressjs.com/) + [tsx](https://github.com/privatenumber/tsx) + [esbuild](https://esbuild.github.io/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animations**: [Motion](https://motion.dev/) (`motion/react`)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Audio Engine**: Web Speech Synthesis API for instant phonetic pronunciation
+- **Data Persistence**: LocalStorage & Cloud-ready Architecture
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v18.0.0 or higher)
-- npm (Node Package Manager)
+- **Node.js** (v18.0.0 or higher)
+- **npm** (Node Package Manager)
 
 ### Installation & Local Setup
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Raul-2000/takri-heritage.git
-   cd takri-heritage
+   git clone https://github.com/YOUR_USERNAME/himvaani.git
+   cd himvaani
    ```
 
-2. **Install dependencies using npm:**
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. **Start the development server with npm:**
+3. **Start the development server:**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser:**
-   Navigate to `http://localhost:3000` to explore the platform.
+4. **Access the platform:**
+   Open [http://localhost:3000](http://localhost:3000) in your web browser.
 
-### Building for Production
+---
 
-To create an optimized production build using npm:
+## 📦 Build & Deployment
+
+To generate an optimized production bundle:
 ```bash
 npm run build
 ```
 
-To run and test the production build:
+To run the production server:
 ```bash
 npm start
 ```
 
-Or preview the static Vite bundle:
+To validate TypeScript types:
 ```bash
-npm run preview
+npm run lint
 ```
 
 ---
@@ -113,41 +130,57 @@ npm run preview
 ## 📁 Project Structure
 
 ```
-├── public/               # Static assets & sample manuscript artwork
+├── public/                     # Static assets & illustrations
 ├── src/
-│   ├── components/       # Core UI components (Header, ScriptStudio, Varnamala, etc.)
-│   ├── data/             # Takri alphabet, Himachal places, and manuscript lore
-│   ├── utils/            # Transliteration engine & audio pronunciation utility
-│   ├── types.ts          # Global TypeScript interfaces and script modes
-│   ├── App.tsx           # Main application root
-│   ├── main.tsx          # React DOM entry point
-│   └── index.css         # Tailwind CSS imports and custom Takri font-face rules
-├── server.ts             # Express & Vite SSR/dev server
-├── package.json          # Dependencies & build scripts
-└── vite.config.ts        # Vite configuration
+│   ├── components/             # Modular React components
+│   │   ├── Header.tsx          # Navigation, Season Switcher, Script & Audio Controls
+│   │   ├── PlacesSection.tsx   # 12 Districts & Valleys Heritage Explorer
+│   │   ├── TraditionsSection.tsx# 6 Living Traditions & Architecture Pillars
+│   │   ├── CommunitySection.tsx# Cultural Community Sangam & Storytelling Forum
+│   │   ├── VarnamalaSection.tsx# Alphabet Catalog & Stroke Tracing Canvas
+│   │   ├── ScriptStudio.tsx    # Bidirectional Converter & Calligraphy Card Generator
+│   │   ├── HistorySection.tsx  # Historical Timeline & Paleographic Archive
+│   │   └── SeasonSelector.tsx  # Himachali Seasonal Theme Selector
+│   ├── data/                   # Structured cultural, geographical, and historical datasets
+│   │   ├── placesData.ts       # Comprehensive district & valley records
+│   │   ├── traditionsData.ts   # Pillars of architecture, cuisine, fairs & lore
+│   │   ├── communityData.ts    # Community posts, stories, and comments
+│   │   └── alphabetData.ts     # Script characters, vowels, consonants, and matras
+│   ├── utils/                  # Utility functions
+│   │   ├── seasons.ts          # 5 Himachali Seasons color themes & calendar auto-sync
+│   │   ├── audio.ts            # Web Speech phonetic audio synthesizer
+│   │   └── transliteration.ts  # Latin ⇋ Devanagari ⇋ Himalayan script conversion
+│   ├── types.ts                # TypeScript interfaces & domain types
+│   ├── App.tsx                 # Root application component
+│   ├── main.tsx                # React DOM client entry point
+│   └── index.css               # Tailwind CSS imports & custom typography
+├── server.ts                   # Express dev & production server
+├── metadata.json               # Application metadata & permissions
+├── package.json                # Project dependencies and npm scripts
+└── vite.config.ts              # Vite configuration
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions to expand the Takri lexicon, manuscript archive, and transliteration dictionary are warmly welcome!
+We welcome contributions from heritage enthusiasts, linguists, researchers, and developers!
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/NewTakriManuscript`)
-3. Commit your Changes (`git commit -m 'Add historical inscription data'`)
-4. Push to the Branch (`git push origin feature/NewTakriManuscript`)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AddKangraHeritage`)
+3. Commit your changes (`git commit -m 'Add historical records for Kangra Valley'`)
+4. Push to the branch (`git push origin feature/AddKangraHeritage`)
 5. Open a Pull Request
 
 ---
 
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the **MIT License**. See `LICENSE` for details.
 
 ---
 
-## ✍️ Author & Credits
+## ✍️ Acknowledgements & Credits
 
-- **Crafted with care for Devbhumi Himachal Pradesh by [Raul-2000](https://github.com/Raul-2000)**.
-- Unicode Takri Block: `U+11680`–`U+116CF`.
+- Dedicated to the preservation of the intangible cultural heritage, architecture, and folklore of **Himachal Pradesh (देवभूमि हिमाचल)**.
+- Maintained and crafted by **[Raul-2000](https://github.com/Raul-2000)**.

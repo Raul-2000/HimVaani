@@ -7,19 +7,38 @@
     --font-heading: 'Outfit', 'Cinzel', 'Plus Jakarta Sans', sans-serif;
     --font-body: 'Plus Jakarta Sans', sans-serif;
     
-    --color-natural-bg-start: #2d4548;
-    --color-natural-bg-end: #1a2a2c;
-    --color-natural-gold: #c5a059;
-    --color-natural-gold-light: #dfbe7b;
-    --color-natural-gold-dark: #8a6d35;
-    --color-natural-teal-subtle: #25393c;
-    --color-natural-text: #f0f4f4;
+    /* Authentic Himachali Architectural Light Palette */
+    --color-himachal-ivory: #fcfaf7;
+    --color-himachal-cream: #f6f1e7;
+    --color-himachal-parchment: #f0e7d8;
+    --color-himachal-cedar: #78350f;
+    --color-himachal-cedar-dark: #451a03;
+    --color-himachal-cedar-light: #92400e;
+    --color-himachal-slate: #334155;
+    --color-himachal-slate-light: #64748b;
+    --color-himachal-brass: #b45309;
+    --color-himachal-brass-gold: #d97706;
+    --color-himachal-vermillion: #b91c1c;
+    --color-himachal-pine: #15803d;
+    --color-himachal-text: #1c1917;
+    --color-himachal-text-muted: #57534e;
+
+    /* Dynamic Seasonal Accents (Himachal Pradesh Ritu) - Light & Crisp */
+    --season-accent: #b45309;
+    --season-accent-light: #d97706;
+    --season-accent-dark: #78350f;
+    --season-accent-glow: rgba(180, 83, 9, 0.15);
+    --season-bg-start: #fbf7ef;
+    --season-badge-bg: #fef3c7;
+    --season-badge-border: #fcd34d;
+    --season-badge-text: #92400e;
   }
 
   body {
-    background-color: #1a2a2c;
-    color: #f0f4f4;
+    background-color: var(--color-himachal-ivory);
+    color: var(--color-himachal-text);
     font-family: var(--font-body);
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 }
 
@@ -40,95 +59,93 @@
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* Natural Tones Background */
-.bg-natural-radial {
-  background: radial-gradient(circle at top, #2d4548 0%, #1a2a2c 100%);
+/* Seasonal Dynamic Classes */
+.text-season-accent {
+  color: var(--season-accent);
 }
 
-.bg-natural-pine {
-  background-color: #1a2a2c;
+.text-season-light {
+  color: var(--season-accent-light);
 }
 
-/* Mountain Geometric Motif from Natural Tones Theme */
-.mountain-natural-texture {
-  background: linear-gradient(135deg, transparent 45%, #ffffff 45%, #ffffff 50%, transparent 50%),
-              linear-gradient(-135deg, transparent 45%, #ffffff 45%, #ffffff 50%, transparent 50%);
-  background-size: 100px 100px;
-  mask-image: linear-gradient(to top, black 20%, transparent 90%);
-  -webkit-mask-image: linear-gradient(to top, black 20%, transparent 90%);
+.bg-season-accent {
+  background-color: var(--season-accent);
 }
 
-/* Natural Tones Glassmorphic Panels */
-.glass-panel {
-  background: rgba(26, 42, 44, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.border-season-accent {
+  border-color: var(--season-accent);
 }
 
-.glass-panel-light {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+.border-season-subtle {
+  border-color: var(--season-badge-border);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+.bg-season-badge {
+  background-color: var(--season-badge-bg);
+  color: var(--season-badge-text);
+  border-color: var(--season-badge-border);
 }
 
-.glass-card-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.shadow-season-subtle {
+  box-shadow: 0 4px 20px -2px var(--season-accent-glow);
 }
 
-.glass-card-hover:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(197, 160, 89, 0.4);
-  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.6), 0 0 25px -5px rgba(197, 160, 89, 0.15);
+/* Kath-Kuni & Himachali Architectural Styling */
+.kathkuni-card {
+  background-color: #ffffff;
+  border: 1px solid #e7decb;
+  box-shadow: 0 4px 16px -2px rgba(120, 53, 15, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+.kathkuni-card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kathkuni-card-hover:hover {
+  border-color: var(--season-accent, #b45309);
+  box-shadow: 0 12px 28px -4px rgba(120, 53, 15, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
   transform: translateY(-2px);
 }
 
-/* Custom scrollbar matching Natural Tones */
+.himachal-parchment {
+  background-color: #faf6ee;
+  border: 1px solid #e6dcce;
+}
+
+.himachal-header {
+  background-color: rgba(252, 250, 247, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid #e7decb;
+}
+
+/* Subtle Mountain Outline Motif */
+.mountain-sketch-texture {
+  background-image: radial-gradient(#d6c7ae 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Traditional Interlocking Timber Texture */
+.kathkuni-woodbeam-border {
+  border-image: repeating-linear-gradient(45deg, #78350f, #78350f 10px, #b45309 10px, #b45309 20px) 1;
+}
+
+/* Custom scrollbar matching Himachali light tones */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(26, 42, 44, 0.8);
+  background: #f6f1e7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(197, 160, 89, 0.35);
+  background: #d6c7ae;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(197, 160, 89, 0.65);
+  background: #b45309;
 }
 
-/* Glowing text and buttons */
-.text-glow-amber, .text-glow-gold {
-  text-shadow: 0 0 20px rgba(197, 160, 89, 0.45);
-}
-
-.glow-border {
-  box-shadow: 0 0 20px -2px rgba(197, 160, 89, 0.25);
-}
-
-/* Natural Tones Gold Utility Classes */
-.text-natural-gold {
-  color: #c5a059;
-}
-
-.bg-natural-gold {
-  background-color: #c5a059;
-}
-
-.border-natural-gold {
-  border-color: #c5a059;
-}

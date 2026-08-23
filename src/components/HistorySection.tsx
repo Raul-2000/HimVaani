@@ -90,23 +90,23 @@ export const HistorySection: React.FC = () => {
     <section id="takri-history-section" className="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-10">
       {/* Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-[#c5a059]/30 text-[#c5a059] text-[10px] uppercase tracking-[0.25em]">
-          <span className="w-1.5 h-1.5 bg-[#c5a059] rounded-full"></span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-season-badge-bg border border-season-badge-border text-season-badge-text text-[11px] font-bold uppercase tracking-[0.2em] shadow-xs">
+          <span className="w-1.5 h-1.5 bg-season-accent rounded-full"></span>
           <span>इतिहास • 1,200 YEARS OF HIMALAYAN HERITAGE</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-serif text-white tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-serif text-season-heading font-bold tracking-tight">
           The Chronicles of Takri Script
         </h2>
-        <p className="text-sm sm:text-base text-white/70 font-light italic">
+        <p className="text-sm sm:text-base text-[#5c4a3b] leading-relaxed">
           From ancient Sharada origins and royal copper plates of Chamba to Unicode 6.0 recognition and modern community revival.
         </p>
       </div>
 
       {/* Nav Tabs */}
-      <div className="flex items-center justify-center gap-2 border-b border-white/10 pb-4">
+      <div className="flex flex-wrap items-center justify-center gap-2 border-b border-[#e5d8c7] pb-4">
         {[
           { id: 'timeline', label: 'Historical Timeline (कालक्रम)' },
-          { id: 'variants', label: 'Regional Dialect Variations (क्षेत्रीय भेद)' },
+          { id: 'variants', label: 'Regional Variations (क्षेत्रीय भेद)' },
           { id: 'manuscripts', label: 'Copper Plates & Scribes (अभिलेख)' },
         ].map((tab) => (
           <button
@@ -114,10 +114,10 @@ export const HistorySection: React.FC = () => {
             onClick={() => {
               setActiveTab(tab.id as any);
             }}
-            className={`px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-medium transition-all cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               activeTab === tab.id
-                ? 'bg-[#c5a059] text-[#1a2a2c] font-bold shadow-lg shadow-black/30'
-                : 'bg-white/5 text-white/60 hover:text-white border border-white/10'
+                ? 'bg-season-accent text-white shadow-sm font-bold'
+                : 'bg-[#faf6f0] text-[#5c4a3b] hover:bg-[#f5ece2] border border-[#e5d8c7]'
             }`}
           >
             {tab.label}
@@ -131,23 +131,23 @@ export const HistorySection: React.FC = () => {
           {timelineEvents.map((evt, idx) => (
             <div
               key={idx}
-              className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-7 border border-white/10 hover:border-[#c5a059]/40 transition-all flex flex-col sm:flex-row items-start gap-6 shadow-2xl"
+              className="bg-white rounded-3xl p-6 sm:p-7 border border-[#e2d5c3] hover:border-[#8a4b17] transition-all flex flex-col sm:flex-row items-start gap-6 shadow-sm hover:shadow-md"
             >
               <div className="sm:w-48 shrink-0 space-y-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[#c5a059]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#8a4b17]">
                   {evt.century}
                 </span>
-                <div className="font-takri text-2xl text-[#dfbe7b] font-bold">
+                <div className="font-takri text-2xl text-[#6b350a] font-bold">
                   {evt.takri}
                 </div>
-                <span className="inline-block text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-white/50 border border-white/10">
+                <span className="inline-block text-[10px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#f5ece2] text-[#8a4b17] border border-[#ebd8c5]">
                   {evt.tag}
                 </span>
               </div>
 
-              <div className="flex-1 space-y-2 border-t sm:border-t-0 sm:border-l border-white/10 pt-4 sm:pt-0 sm:pl-6">
-                <h3 className="text-base font-serif text-white">{evt.title}</h3>
-                <p className="text-xs sm:text-sm text-white/80 font-light italic leading-relaxed">
+              <div className="flex-1 space-y-2 border-t sm:border-t-0 sm:border-l border-[#f0e6da] pt-4 sm:pt-0 sm:pl-6">
+                <h3 className="text-base font-serif font-bold text-[#2c1d11]">{evt.title}</h3>
+                <p className="text-xs sm:text-sm text-[#423223] leading-relaxed">
                   {evt.description}
                 </p>
               </div>
@@ -162,14 +162,14 @@ export const HistorySection: React.FC = () => {
           {variants.map((v, i) => (
             <div
               key={i}
-              className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 space-y-3 shadow-2xl"
+              className="bg-white rounded-3xl p-6 border border-[#e2d5c3] space-y-3 shadow-sm hover:border-[#8a4b17] transition-all"
             >
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-serif text-white">{v.name}</h3>
-                <span className="font-takri text-2xl text-[#dfbe7b] font-bold">{v.sample}</span>
+                <h3 className="text-base font-serif font-bold text-[#2c1d11]">{v.name}</h3>
+                <span className="font-takri text-2xl text-[#8a4b17] font-bold">{v.sample}</span>
               </div>
-              <div className="text-xs text-[#c5a059] font-serif">{v.region}</div>
-              <p className="text-xs text-white/80 font-light italic leading-relaxed">{v.features}</p>
+              <div className="text-xs text-[#8a4b17] font-serif font-semibold">{v.region}</div>
+              <p className="text-xs text-[#5c4a3b] leading-relaxed">{v.features}</p>
             </div>
           ))}
         </div>
@@ -177,31 +177,31 @@ export const HistorySection: React.FC = () => {
 
       {/* Tab 3: Manuscripts */}
       {activeTab === 'manuscripts' && (
-        <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 space-y-6 shadow-2xl">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#e2d5c3] space-y-6 shadow-sm">
           <div className="space-y-2">
-            <h3 className="text-xl font-serif text-white">Bhuri Singh Museum & Chamba Royal Charters</h3>
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-light italic">
+            <h3 className="text-xl font-serif font-bold text-[#2c1d11]">Bhuri Singh Museum & Chamba Royal Charters</h3>
+            <p className="text-xs sm:text-sm text-[#423223] leading-relaxed">
               The Bhuri Singh Museum in Chamba houses the world&apos;s largest collection of Takri copper plate inscriptions (ताम्रपत्र), fountain stone slabs, and royal sanads. These documents were inscribed by royal scribes known as <em>Takruris</em> or <em>Kaisths</em> with goose quill reeds on handmade Pahari paper.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-            <div className="p-4 rounded-2xl bg-black/30 border border-white/10 text-center space-y-1">
-              <span className="font-takri text-3xl text-[#dfbe7b] font-bold">𑚙𑚭𑚢𑚤𑚞𑚙𑚤</span>
-              <div className="text-xs font-serif text-white">150+ Copper Plates</div>
-              <p className="text-[10px] uppercase tracking-wider text-white/40">Preserved in Chamba archives</p>
+            <div className="p-4 rounded-2xl bg-[#faf6f0] border border-[#ebd8c5] text-center space-y-1">
+              <span className="font-takri text-3xl text-[#8a4b17] font-bold block">𑚙𑚭𑚢𑚤𑚞𑚙𑚤</span>
+              <div className="text-xs font-serif font-bold text-[#2c1d11]">150+ Copper Plates</div>
+              <p className="text-[11px] uppercase tracking-wider text-[#7a695a]">Preserved in Chamba archives</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-black/30 border border-white/10 text-center space-y-1">
-              <span className="font-takri text-3xl text-[#dfbe7b] font-bold">𑚞𑚴𑚚𑚯</span>
-              <div className="text-xs font-serif text-white">Religious Pothis</div>
-              <p className="text-[10px] uppercase tracking-wider text-white/40">Pahari Mahabharata & Puranas</p>
+            <div className="p-4 rounded-2xl bg-[#faf6f0] border border-[#ebd8c5] text-center space-y-1">
+              <span className="font-takri text-3xl text-[#8a4b17] font-bold block">𑚞𑚴𑚚𑚯</span>
+              <div className="text-xs font-serif font-bold text-[#2c1d11]">Religious Pothis</div>
+              <p className="text-[11px] uppercase tracking-wider text-[#7a695a]">Pahari Mahabharata & Puranas</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-black/30 border border-white/10 text-center space-y-1">
-              <span className="font-takri text-3xl text-[#dfbe7b] font-bold">𑚥𑚮𑚋𑚭𑚤𑚯</span>
-              <div className="text-xs font-serif text-white">Hereditary Scribes</div>
-              <p className="text-[10px] uppercase tracking-wider text-white/40">Trained in royal calligraphy</p>
+            <div className="p-4 rounded-2xl bg-[#faf6f0] border border-[#ebd8c5] text-center space-y-1">
+              <span className="font-takri text-3xl text-[#8a4b17] font-bold block">𑚥𑚮𑚋𑚭𑚤𑚯</span>
+              <div className="text-xs font-serif font-bold text-[#2c1d11]">Hereditary Scribes</div>
+              <p className="text-[11px] uppercase tracking-wider text-[#7a695a]">Trained in royal calligraphy</p>
             </div>
           </div>
         </div>
