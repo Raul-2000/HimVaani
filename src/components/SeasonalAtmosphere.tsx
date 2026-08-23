@@ -256,13 +256,13 @@ export const SeasonalAtmosphere: React.FC<SeasonalAtmosphereProps> = ({ currentS
       {animationsEnabled && (
         <canvas
           ref={canvasRef}
-          className="fixed inset-0 pointer-events-none z-30"
+          className="fixed inset-0 pointer-events-none z-20"
           style={{ mixBlendMode: 'normal' }}
         />
       )}
 
       {/* Floating Bottom Atmosphere & Sound Status Badge */}
-      <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2">
+      <div className="fixed bottom-4 right-4 z-30 flex items-center gap-2">
         {/* Toggle Sound Cue */}
         <button
           onClick={() => toggleGlobalMute()}

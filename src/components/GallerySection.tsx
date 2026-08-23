@@ -20,7 +20,8 @@ import {
   User,
   Info,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  BookOpen
 } from 'lucide-react';
 import { universalConvert } from '../utils/takriTransliterator';
 import { speakPhonetic } from '../utils/audioAmbience';
@@ -517,7 +518,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ scriptMode }) =>
       {showUploadModal && (
         <div
           id="upload-gallery-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/65 backdrop-blur-sm overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-sm overflow-y-auto"
           onClick={() => setShowUploadModal(false)}
         >
           <div
@@ -799,7 +800,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ scriptMode }) =>
       {itemToDelete && (
         <div
           id="delete-confirm-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
           onClick={() => setItemToDelete(null)}
         >
           <div
@@ -840,27 +841,27 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ scriptMode }) =>
       {activeImage && (
         <div
           id="gallery-lightbox-modal"
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
           onClick={() => setActiveImage(null)}
         >
           <div
-            className="max-w-4xl w-full bg-[#1b120c] rounded-[32px] overflow-hidden border border-white/20 shadow-2xl text-white my-auto flex flex-col"
+            className="max-w-4xl w-full bg-[#fdfcf9] rounded-[32px] overflow-hidden border border-[#e5d8c7] shadow-2xl text-[#2c1d11] my-auto flex flex-col max-h-[92vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Full Image Preview */}
-            <div className="relative max-h-[62vh] overflow-hidden bg-black flex items-center justify-center">
+            <div className="relative max-h-[50vh] sm:max-h-[55vh] bg-[#1a130e] flex items-center justify-center overflow-hidden shrink-0">
               <img
                 src={activeImage.imageUrl}
                 alt={activeImage.title}
-                className="w-full h-full object-contain max-h-[62vh] mx-auto"
+                className="w-full h-full object-contain max-h-[50vh] sm:max-h-[55vh] mx-auto select-none"
                 referrerPolicy="no-referrer"
               />
 
               {/* Action Buttons on top right */}
-              <div className="absolute top-4 right-4 flex items-center gap-2">
+              <div className="absolute top-3.5 right-3.5 flex items-center gap-2">
                 <button
                   onClick={() => handleShare(activeImage)}
-                  className="w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer shadow-md transition-all"
+                  className="w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer shadow-md transition-all backdrop-blur-sm"
                   title="Share details"
                 >
                   <Share2 className="w-4 h-4" />
@@ -868,7 +869,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ scriptMode }) =>
 
                 <button
                   onClick={() => setItemToDelete(activeImage)}
-                  className="w-9 h-9 rounded-full bg-rose-600/80 hover:bg-rose-700 text-white flex items-center justify-center cursor-pointer shadow-md transition-all"
+                  className="w-9 h-9 rounded-full bg-rose-600/85 hover:bg-rose-700 text-white flex items-center justify-center cursor-pointer shadow-md transition-all backdrop-blur-sm"
                   title="Delete photo"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -876,7 +877,8 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ scriptMode }) =>
 
                 <button
                   onClick={() => setActiveImage(null)}
-                  className="w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer text-base font-bold shadow-md transition-all"
+                  className="w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer text-base font-bold shadow-md transition-all backdrop-blur-sm"
+                  title="Close dossier"
                 >
                   ✕
                 </button>
@@ -884,65 +886,66 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ scriptMode }) =>
             </div>
 
             {copiedShare && (
-              <div className="p-2 bg-emerald-600 text-white text-xs text-center font-semibold">
-                ✓ Place details copied to clipboard!
+              <div className="p-2 bg-emerald-700 text-white text-xs text-center font-semibold tracking-wide shrink-0">
+                ✓ Place details and Takri name copied to clipboard!
               </div>
             )}
 
             {/* Written Information Dossier */}
-            <div className="p-6 sm:p-8 space-y-4 bg-[#2c1d11]">
+            <div className="p-5 sm:p-7 space-y-4 bg-[#fdfcf9] overflow-y-auto">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-xs text-season-accent font-bold uppercase tracking-wider">
-                  <MapPin className="w-4 h-4" />
-                  <span>{activeImage.location}</span>
+                  <MapPin className="w-4 h-4 text-season-accent shrink-0" />
+                  <span className="text-[#2c1d11] font-semibold">{activeImage.location}</span>
                   <span>•</span>
-                  <span className="px-2 py-0.5 rounded-md bg-white/10 text-white/90">
-                    {activeImage.category}
+                  <span className="px-2.5 py-0.5 rounded-full bg-season-badge-bg text-season-accent border border-season-badge-border font-bold text-[11px]">
+                    {activeImage.category.toUpperCase()}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => speakPhonetic(activeImage.titleHindi || activeImage.title)}
-                    className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-season-accent cursor-pointer flex items-center gap-1 text-xs"
+                    className="px-3 py-1 rounded-full bg-white hover:bg-season-badge-bg text-season-accent border border-[#e5d8c7] cursor-pointer flex items-center gap-1.5 text-xs font-semibold shadow-2xs transition-all hover:scale-105"
                     title="Pronounce"
                   >
-                    <Volume2 className="w-4 h-4" />
+                    <Volume2 className="w-3.5 h-3.5" />
                     <span>Pronounce</span>
                   </button>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-xl sm:text-2xl font-serif font-bold text-white leading-tight">
+                <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#2c1d11] leading-tight">
                   {activeImage.title}
                 </h3>
-                <h4 className="text-base sm:text-lg font-serif text-[#f4d19b] pt-0.5">
+                <h4 className="text-base sm:text-lg font-serif text-season-accent pt-1">
                   {activeImage.titleHindi}
                 </h4>
               </div>
 
               {/* Written Information */}
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
-                <span className="text-[11px] uppercase tracking-wider text-season-accent font-bold block">
-                  Place Lore & History:
-                </span>
-                <p className="text-xs sm:text-sm text-white/90 leading-relaxed">
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#faf6f0] border border-[#e5d8c7] shadow-xs space-y-2">
+                <div className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-season-accent font-bold">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Place Lore, Architecture & History:</span>
+                </div>
+                <p className="text-xs sm:text-sm text-[#3e2e21] leading-relaxed font-sans font-normal">
                   {activeImage.description}
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10 text-xs text-white/60">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#e5d8c7]/80 text-xs text-[#7a695a]">
                 <div className="flex flex-wrap gap-1.5">
                   {activeImage.tags.map((t, idx) => (
-                    <span key={idx} className="px-2 py-0.5 rounded-md bg-white/10 text-white/80">
+                    <span key={idx} className="px-2.5 py-0.5 rounded-full bg-white border border-[#e5d8c7] text-[#5c4a3b] font-medium text-[11px]">
                       #{t}
                     </span>
                   ))}
                 </div>
 
                 {activeImage.contributorName && (
-                  <span className="flex items-center gap-1 text-season-accent">
+                  <span className="flex items-center gap-1 text-season-accent font-semibold">
                     <User className="w-3.5 h-3.5" />
                     Contributed by {activeImage.contributorName}
                   </span>

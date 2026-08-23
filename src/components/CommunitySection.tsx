@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MessageSquare,
   Feather,
@@ -12,6 +12,8 @@ import {
   MapPin,
   Tag,
   PlusCircle,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { CommunityPost, CommunityComment } from '../types';
 import { INITIAL_COMMUNITY_POSTS } from '../data/communityData';
@@ -40,6 +42,16 @@ export const CommunitySection: React.FC<CommunitySectionProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showComposer, setShowComposer] = useState(initialOpenComposer);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
+  const categoryFilterRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollCategories = (direction: 'left' | 'right') => {
+    if (categoryFilterRef.current) {
+      categoryFilterRef.current.scrollBy({
+        left: direction === 'left' ? -200 : 200,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   // New Post Form State
   const [authorName, setAuthorName] = useState('');
@@ -411,27 +423,48 @@ export const CommunitySection: React.FC<CommunitySectionProps> = ({
 
       {/* Filter and Search Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-[#e5d8c7] shadow-sm">
-        {/* Category Tags */}
-        <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 scrollbar-none">
-          {[
-            { id: 'all', label: 'All Discussions (सभी)' },
-            { id: 'folklore', label: 'Folklore & Lore (लोकगाथा)' },
-            { id: 'practice', label: 'Cuisine & Dham (धाम)' },
-            { id: 'manuscript', label: 'Temples & History (इतिहास)' },
-            { id: 'poetry', label: 'Poetry & Songs (गीत)' },
-          ].map((tag) => (
-            <button
-              key={tag.id}
-              onClick={() => setActiveTag(tag.id)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all cursor-pointer font-semibold ${
-                activeTag === tag.id
-                  ? 'bg-season-accent text-white shadow-xs font-bold'
-                  : 'bg-[#faf6f0] text-[#5c4a3b] hover:text-[#2c1d11] border border-[#e5d8c7]'
-              }`}
-            >
-              {tag.label}
-            </button>
-          ))}
+        {/* Category Tags with Scroll Controls */}
+        <div className="flex items-center gap-1.5 w-full sm:w-auto overflow-hidden">
+          <button
+            onClick={() => scrollCategories('left')}
+            className="p-1.5 rounded-full bg-white hover:bg-[#faf6f0] text-season-accent border border-season-badge-border shadow-2xs transition-all cursor-pointer shrink-0 hover:scale-105"
+            title="Scroll Left"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+
+          <div
+            ref={categoryFilterRef}
+            className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 scrollbar-none flex-nowrap scroll-smooth"
+          >
+            {[
+              { id: 'all', label: 'All Discussions (सभी)' },
+              { id: 'folklore', label: 'Folklore & Lore (लोकगाथा)' },
+              { id: 'practice', label: 'Cuisine & Dham (धाम)' },
+              { id: 'manuscript', label: 'Temples & History (इतिहास)' },
+              { id: 'poetry', label: 'Poetry & Songs (गीत)' },
+            ].map((tag) => (
+              <button
+                key={tag.id}
+                onClick={() => setActiveTag(tag.id)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all cursor-pointer font-semibold shrink-0 ${
+                  activeTag === tag.id
+                    ? 'bg-season-accent text-white shadow-xs font-bold'
+                    : 'bg-[#faf6f0] text-[#5c4a3b] hover:text-[#2c1d11] border border-[#e5d8c7]'
+                }`}
+              >
+                {tag.label}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => scrollCategories('right')}
+            className="p-1.5 rounded-full bg-white hover:bg-[#faf6f0] text-season-accent border border-season-badge-border shadow-2xs transition-all cursor-pointer shrink-0 hover:scale-105"
+            title="Scroll Right"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
         </div>
 
         {/* Search Input */}

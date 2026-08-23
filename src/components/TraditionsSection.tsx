@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Landmark,
   Utensils,
@@ -16,6 +16,8 @@ import {
   Layers,
   ChefHat,
   Filter,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { HeritagePillarId, HeritageTraditionItem, ScriptMode } from '../types';
 import { HERITAGE_PILLARS_META, INITIAL_HERITAGE_ITEMS } from '../data/heritageTraditions';
@@ -52,6 +54,16 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
+  const regionFilterRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollRegions = (direction: 'left' | 'right') => {
+    if (regionFilterRef.current) {
+      regionFilterRef.current.scrollBy({
+        left: direction === 'left' ? -200 : 200,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   // Form State
   const [newTitleEng, setNewTitleEng] = useState('');
@@ -290,31 +302,52 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
 
       {/* Filter and Search Toolbar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/75 backdrop-blur-xl p-4 rounded-2xl border border-[#e5d8c7]/90 shadow-xs">
-        {/* Region Filter Buttons */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full scrollbar-none">
+        {/* Region Filter Buttons with Scroll Buttons */}
+        <div className="flex items-center gap-1.5 w-full sm:w-auto overflow-hidden">
           <button
-            onClick={() => setSelectedRegionFilter('all')}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-              selectedRegionFilter === 'all'
-                ? 'bg-season-accent text-white shadow-xs font-bold'
-                : 'bg-white/70 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white border border-[#e5d8c7]'
-            }`}
+            onClick={() => scrollRegions('left')}
+            className="p-1.5 rounded-full bg-white/90 hover:bg-white text-season-accent border border-season-badge-border shadow-2xs transition-all cursor-pointer shrink-0 hover:scale-105"
+            title="Scroll Left"
           >
-            All Regions ({currentPillarItems.length})
+            <ChevronLeft className="w-3.5 h-3.5" />
           </button>
-          {regionsInPillar.map((reg) => (
+
+          <div
+            ref={regionFilterRef}
+            className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full scrollbar-none flex-nowrap scroll-smooth"
+          >
             <button
-              key={reg}
-              onClick={() => setSelectedRegionFilter(reg)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                selectedRegionFilter === reg
+              onClick={() => setSelectedRegionFilter('all')}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
+                selectedRegionFilter === 'all'
                   ? 'bg-season-accent text-white shadow-xs font-bold'
                   : 'bg-white/70 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white border border-[#e5d8c7]'
               }`}
             >
-              {reg}
+              All Regions ({currentPillarItems.length})
             </button>
-          ))}
+            {regionsInPillar.map((reg) => (
+              <button
+                key={reg}
+                onClick={() => setSelectedRegionFilter(reg)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
+                  selectedRegionFilter === reg
+                    ? 'bg-season-accent text-white shadow-xs font-bold'
+                    : 'bg-white/70 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white border border-[#e5d8c7]'
+                }`}
+              >
+                {reg}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => scrollRegions('right')}
+            className="p-1.5 rounded-full bg-white/90 hover:bg-white text-season-accent border border-season-badge-border shadow-2xs transition-all cursor-pointer shrink-0 hover:scale-105"
+            title="Scroll Right"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
         </div>
 
         {/* Search Bar */}
@@ -454,7 +487,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
       {showAddModal && (
         <div
           id="add-tradition-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-sm overflow-y-auto"
           onClick={() => setShowAddModal(false)}
         >
           <div
@@ -646,7 +679,7 @@ export const TraditionsSection: React.FC<TraditionsSectionProps> = ({
       {selectedItem && (
         <div
           id="tradition-details-modal"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-sm overflow-y-auto"
           onClick={() => setSelectedItem(null)}
         >
           <div

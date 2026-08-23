@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   MapPin,
   Star,
@@ -18,6 +18,8 @@ import {
   Info,
   Copy,
   Check,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { HIMACHAL_PLACES } from '../data/himachalPlaces';
 import { HimachalPlace, ScriptMode } from '../types';
@@ -38,6 +40,16 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [copiedNotification, setCopiedNotification] = useState(false);
   const [modalTab, setModalTab] = useState<'history' | 'folklore' | 'travel'>('history');
+  const valleysRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollValleys = (direction: 'left' | 'right') => {
+    if (valleysRef.current) {
+      valleysRef.current.scrollBy({
+        left: direction === 'left' ? -220 : 220,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   const valleys = [
     { id: 'all', label: 'All Valleys (समस्त हिमाचल)' },
@@ -161,24 +173,46 @@ export const PlacesSection: React.FC<PlacesSectionProps> = ({
         </button>
       </div>
 
-      {/* Valley Filter Bar */}
-      <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-        {valleys.map((v) => {
-          return (
-            <button
-              key={v.id}
-              id={`filter-place-${v.id}`}
-              onClick={() => setActiveFilter(v.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer backdrop-blur-md ${
-                activeFilter === v.id
-                  ? 'bg-season-accent text-white font-bold shadow-sm'
-                  : 'bg-white/60 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white/90 border border-[#e5d8c7]/80'
-              }`}
-            >
-              {v.label}
-            </button>
-          );
-        })}
+      {/* Valley Filter Bar with Slide Buttons */}
+      <div className="relative flex items-center gap-1.5 w-full max-w-5xl mx-auto px-1">
+        <button
+          onClick={() => scrollValleys('left')}
+          className="p-1.5 sm:p-2 rounded-full bg-white/90 hover:bg-white text-season-accent border border-season-badge-border shadow-xs transition-all cursor-pointer shrink-0 hover:scale-105"
+          title="Scroll Left"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+
+        <div
+          ref={valleysRef}
+          className="flex-1 flex items-center gap-2 overflow-x-auto pb-1 pt-0.5 px-2 scrollbar-none scroll-smooth flex-nowrap"
+        >
+          {valleys.map((v) => {
+            const isSelected = activeFilter === v.id;
+            return (
+              <button
+                key={v.id}
+                id={`filter-place-${v.id}`}
+                onClick={() => setActiveFilter(v.id)}
+                className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer backdrop-blur-md shrink-0 ${
+                  isSelected
+                    ? 'bg-season-accent text-white font-bold shadow-sm'
+                    : 'bg-white/70 text-[#5c4a3b] hover:text-[#2c1d11] hover:bg-white border border-[#e5d8c7]'
+                }`}
+              >
+                {v.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          onClick={() => scrollValleys('right')}
+          className="p-1.5 sm:p-2 rounded-full bg-white/90 hover:bg-white text-season-accent border border-season-badge-border shadow-xs transition-all cursor-pointer shrink-0 hover:scale-105"
+          title="Scroll Right"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Quick Search and Results Count */}

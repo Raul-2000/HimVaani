@@ -30,7 +30,7 @@ export const HIMACHAL_GALLERY: GalleryItem[] = [
     titleHindi: 'नग्गर का प्राचीन काष्ठ-कुणी काष्ठ महल',
     category: 'architecture',
     location: 'Naggar, Kullu Valley',
-    imageUrl: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1600&q=85',
     description: 'Built over 500 years ago using alternating layers of deodar timber and hand-cut stone without mortar, capable of withstanding massive Himalayan earthquakes.',
     tags: ['Kath-Kuni', 'Architecture', 'Heritage']
   },
