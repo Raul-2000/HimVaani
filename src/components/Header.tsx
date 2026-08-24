@@ -126,32 +126,32 @@ export const Header: React.FC<HeaderProps> = ({
           : 'py-2.5 bg-[#fdfbf7]/75 backdrop-blur-xl border-b border-[#ebd8c5]/60'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 flex items-center justify-between gap-2">
+      <div className="max-w-7xl mx-auto px-2 sm:px-3 lg:px-6 flex items-center justify-between gap-1.5 sm:gap-2 w-full">
         {/* Brand Logo */}
         <div
           id="brand-logo-button"
           onClick={() => setActiveTab('home')}
-          className="flex items-center gap-1.5 sm:gap-2.5 cursor-pointer group shrink-0"
+          className="flex items-center gap-1.5 sm:gap-2 cursor-pointer group shrink-0"
         >
           <div
-            className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-2xl flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform border border-season-badge-border shrink-0"
+            className="w-7 h-7 sm:w-8.5 sm:h-8.5 rounded-xl flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform border border-season-badge-border shrink-0"
             style={{
               background: `linear-gradient(135deg, ${activeSeasonData.accentColor}, ${activeSeasonData.accentDark})`,
             }}
           >
-            <Mountain className="w-4 h-4 sm:w-5 sm:h-5 text-white stroke-[2.2]" />
+            <Mountain className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white stroke-[2.2]" />
           </div>
           <div className="min-w-0">
             <div className="flex items-baseline gap-1">
-              <h1 className="text-base sm:text-xl font-serif font-bold tracking-tight text-[#2c1d11] transition-colors leading-none">
+              <h1 className="text-sm sm:text-base xl:text-lg font-serif font-bold tracking-tight text-[#2c1d11] transition-colors leading-none whitespace-nowrap">
                 {scriptMode === 'bilingual' ? (
-                  <span>हिमवाणी <span className="text-season-accent font-light text-xs sm:text-base font-sans hidden min-[400px]:inline">HimVaani</span></span>
+                  <span>हिमवाणी <span className="text-season-accent font-light text-xs sm:text-sm font-sans hidden min-[600px]:inline">HimVaani</span></span>
                 ) : (
                   <span>HimVaani</span>
                 )}
               </h1>
               <span
-                className="text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full border font-bold shrink-0 hidden min-[480px]:inline"
+                className="text-[9px] px-1.5 py-0.2 rounded-full border font-bold shrink-0 hidden 2xl:inline"
                 style={{
                   backgroundColor: activeSeasonData.badgeBg,
                   borderColor: activeSeasonData.badgeBorder,
@@ -161,14 +161,11 @@ export const Header: React.FC<HeaderProps> = ({
                 धरोहर
               </span>
             </div>
-            <p className="text-[8px] sm:text-[9px] uppercase tracking-[0.08em] text-[#7a695a] font-sans hidden 2xl:block pt-0.5">
-              The Cultural & Heritage Guide to Himachal Pradesh
-            </p>
           </div>
         </div>
 
-        {/* Central Nav Links (Desktop) with Scroll Left / Scroll Right Arrow buttons */}
-        <div className="hidden lg:flex items-center gap-1 max-w-2xl">
+        {/* Central Nav Links (Desktop) with responsive flexing and scroll arrows */}
+        <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-1 min-w-0 max-w-sm xl:max-w-lg 2xl:max-w-xl mx-1 xl:mx-2">
           <button
             onClick={() => scrollDesktopNav('left')}
             className="p-1 rounded-full text-[#7a695a] hover:text-[#2c1d11] hover:bg-white/80 transition-all cursor-pointer shrink-0"
@@ -180,7 +177,7 @@ export const Header: React.FC<HeaderProps> = ({
           <nav
             ref={desktopNavRef}
             id="desktop-navigation"
-            className="flex items-center gap-1 bg-white/50 backdrop-blur-md px-2 py-1 rounded-full border border-season-badge-border/80 shadow-xs overflow-x-auto scrollbar-none scroll-smooth"
+            className="flex-1 flex items-center gap-1 bg-white/60 backdrop-blur-md px-1.5 py-1 rounded-full border border-season-badge-border/80 shadow-xs overflow-x-auto scrollbar-none scroll-smooth min-w-0"
           >
             {navItems.map((item) => {
               const isSelected = activeTab === item.id;
@@ -189,7 +186,7 @@ export const Header: React.FC<HeaderProps> = ({
                   key={item.id}
                   id={`nav-tab-${item.id}`}
                   onClick={() => setActiveTab(item.id)}
-                  className={`text-[11px] xl:text-xs transition-all px-2.5 xl:px-3 py-1 rounded-full cursor-pointer whitespace-nowrap font-medium shrink-0 ${
+                  className={`text-[11px] xl:text-xs transition-all px-2 xl:px-2.5 py-0.5 xl:py-1 rounded-full cursor-pointer whitespace-nowrap font-medium shrink-0 ${
                     isSelected
                       ? 'bg-season-badge-bg font-bold text-season-accent shadow-xs border border-season-badge-border/80'
                       : 'text-[#6e5d4e] hover:text-[#2c1d11] hover:bg-white/50'
@@ -211,7 +208,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-1.5 xl:gap-2 shrink-0">
           {/* Seasonal Theme Switcher */}
           <SeasonThemeSelector
             currentSeason={currentSeason}
@@ -220,37 +217,36 @@ export const Header: React.FC<HeaderProps> = ({
           />
 
           {/* Language / View Mode Toggle */}
-          <div id="script-mode-selector" className="flex items-center bg-white/50 backdrop-blur-md rounded-full p-0.5 border border-[#e5d8c7]/80 text-[10px] sm:text-xs">
+          <div id="script-mode-selector" className="flex items-center bg-white/60 backdrop-blur-md rounded-full p-0.5 border border-[#e5d8c7]/80 text-[10px] sm:text-xs shrink-0">
             <button
               id="lang-select-english"
               onClick={() => setScriptMode('all')}
-              className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs tracking-wider transition-all cursor-pointer font-semibold uppercase ${
+              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs tracking-wider transition-all cursor-pointer font-semibold uppercase ${
                 scriptMode === 'all' || scriptMode === 'trilingual'
                   ? 'bg-season-accent text-white shadow-xs font-bold'
                   : 'text-[#6e5d4e] hover:text-[#2c1d11]'
               }`}
               title="English presentation"
             >
-              <span className="hidden sm:inline">English</span>
-              <span className="sm:hidden">EN</span>
+              <span className="hidden xl:inline">English</span>
+              <span className="xl:hidden">EN</span>
             </button>
             <button
               id="lang-select-hindi"
               onClick={() => setScriptMode('bilingual')}
-              className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs transition-all cursor-pointer flex items-center gap-0.5 font-medium ${
+              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs transition-all cursor-pointer flex items-center gap-0.5 font-medium ${
                 scriptMode === 'bilingual'
                   ? 'bg-season-accent text-white font-bold shadow-xs'
                   : 'text-[#6e5d4e] hover:text-[#2c1d11]'
               }`}
               title="हिंदी (Hindi) presentation"
             >
-              <span className="hidden sm:inline">हिंदी</span>
-              <span className="sm:hidden">हिं</span>
+              <span>हिंदी</span>
             </button>
           </div>
 
           {/* Pronunciation & Nature Sound Toggle */}
-          <div className="flex items-center relative">
+          <div className="flex items-center relative shrink-0">
             {showAudioFeedback && (
               <div
                 className="absolute -bottom-8 right-0 bg-[#2c1d11]/90 backdrop-blur-md text-white text-[10px] font-sans px-2.5 py-1 rounded-full border border-[#e5d8c7] shadow-xl whitespace-nowrap z-50 animate-fadeIn pointer-events-none"
@@ -262,7 +258,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="global-sound-mute-toggle-btn"
               onClick={handleToggleMute}
-              className={`p-2 rounded-full border transition-all cursor-pointer flex items-center justify-center backdrop-blur-md ${
+              className={`p-1.5 sm:p-2 rounded-full border transition-all cursor-pointer flex items-center justify-center backdrop-blur-md shrink-0 ${
                 isMuted
                   ? 'bg-rose-50/80 text-rose-700 border-rose-300'
                   : 'bg-white/70 border-season-badge-border hover:bg-white text-season-accent ring-2 ring-season-accent/20'
@@ -287,11 +283,11 @@ export const Header: React.FC<HeaderProps> = ({
                 setActiveTab('community');
               }
             }}
-            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-full bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-102 cursor-pointer shrink-0"
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-season-accent hover:opacity-90 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-102 cursor-pointer shrink-0"
           >
-            <Feather className="w-3.5 h-3.5" />
+            <Feather className="w-3.5 h-3.5 shrink-0" />
             <span className="hidden xl:inline">{scriptMode === 'bilingual' ? 'कहानी साझा करें' : 'Share Story'}</span>
-            <span className="xl:hidden">{scriptMode === 'bilingual' ? 'साझा' : 'Post'}</span>
+            <span className="hidden sm:inline xl:hidden">{scriptMode === 'bilingual' ? 'साझा' : 'Share'}</span>
           </button>
         </div>
       </div>

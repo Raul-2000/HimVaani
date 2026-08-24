@@ -43,16 +43,16 @@ export const SeasonThemeSelector: React.FC<SeasonThemeSelectorProps> = ({
         }}
         title={`Himachal Seasonal Theme: ${activeSeasonData.nameEnglish} (${activeSeasonData.nameTakri})`}
       >
-        <span className="text-base leading-none">{activeSeasonData.icon}</span>
-        <span className="font-bold">
+        <span className="text-base leading-none shrink-0">{activeSeasonData.icon}</span>
+        <span className="font-bold whitespace-nowrap">
           {activeSeasonData.nameEnglish.split(' ')[0]}
         </span>
-        <span className="font-takri text-xs font-bold sm:ml-0.5 opacity-90 hidden min-[400px]:inline">
+        <span className="font-takri text-xs font-bold opacity-90 hidden 2xl:inline whitespace-nowrap">
           {activeSeasonData.nameTakri.split(' ')[0]}
         </span>
         {isAutoMode && (
           <span
-            className="text-[9px] px-1.5 py-0.5 rounded-full uppercase tracking-widest font-mono font-bold hidden md:inline border"
+            className="text-[8px] sm:text-[9px] px-1.5 py-0.2 rounded-full uppercase tracking-widest font-mono font-bold hidden xl:inline border shrink-0"
             style={{
               backgroundColor: activeSeasonData.badgeBorder,
               borderColor: activeSeasonData.badgeText,
@@ -62,7 +62,7 @@ export const SeasonThemeSelector: React.FC<SeasonThemeSelectorProps> = ({
             Auto
           </span>
         )}
-        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {/* Dropdown Menu */}
