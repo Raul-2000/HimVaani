@@ -30,27 +30,64 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
     }
   };
 
+  const seasonBackdrops: Record<HimachalSeason, { url: string; alt: string }> = {
+    monsoon: {
+      url: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=2560&q=90',
+      alt: 'Dramatic Himalayan monsoon thunderclouds and misty mountain peaks',
+    },
+    winter: {
+      url: 'https://images.unsplash.com/photo-1491555103944-7c647fd857e6?auto=format&fit=crop&w=2560&q=90',
+      alt: 'Snowy Himalayan mountain peaks in winter',
+    },
+    spring: {
+      url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2560&q=90',
+      alt: 'Lush green blooming Himalayan valleys in spring',
+    },
+    summer: {
+      url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=90',
+      alt: 'Majestic sunlit Himalayan mountain range in summer',
+    },
+    autumn: {
+      url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2560&q=90',
+      alt: 'Golden autumn pine ridges and peaks in Himachal',
+    },
+  };
+
+  const backdrop = seasonBackdrops[currentSeason] || seasonBackdrops.monsoon;
+  const isDarkAtmosphere = currentSeason === 'monsoon';
+
   return (
     <section
       id="hero-banner-section"
       className="relative min-h-[85vh] flex items-center justify-center pt-32 sm:pt-36 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
-      {/* 3D Rugged Himalayan Mountain Backdrop with Rich Atmosphere */}
+      {/* 3D Rugged Himalayan Mountain Backdrop with Rich Season-Aware Atmosphere */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <img
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=90"
-          alt="Himalayan mountain peaks"
-          className="w-full h-full object-cover object-center scale-102 brightness-[0.96] contrast-[1.04]"
+          src={backdrop.url}
+          alt={backdrop.alt}
+          className="w-full h-full object-cover object-center scale-102 brightness-[0.96] contrast-[1.04] transition-opacity duration-700"
           referrerPolicy="no-referrer"
         />
         {/* Atmospheric Color Blend & Depth Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#fdfbf7]/75 via-[#f8f3ea]/60 to-[#fdfbf7]/90 backdrop-blur-[1.5px]" />
+        <div
+          className={`absolute inset-0 transition-colors duration-700 backdrop-blur-[1px] ${
+            isDarkAtmosphere
+              ? 'bg-gradient-to-b from-slate-950/75 via-slate-900/60 to-[#0f172a]/95'
+              : 'bg-gradient-to-b from-[#fdfbf7]/80 via-[#f8f3ea]/65 to-[#fdfbf7]/90'
+          }`}
+        />
         
-        {/* Soft 3D Mountain Sun Lighting Effect */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
+        {/* Sun lighting or Thunderstorm Glow Effect */}
+        {isDarkAtmosphere ? (
+          <div className="absolute top-0 left-1/3 w-96 h-96 bg-cyan-900/30 rounded-full blur-3xl pointer-events-none" />
+        ) : (
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
+        )}
+
         {/* Animated Himalayan Mist Layers */}
-        <div className="absolute -top-10 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-white/0 via-white/40 to-white/0 blur-2xl animate-mist pointer-events-none" />
-        <div className="absolute bottom-10 -right-1/4 w-[150%] h-72 bg-gradient-to-r from-white/0 via-white/30 to-white/0 blur-3xl animate-mist pointer-events-none" style={{ animationDelay: '-9s' }} />
+        <div className="absolute -top-10 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-white/0 via-white/20 to-white/0 blur-2xl animate-mist pointer-events-none" />
+        <div className="absolute bottom-10 -right-1/4 w-[150%] h-72 bg-gradient-to-r from-white/0 via-white/15 to-white/0 blur-3xl animate-mist pointer-events-none" style={{ animationDelay: '-9s' }} />
       </div>
 
       {/* Hero Outer Container */}
@@ -61,11 +98,11 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             {/* Tag / Badge and Himachal Seasonal Accent */}
             <div className="flex flex-wrap items-center gap-2.5">
               <div
-                className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-xs uppercase tracking-[0.2em] font-semibold bg-white/80 backdrop-blur-md shadow-xs"
-                style={{
-                  borderColor: activeSeasonData.badgeBorder,
-                  color: activeSeasonData.badgeText,
-                }}
+                className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-xs uppercase tracking-[0.2em] font-semibold backdrop-blur-md shadow-xs ${
+                  isDarkAtmosphere
+                    ? 'bg-slate-900/90 text-slate-100 border-slate-700 shadow-md'
+                    : 'bg-white/85 text-[#2c1d11] border-[#e5d8c7]'
+                }`}
               >
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: activeSeasonData.accentColor }}></span>
                 {scriptMode === 'takri-only' ? (
@@ -87,15 +124,20 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
               {/* Live Himachal Season Pill */}
               <div
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs bg-white/80 backdrop-blur-md text-[#5c4a3b] shadow-xs"
-                style={{
-                  borderColor: activeSeasonData.badgeBorder,
-                }}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs backdrop-blur-md shadow-xs ${
+                  isDarkAtmosphere
+                    ? 'bg-slate-900/90 text-slate-100 border-slate-700 shadow-md'
+                    : 'bg-white/85 text-[#5c4a3b] border-[#e5d8c7]'
+                }`}
               >
                 <span>{activeSeasonData.icon}</span>
-                <span className="font-bold text-season-accent">{activeSeasonData.nameEnglish.split(' ')[0]}</span>
+                <span className={`font-bold ${isDarkAtmosphere ? 'text-emerald-300' : 'text-season-accent'}`}>
+                  {activeSeasonData.nameEnglish.split(' ')[0]}
+                </span>
                 <span className="opacity-40">•</span>
-                <span className="font-takri font-bold text-season-accent">{activeSeasonData.nameTakri}</span>
+                <span className={`font-takri font-bold ${isDarkAtmosphere ? 'text-emerald-300' : 'text-season-accent'}`}>
+                  {activeSeasonData.nameTakri}
+                </span>
               </div>
             </div>
 
@@ -103,30 +145,46 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             <div className="space-y-2">
               {scriptMode === 'takri-only' ? (
                 <div>
-                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] font-takri text-season-accent drop-shadow-xs">
+                  <h1 className={`text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] font-takri drop-shadow-md ${
+                    isDarkAtmosphere ? 'text-emerald-300' : 'text-season-accent'
+                  }`}>
                     𑚩𑚮𑚢𑚪𑚭𑚘𑚯: 𑚩𑚮𑚢𑚭𑚏𑚥 𑚛𑚤𑚧𑚝 𑚙𑚲 𑚜𑚤𑚴𑚩𑚤
                   </h1>
                 </div>
               ) : scriptMode === 'bilingual' ? (
                 <div>
-                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-[#2c1d11] leading-[1.08] font-serif">
-                    हिमवाणी <span className="text-season-accent text-3xl sm:text-5xl font-sans font-light block pt-1">HimVaani</span>
+                  <h1 className={`text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.08] font-serif ${
+                    isDarkAtmosphere ? 'text-white drop-shadow-md' : 'text-[#2c1d11]'
+                  }`}>
+                    हिमवाणी <span className={`text-3xl sm:text-5xl font-sans font-light block pt-1 ${
+                      isDarkAtmosphere ? 'text-emerald-300 drop-shadow-xs' : 'text-season-accent'
+                    }`}>HimVaani</span>
                   </h1>
-                  <p className="text-xl sm:text-3xl font-serif italic text-[#4a392b] pt-2">
+                  <p className={`text-xl sm:text-3xl font-serif italic pt-2 ${
+                    isDarkAtmosphere ? 'text-slate-200 drop-shadow-xs' : 'text-[#4a392b]'
+                  }`}>
                     The Cultural & Heritage Guide to Himachal Pradesh
                   </p>
                   <div className="flex items-center gap-3 pt-2">
-                    <span className="font-takri text-2xl sm:text-3xl font-bold text-season-accent">
+                    <span className={`font-takri text-2xl sm:text-3xl font-bold ${
+                      isDarkAtmosphere ? 'text-emerald-300 drop-shadow-xs' : 'text-season-accent'
+                    }`}>
                       𑚩𑚮𑚢𑚪𑚭𑚘𑚯 • 𑚩𑚮𑚢𑚭𑚏𑚥 𑚛𑚤𑚧𑚝 𑚙𑚲 𑚜𑚤𑚴𑚩𑚤
                     </span>
                   </div>
                 </div>
               ) : (
                 <div>
-                  <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-[#2c1d11] leading-[1.05] font-serif">
+                  <h1 className={`text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.05] font-serif ${
+                    isDarkAtmosphere ? 'text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]' : 'text-[#2c1d11]'
+                  }`}>
                     HimVaani
                   </h1>
-                  <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif italic text-season-accent pt-2">
+                  <h2 className={`text-2xl sm:text-4xl lg:text-5xl font-serif italic pt-2 font-semibold ${
+                    isDarkAtmosphere
+                      ? 'text-emerald-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]'
+                      : 'text-season-accent'
+                  }`}>
                     The Cultural & Heritage Guide to Himachal Pradesh
                   </h2>
                 </div>
@@ -134,7 +192,11 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             </div>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-lg text-[#3e2e21] max-w-2xl leading-relaxed font-normal bg-white/40 backdrop-blur-xs p-3 rounded-2xl border border-white/60">
+            <p className={`text-base sm:text-lg max-w-2xl leading-relaxed font-normal p-3.5 rounded-2xl border backdrop-blur-md shadow-xs ${
+              isDarkAtmosphere
+                ? 'text-slate-100 bg-slate-950/75 border-slate-700/80 shadow-md'
+                : 'text-[#3e2e21] bg-white/60 border-white/80'
+            }`}>
               Explore the landscapes, languages, traditions, festivals, architecture, cuisine, folklore, history, and hidden stories of Himachal Pradesh—preserving its rich cultural heritage for generations to come.
             </p>
 
@@ -152,42 +214,60 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               <button
                 id="hero-districts-btn"
                 onClick={() => onNavigate ? onNavigate('districts') : null}
-                className="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/85 hover:bg-white text-[#2c1d11] font-semibold text-xs uppercase tracking-wider border border-[#e5d8c7] shadow-xs backdrop-blur-md transition-all cursor-pointer"
+                className={`flex items-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-xs uppercase tracking-wider border shadow-xs backdrop-blur-md transition-all cursor-pointer ${
+                  isDarkAtmosphere
+                    ? 'bg-slate-900/90 hover:bg-slate-800 text-white border-slate-700'
+                    : 'bg-white/85 hover:bg-white text-[#2c1d11] border-[#e5d8c7]'
+                }`}
               >
-                <MapPin className="w-4 h-4 text-season-accent" />
+                <MapPin className={`w-4 h-4 ${isDarkAtmosphere ? 'text-emerald-300' : 'text-season-accent'}`} />
                 <span>12 Districts (जिले)</span>
               </button>
 
               <button
                 id="hero-culture-btn"
                 onClick={() => onNavigate ? onNavigate('culture') : null}
-                className="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/85 hover:bg-white text-[#2c1d11] font-semibold text-xs uppercase tracking-wider border border-[#e5d8c7] shadow-xs backdrop-blur-md transition-all cursor-pointer"
+                className={`flex items-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-xs uppercase tracking-wider border shadow-xs backdrop-blur-md transition-all cursor-pointer ${
+                  isDarkAtmosphere
+                    ? 'bg-slate-900/90 hover:bg-slate-800 text-white border-slate-700'
+                    : 'bg-white/85 hover:bg-white text-[#2c1d11] border-[#e5d8c7]'
+                }`}
               >
-                <Sparkles className="w-4 h-4 text-season-accent" />
+                <Sparkles className={`w-4 h-4 ${isDarkAtmosphere ? 'text-emerald-300' : 'text-season-accent'}`} />
                 <span>Living Traditions (धरोहर)</span>
               </button>
 
               <button
                 id="hero-takri-btn"
                 onClick={() => onNavigate ? onNavigate('takri') : null}
-                className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-white/70 hover:bg-white text-[#5c4a3b] text-xs font-semibold uppercase tracking-wider border border-[#ebd8c5] transition-all cursor-pointer"
+                className={`flex items-center gap-2 px-4 py-3.5 rounded-xl text-xs font-semibold uppercase tracking-wider border transition-all cursor-pointer ${
+                  isDarkAtmosphere
+                    ? 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 border-slate-700'
+                    : 'bg-white/70 hover:bg-white text-[#5c4a3b] border-[#ebd8c5]'
+                }`}
               >
-                <Feather className="w-4 h-4 text-season-accent" />
+                <Feather className={`w-4 h-4 ${isDarkAtmosphere ? 'text-emerald-300' : 'text-season-accent'}`} />
                 <span>Takri Script (टांकरी)</span>
               </button>
             </div>
 
             {/* Micro proof / heritage trust points */}
-            <div className="flex items-center gap-4 pt-4 border-t border-[#e5d8c7]/80">
-              <div className="flex items-center gap-1 text-[#d97706]">
+            <div className={`flex items-center gap-4 pt-4 border-t ${
+              isDarkAtmosphere ? 'border-slate-800 text-slate-300' : 'border-[#e5d8c7]/80 text-[#5c4a3b]'
+            }`}>
+              <div className="flex items-center gap-1 text-[#fbbf24]">
                 <Star className="w-4 h-4 fill-current text-current" />
-                <span className="text-[#2c1d11] font-bold text-sm">4.9</span>
+                <span className={`font-bold text-sm ${isDarkAtmosphere ? 'text-white' : 'text-[#2c1d11]'}`}>4.9</span>
               </div>
-              <span className="text-xs text-[#5c4a3b] font-medium">
+              <span className="text-xs font-medium">
                 Comprehensive Cultural Archive of Himachal Pradesh (देवभूमि धरोहर)
               </span>
               <div
-                className="hidden sm:flex items-center gap-1.5 ml-auto text-[11px] px-3 py-1 rounded-full border uppercase tracking-wider font-semibold bg-season-badge-bg/90 text-season-accent border-season-badge-border shadow-xs"
+                className={`hidden sm:flex items-center gap-1.5 ml-auto text-[11px] px-3 py-1 rounded-full border uppercase tracking-wider font-semibold shadow-xs ${
+                  isDarkAtmosphere
+                    ? 'bg-slate-900/90 text-emerald-300 border-slate-700'
+                    : 'bg-season-badge-bg/90 text-season-accent border-season-badge-border'
+                }`}
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>UNESCO & GI Archive</span>

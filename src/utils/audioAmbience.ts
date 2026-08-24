@@ -39,10 +39,45 @@ class NatureAudioEngine {
   private noiseNode: AudioBufferSourceNode | null = null;
   private filterNode: BiquadFilterNode | null = null;
   private rainGain: GainNode | null = null;
+  private rainHighFilter: BiquadFilterNode | null = null;
   private thunderTimer: number | null = null;
   private birdTimer: number | null = null;
   private currentSeason: HimachalSeason = 'monsoon';
-  private isAmbiencePlaying = false;
+  public isAmbiencePlaying = false;
+  private isUnlocked = false;
+
+  constructor() {
+    // Register auto-unlock on first user gesture
+    if (typeof window !== 'undefined') {
+      const unlockAudio = () => {
+        this.unlockContext();
+        window.removeEventListener('click', unlockAudio);
+        window.removeEventListener('touchstart', unlockAudio);
+        window.removeEventListener('keydown', unlockAudio);
+      };
+      window.addEventListener('click', unlockAudio, { passive: true });
+      window.addEventListener('touchstart', unlockAudio, { passive: true });
+      window.addEventListener('keydown', unlockAudio, { passive: true });
+    }
+  }
+
+  public unlockContext() {
+    if (this.isUnlocked) return;
+    this.initContext();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().then(() => {
+        this.isUnlocked = true;
+        if (!isMuted && !this.isAmbiencePlaying) {
+          this.startAmbience();
+        }
+      }).catch(() => {});
+    } else {
+      this.isUnlocked = true;
+      if (!isMuted && !this.isAmbiencePlaying) {
+        this.startAmbience();
+      }
+    }
+  }
 
   private initContext() {
     if (!this.ctx && typeof window !== 'undefined') {
@@ -50,24 +85,34 @@ class NatureAudioEngine {
       if (AudioCtx) {
         this.ctx = new AudioCtx();
         this.masterGain = this.ctx.createGain();
-        this.masterGain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+        this.masterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
         this.masterGain.connect(this.ctx.destination);
       }
     }
   }
 
-  // Generate buffer for nature white/pink noise
-  private createNoiseBuffer(duration = 5): AudioBuffer | null {
+  // Generate buffer for nature white/pink/brown noise for authentic rain and thunder
+  private createNoiseBuffer(duration = 6): AudioBuffer | null {
+    this.initContext();
     if (!this.ctx) return null;
     const bufferSize = this.ctx.sampleRate * duration;
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    let lastOut = 0.0;
+    const buffer = this.ctx.createBuffer(2, bufferSize, this.ctx.sampleRate);
+    const leftData = buffer.getChannelData(0);
+    const rightData = buffer.getChannelData(1);
+    
+    let lastOutL = 0.0;
+    let lastOutR = 0.0;
+    
     for (let i = 0; i < bufferSize; i++) {
-      const white = Math.random() * 2 - 1;
-      // Pink-ish noise filter
-      lastOut = lastOut * 0.9 + white * 0.1;
-      data[i] = lastOut;
+      const whiteL = Math.random() * 2 - 1;
+      const whiteR = Math.random() * 2 - 1;
+      
+      // Dual-channel pink/brown noise filter with gentle stereo variance
+      lastOutL = lastOutL * 0.86 + whiteL * 0.14;
+      lastOutR = lastOutR * 0.86 + whiteR * 0.14;
+      
+      leftData[i] = lastOutL;
+      rightData[i] = lastOutR;
     }
     return buffer;
   }
@@ -76,6 +121,7 @@ class NatureAudioEngine {
     this.currentSeason = season;
     if (this.isAmbiencePlaying && !isMuted) {
       this.updateSeasonAmbience();
+      this.scheduleRandomSounds();
     }
   }
 
@@ -122,7 +168,9 @@ class NatureAudioEngine {
     try {
       this.initContext();
       if (!this.ctx || !this.masterGain) return;
-      if (this.ctx.state === 'suspended') this.ctx.resume();
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
 
       if (this.isAmbiencePlaying) {
         this.updateSeasonAmbience();
@@ -131,7 +179,7 @@ class NatureAudioEngine {
 
       this.stopAmbience();
 
-      const noiseBuffer = this.createNoiseBuffer(6);
+      const noiseBuffer = this.createNoiseBuffer(8);
       if (!noiseBuffer) return;
 
       this.noiseNode = this.ctx.createBufferSource();
@@ -139,48 +187,65 @@ class NatureAudioEngine {
       this.noiseNode.loop = true;
 
       this.filterNode = this.ctx.createBiquadFilter();
+      this.rainHighFilter = this.ctx.createBiquadFilter();
       this.rainGain = this.ctx.createGain();
 
       this.updateSeasonAmbience();
 
       this.noiseNode.connect(this.filterNode);
-      this.filterNode.connect(this.rainGain);
+      this.filterNode.connect(this.rainHighFilter);
+      this.rainHighFilter.connect(this.rainGain);
       this.rainGain.connect(this.masterGain);
 
       this.noiseNode.start(0);
       this.isAmbiencePlaying = true;
 
       this.scheduleRandomSounds();
+      
+      // If monsoon, trigger an audible distant welcoming mountain thunder
+      if (this.currentSeason === 'monsoon') {
+        setTimeout(() => this.triggerDistantThunder(1.1), 400);
+      }
     } catch {
       // Ignore initial user-gesture constraints
     }
   }
 
   private updateSeasonAmbience() {
-    if (!this.ctx || !this.filterNode || !this.rainGain) return;
+    if (!this.ctx || !this.filterNode || !this.rainGain || !this.rainHighFilter) return;
     const now = this.ctx.currentTime;
 
     if (this.currentSeason === 'monsoon') {
-      // Gentle rhythmic mountain rain
+      // Rich, soothing mountain monsoon rain patter
       this.filterNode.type = 'lowpass';
-      this.filterNode.frequency.setTargetAtTime(1400, now, 0.5);
-      this.rainGain.gain.setTargetAtTime(0.22, now, 0.5);
+      this.filterNode.frequency.setTargetAtTime(2400, now, 0.3);
+      this.filterNode.Q.setTargetAtTime(1.1, now, 0.3);
+
+      this.rainHighFilter.type = 'highpass';
+      this.rainHighFilter.frequency.setTargetAtTime(220, now, 0.3);
+
+      this.rainGain.gain.setTargetAtTime(0.42, now, 0.3);
     } else if (this.currentSeason === 'winter') {
       // Whispering mountain wind
       this.filterNode.type = 'bandpass';
       this.filterNode.frequency.setTargetAtTime(450, now, 0.5);
       this.filterNode.Q.setTargetAtTime(3.0, now, 0.5);
-      this.rainGain.gain.setTargetAtTime(0.12, now, 0.5);
+
+      this.rainHighFilter.type = 'allpass';
+      this.rainGain.gain.setTargetAtTime(0.18, now, 0.5);
     } else if (this.currentSeason === 'spring' || this.currentSeason === 'summer') {
       // Pine forest creek & gentle breeze
       this.filterNode.type = 'lowpass';
-      this.filterNode.frequency.setTargetAtTime(900, now, 0.5);
-      this.rainGain.gain.setTargetAtTime(0.14, now, 0.5);
+      this.filterNode.frequency.setTargetAtTime(950, now, 0.5);
+      this.rainHighFilter.type = 'highpass';
+      this.rainHighFilter.frequency.setTargetAtTime(180, now, 0.5);
+      this.rainGain.gain.setTargetAtTime(0.20, now, 0.5);
     } else {
       // Autumn whispering leaves
       this.filterNode.type = 'bandpass';
       this.filterNode.frequency.setTargetAtTime(600, now, 0.5);
-      this.rainGain.gain.setTargetAtTime(0.13, now, 0.5);
+      this.rainHighFilter.type = 'allpass';
+      this.rainGain.gain.setTargetAtTime(0.18, now, 0.5);
     }
   }
 
@@ -188,13 +253,14 @@ class NatureAudioEngine {
     if (this.thunderTimer) clearInterval(this.thunderTimer);
     if (this.birdTimer) clearInterval(this.birdTimer);
 
-    // Random soft thunder rumble in monsoon
+    // Periodic rolling thunder in monsoon (every 7 to 11 seconds)
     if (this.currentSeason === 'monsoon') {
       this.thunderTimer = window.setInterval(() => {
-        if (!isMuted && this.isAmbiencePlaying && Math.random() > 0.4) {
-          this.triggerDistantThunder();
+        if (!isMuted && this.isAmbiencePlaying) {
+          const intensity = Math.random() * 0.5 + 0.8;
+          this.triggerDistantThunder(intensity);
         }
-      }, 12000);
+      }, 8500);
     } else if (this.currentSeason === 'spring' || this.currentSeason === 'summer') {
       // Himalayan bird chirps
       this.birdTimer = window.setInterval(() => {
@@ -205,32 +271,94 @@ class NatureAudioEngine {
     }
   }
 
-  private triggerDistantThunder() {
-    if (!this.ctx || !this.masterGain || isMuted) return;
+  /**
+   * Realistic Himalayan Rolling Mountain Thunder
+   * Synthesizes:
+   * 1. Initial lightning impact crackle
+   * 2. Heavy sub-bass mountain valley rumble (35Hz-75Hz)
+   * 3. Long rolling reverberant echoes across pine ridges
+   */
+  public triggerDistantThunder(intensity = 1.0) {
+    if (isMuted) return;
+    this.initContext();
+    if (!this.ctx || !this.masterGain) return;
+    
     try {
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
       const now = this.ctx.currentTime;
+      
+      // Layer 1: Sub-bass resonance rumble oscillator
       const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
+      const oscGain = this.ctx.createGain();
+      const oscFilter = this.ctx.createBiquadFilter();
 
       osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(65, now);
-      osc.frequency.exponentialRampToValueAtTime(30, now + 3.0);
+      const startFreq = 62 + Math.random() * 25;
+      osc.frequency.setValueAtTime(startFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(26, now + 4.2);
 
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(120, now);
+      oscFilter.type = 'lowpass';
+      oscFilter.frequency.setValueAtTime(130, now);
+      oscFilter.Q.setValueAtTime(2.8, now);
 
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(0.08, now + 0.8);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 4.0);
+      const baseGain = 0.28 * intensity;
+      oscGain.gain.setValueAtTime(0.001, now);
+      oscGain.gain.linearRampToValueAtTime(baseGain, now + 0.35);
+      oscGain.gain.linearRampToValueAtTime(baseGain * 0.75, now + 1.8);
+      oscGain.gain.exponentialRampToValueAtTime(0.0001, now + 5.2);
 
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.masterGain);
+      osc.connect(oscFilter);
+      oscFilter.connect(oscGain);
+      oscGain.connect(this.masterGain);
 
       osc.start(now);
-      osc.stop(now + 4.2);
-    } catch {}
+      osc.stop(now + 5.4);
+
+      // Layer 2: Secondary detuned oscillator for acoustic phase beating (mountain echo feel)
+      const osc2 = this.ctx.createOscillator();
+      const oscGain2 = this.ctx.createGain();
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(startFreq * 0.85, now);
+      osc2.frequency.exponentialRampToValueAtTime(32, now + 3.5);
+
+      oscGain2.gain.setValueAtTime(0.001, now);
+      oscGain2.gain.linearRampToValueAtTime(baseGain * 0.6, now + 0.5);
+      oscGain2.gain.exponentialRampToValueAtTime(0.0001, now + 4.5);
+
+      osc2.connect(oscFilter);
+      osc2.start(now + 0.05);
+      osc2.stop(now + 4.6);
+
+      // Layer 3: Mountain valley reverberating noise rumble crack
+      const noiseBuffer = this.createNoiseBuffer(6);
+      if (noiseBuffer) {
+        const thunderNoise = this.ctx.createBufferSource();
+        thunderNoise.buffer = noiseBuffer;
+
+        const noiseFilter = this.ctx.createBiquadFilter();
+        noiseFilter.type = 'bandpass';
+        noiseFilter.frequency.setValueAtTime(110, now);
+        noiseFilter.Q.setValueAtTime(1.8, now);
+
+        const noiseGain = this.ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.001, now);
+        // Sudden crack attack followed by rolling decay
+        noiseGain.gain.linearRampToValueAtTime(0.38 * intensity, now + 0.2);
+        noiseGain.gain.linearRampToValueAtTime(0.24 * intensity, now + 1.2);
+        noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 5.0);
+
+        thunderNoise.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(this.masterGain);
+
+        thunderNoise.start(now);
+        thunderNoise.stop(now + 5.2);
+      }
+    } catch {
+      // Audio safety
+    }
   }
 
   private triggerMountainBirdChirp() {
@@ -288,6 +416,7 @@ export function setIsMuted(muted: boolean): boolean {
       window.speechSynthesis.cancel();
     }
   } else {
+    natureAudio.unlockContext();
     natureAudio.playChimeSound();
     natureAudio.startAmbience();
   }
@@ -318,3 +447,4 @@ export function speakPhonetic(text: string, lang = 'hi-IN') {
     window.speechSynthesis.speak(utterance);
   }
 }
+
